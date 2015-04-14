@@ -2,16 +2,17 @@
 <html>
 <head>
     <title>calendarPLUS</title>
-    <script src="/resources/bower_components/angularjs/angular.min.js"></script>
-    <script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <script src="/resources/scripts/controllers/MainController.js"></script>
+    <script src="/bower_components/angularjs/angular.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/resources/scripts/routes.js"></script>
 </head>
 
-<body ng-app="calendar" ng-controller="MainController">
-<div>
-    <p>{{hello}}</p>
+<body ng-app="calendar">
+<div class="container">
+    <div ui-view></div>
 </div>
 </body>
 </html>
