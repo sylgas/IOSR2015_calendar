@@ -1,3 +1,4 @@
+.idea/*
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -8,7 +9,13 @@
 *.war
 *.ear
 
-#Intellij files
+# Compiled CoffeeScript files
+*.js
+
+# Bower components
+src/main/webapp/bower_components
+
+# Intellij files
 .idea
 *.iml
 
