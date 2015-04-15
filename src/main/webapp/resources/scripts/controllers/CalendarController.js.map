@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "CalendarController.js",
+  "sourceRoot": "",
+  "sources": [
+    "CalendarController.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,kBAAA;;AAAA,EAAA,kBAAA,GAAqB,SAAC,MAAD,GAAA;WACnB,MAAM,CAAC,IAAP,GAAc,uCADK;EAAA,CAArB,CAAA;;AAAA,EAGA,OAAO,CAAC,MAAR,CAAe,UAAf,CACA,CAAC,UADD,CACY,oBADZ,EACkC,kBADlC,CAHA,CAAA;AAAA"
+}
