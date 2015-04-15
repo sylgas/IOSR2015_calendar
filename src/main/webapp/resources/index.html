@@ -1,18 +1,30 @@
 <!doctype html>
-<html>
+<html ng-app="calendar">
 <head>
     <title>calendarPLUS</title>
-    <script src="/bower_components/angularjs/angular.min.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <script src="/resources/scripts/routes.js"></script>
 </head>
 
-<body ng-app="calendar">
+<body>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">PLUS</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a href="#calendar">Calendar</a></li>
+    </ul>
+</nav>
+
 <div class="container">
-    <div ui-view></div>
+    <div ng-view></div>
 </div>
+
+<script src="./bower_components/angularjs/angular.min.js"></script>
+<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./bower_components/angular-route/angular-route.min.js"></script>
+<script src="./resources/scripts/routes.js"></script>
+<script src="./resources/scripts/controllers/CalendarController.js"></script>
+
 </body>
 </html>

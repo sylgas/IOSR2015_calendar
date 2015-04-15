@@ -1,9 +1,12 @@
-angular.module('calendar', ['ui.router']).config ($urlRouterProvider, $stateProvider) ->
+app = angular.module('calendar', ['ngRoute'])
 
-  $urlRouterProvider.when('', '/')
-  $urlRouterProvider.otherwise('/home')
-
-  $stateProvider
-  .state 'home',
+app.config ($routeProvider,$locationProvider) ->
+  $routeProvider
+  .when '/home',
       url: '/'
+
+  .when '/calendar',
+      templateUrl: '/resources/views/calendar.html'
+      controller: 'CalendarController'
+
 

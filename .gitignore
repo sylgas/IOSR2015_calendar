@@ -12,9 +12,6 @@
 # Compiled CoffeeScript files
 *.js
 
-# Bower components
-src/main/webapp/bower_components
-
 # Intellij files
 .idea
 *.iml
