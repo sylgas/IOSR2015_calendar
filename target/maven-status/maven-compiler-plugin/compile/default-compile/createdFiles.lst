@@ -1,0 +1,4 @@
+pl\edu\agh\student\config\AppConfig.class
+pl\edu\agh\student\config\WebConfig.class
+pl\edu\agh\student\controller\MainController.class
+pl\edu\agh\student\config\SpringMvcConfig.class
