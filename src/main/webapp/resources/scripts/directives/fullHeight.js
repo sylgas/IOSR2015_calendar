@@ -8,7 +8,7 @@
         setHeight = function() {
           return $timeout(function() {
             var height;
-            height = $(window).height() - 100;
+            height = $(window).height() - 200;
             return element.css('height', height + 'px');
           });
         };

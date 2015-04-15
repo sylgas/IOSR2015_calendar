@@ -3,7 +3,7 @@ angular.module('calendar').directive 'fullHeight', ($timeout) ->
   link: ($scope, element) ->
     setHeight = ->
       $timeout ->
-        height = $(window).height() - 100
+        height = $(window).height() - 200
         element.css('height', height + 'px')
 
     $window = angular.element(window)
