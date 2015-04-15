@@ -9,9 +9,6 @@
 *.war
 *.ear
 
-# Compiled CoffeeScript files
-*.js
-
 # Intellij files
 .idea
 *.iml
