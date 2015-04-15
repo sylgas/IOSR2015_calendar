@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module('calendar', ['ngRoute', 'ui.map']);
+  app = angular.module('calendar', ['ngRoute', 'ui.bootstrap', 'ui.calendar', 'ui.map']);
 
   app.config(function($routeProvider) {
     return $routeProvider.when('/home', {
