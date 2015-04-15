@@ -1,6 +1,6 @@
-app = angular.module('calendar', ['ngRoute'])
+app = angular.module('calendar', ['ngRoute', 'ui.map'])
 
-app.config ($routeProvider,$locationProvider) ->
+app.config ($routeProvider) ->
   $routeProvider
   .when '/home',
       url: '/'
@@ -8,5 +8,9 @@ app.config ($routeProvider,$locationProvider) ->
   .when '/calendar',
       templateUrl: '/resources/views/calendar.html'
       controller: 'CalendarController'
+
+  .when '/map',
+    templateUrl: '/resources/views/map.html'
+    controller: 'MapController'
 
 
