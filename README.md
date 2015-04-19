@@ -47,7 +47,7 @@ Aplikacja integruje się z IDE Intellij jako projekt typu SpringMVC.
 W celu uruchomienia serwera lokalnie należy wykonać:
 
 ```bash
-   $ maven package
+   $ mvn package
    $ java -jar target/dependency/webapp-runner.jar target/*.war
 ```
 Dokładniejsze instrukcje znajdują się na stronie:
@@ -74,3 +74,19 @@ W celu automatycznej kompilacji plików .coffee należy wymagane jest skonfiguro
 - wybrać z menu File/Settings/File Watchers
 - kliknąć '+' i wybrać 'CoffeeScript'
 - pole 'Program' powinno zawierać ścieżkę do zainstalowanego wcześniej transpilera. Jeżeli nie - należy podać odpowiednią ścieżkę.
+
+Redis
+======
+
+W celu umożliwienia współdzielenia sesji na różnych nodach klastra, serwer korzysta 
+z bazy Redis. Informacje połączenia pobierane są ze zmiennej środowiskowej
+exportowanej przez heroku: REDISTOGO_URL. 
+
+Na potrzeby developmentu i szybkiego uruchamiania aplikacji na jednym węźle,
+można skorzystać z wbudowanej bazy Redis, która aktywuje się po włączeniu profilu
+springowego "dev". Można to zrobić np. poprzez dodanie:
+
+```
+   Intellij / Run / Edit Configurations... / Tomcat Server / <config_name> / Startup/Connection / Environment Variables / Add
+   spring.profiles.active=dev
+```
