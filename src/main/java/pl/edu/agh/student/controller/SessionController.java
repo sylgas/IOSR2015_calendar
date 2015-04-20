@@ -13,7 +13,7 @@ public class SessionController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public String showSession ( HttpSession session) {
+    public String showSession (HttpSession session) {
         return session.getId() + " " + session.isNew();
     }
 }
