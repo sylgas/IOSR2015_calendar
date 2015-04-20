@@ -18,6 +18,11 @@ public class RedisConfig {
     private RedisConnectionFactory redisConnectionFactory;
 
     @Bean
+    public static ConfigureRedisAction configureRedisAction() {
+        return ConfigureRedisAction.NO_OP;
+    }
+
+    @Bean
     public RedisTemplate<String, Object> redisTemplate() throws Exception {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
