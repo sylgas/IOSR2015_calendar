@@ -24,7 +24,9 @@ public class RedisCloudSessionConfiguration {
             redisConnectionFactory.setHostName(redisURI.getHost());
             redisConnectionFactory.setPort(redisURI.getPort());
             redisConnectionFactory.setTimeout(Protocol.DEFAULT_TIMEOUT);
-            redisConnectionFactory.setPassword(redisURI.getUserInfo().split(":",2)[1]);
+            redisConnectionFactory.setPassword(redisURI.getUserInfo().split(":")[1]);
+            redisConnectionFactory.setUsePool(true);
+
             return new JedisConnectionFactory();
         } catch (URISyntaxException e) {
             throw new RuntimeException("Redis couldn't be configured from URL in REDISTOGO_URL env var:"+
