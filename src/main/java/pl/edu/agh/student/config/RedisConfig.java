@@ -11,7 +11,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 @EnableRedisHttpSession
-@Import({RedisCloudSessionConfiguration.class, RedisDevSessionConfiguration.class})
+@Import({RedisCloudConfig.class, RedisDevConfig.class})
 public class RedisConfig {
 
     @Autowired

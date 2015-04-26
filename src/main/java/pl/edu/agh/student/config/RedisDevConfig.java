@@ -12,7 +12,7 @@ import redis.embedded.RedisServer;
 
 @Configuration
 @Profile("dev")
-public class RedisDevSessionConfiguration {
+public class RedisDevConfig {
 
     @Bean(name = "redisConnectionFactory")
     public RedisConnectionFactory redisConnectionFactory() {
