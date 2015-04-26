@@ -13,9 +13,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Configuration
-@PropertySource("classpath:config.properties")
 @Profile("default")
-public class RedisCloudSessionConfiguration {
+public class RedisCloudConfig {
     @Bean(name = "redisConnectionFactory")
     public RedisConnectionFactory redisConnectionFactory() {
         try {
