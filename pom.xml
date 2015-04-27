@@ -9,14 +9,22 @@
     <name>calendarPLUS Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <repositories>
+        <repository>
+            <id>clojars.org</id>
+            <url>http://clojars.org/repo</url>
+        </repository>
+    </repositories>
+
     <properties>
         <jdk.version>1.8</jdk.version>
         <maven.compiler.version>3.2</maven.compiler.version>
         <maven.war.version>2.5</maven.war.version>
         <maven.dependency.version>2.9</maven.dependency.version>
-        <spring.version>4.1.3.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.social.version>1.1.0.RELEASE</spring.social.version>
+        <spring.redis.version>1.0.1.RELEASE</spring.redis.version>
         <jetty.runner.version>7.4.5.v20110725</jetty.runner.version>
         <jackson.version>1.9.13</jackson.version>
         <jstl.version>1.2</jstl.version>
@@ -28,6 +36,7 @@
         <javax.inject.version>1</javax.inject.version>
         <webapp.runner.version>8.0.18.0-M1</webapp.runner.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <redis.embedded.version>0.5</redis.embedded.version>
     </properties>
 
     <dependencies>
@@ -56,6 +65,19 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring session-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+            <version>${spring.redis.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>redis.embedded</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <version>${redis.embedded.version}</version>
         </dependency>
 
         <!-- Spring security dependency -->
