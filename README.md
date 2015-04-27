@@ -17,13 +17,14 @@ https://www.mongodb.org/downloads
 3. Dodaj mongo/bin do PATH
 
 4. Zmień w pliku src/main/resources/config.properties wartosci:
-
-mongodb.host = localhost
-mongodb.port = 27017
+```bash
+   mongodb.host = localhost
+   mongodb.port = 27017
+```
 
 5. Uruchom mongo za pomoca komendy:
 ```bash
-   $ mongodb
+   $ mongod
 ```
 
 6. Polacz sie z baza i utworz uzytkownika:
