@@ -6,6 +6,38 @@ Kalendarz z geolokacją, zintegrowany z facebookiem, Dostępny na: https://calen
 Getting Started
 ===
 
+Lokalna baza danych
+======
+
+1. Pobierz MongoDB ze strony:
+https://www.mongodb.org/downloads
+
+2. Stwórz katalog na dane /data/db lub C:\data\db (Windows) - sciezka może być zmieniona za pomoca opcji --dbpath
+
+3. Dodaj mongo/bin do PATH
+
+4. Zmień w pliku src/main/resources/config.properties wartosci:
+
+mongodb.host = localhost
+mongodb.port = 27017
+
+5. Uruchom mongo za pomoca komendy:
+```bash
+   $ mongodb
+```
+
+6. Polacz sie z baza i utworz uzytkownika:
+```bash
+   $ mongo heroku_app35228146
+   $ db.createUser(
+     {
+       user: "admin",
+       pwd: "admin",
+       roles: [ { role: "userAdmin", db: "heroku_app35228146" } ]
+     }
+   )
+```
+
 Serwer
 ======
 
