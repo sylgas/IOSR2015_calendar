@@ -13,7 +13,6 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
 
       $scope.createEvent = @createEvent
 
-
       #example of adding event
       event =
         title: 'All Day Event'
