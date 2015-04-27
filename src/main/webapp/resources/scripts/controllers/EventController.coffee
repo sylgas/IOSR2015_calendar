@@ -10,4 +10,3 @@ angular.module('calendar').controller 'EventController', ($scope, $modalInstance
 
     cancel: ->
       $modalInstance.dismiss();
-
