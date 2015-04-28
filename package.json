@@ -11,9 +11,10 @@
     "npm": "2.1.x"
   },
   "dependencies": {
-    "bower": "1.4.1"
+    "bower": "1.4.1",
+    "coffee-script": "1.9.2"
   },
   "scripts": {
-    "postinstall": "bower install --config.cwd=./src/main/webapp"
+    "postinstall": "bower install --config.cwd=./src/main/webapp && coffee -c ./src/main/webapp/resources/scripts"
   }
 }
