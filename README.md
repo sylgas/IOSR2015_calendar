@@ -59,11 +59,20 @@ Aplikacja webowa
 ======
 
 Należy pobrać i zainstalować NodeJS (http://nodejs.org/).
-Następnie należy zainstalować transpiler CoffeeScript komendą:
+Następnie, w celu zainstalowania wymaganych zależności należy wykonać z głównego katalogu aplikacji komendę:
 
 ```bash
-   $ npm install -g bower coffee-script
+   $ npm install
 ```
+
+Powoduje ona zainstalowanie transpilera coffeescript oraz bowera w katalogu node_modules, a także pobranie wymaganych zależności i umieszczenie ich w katalogu /src/main/webapp/bower_components.
+
+W celu zainstalowania bibliotek wystarczy wykonać komendę:
+
+```bash
+   $ ../../../node_modules/bower/bin/bower install
+```
+z katalogu, w którym znajduje sie plik bower.json (/src/main/webapp).
 
 Należy pobrać i zainstalować IntelliJ (https://www.jetbrains.com/idea/download/) oraz zainstalować wtyczki:
 * AngularJS
