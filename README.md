@@ -53,21 +53,24 @@ W celu uruchomienia serwera lokalnie należy wykonać:
 Dokładniejsze instrukcje znajdują się na stronie:
 https://devcenter.heroku.com/articles/java-webapp-runner
 
-Na heroku aplikacja deply'uje się automatycznie po zmianie brancha master.
+Na heroku aplikacja deploy'uje się automatycznie po zmianie brancha master.
 
 Aplikacja webowa
 ======
 
 Należy pobrać i zainstalować NodeJS (http://nodejs.org/).
-Następnie, w celu zainstalowania wymaganych zależności należy wykonać z głównego katalogu aplikacji komendę:
+Następnie należy wykonać z głównego katalogu aplikacji komendę:
 
 ```bash
    $ npm install
 ```
 
-Powoduje ona zainstalowanie transpilera coffeescript oraz bowera w katalogu node_modules, a także pobranie wymaganych zależności i umieszczenie ich w katalogu /src/main/webapp/bower_components.
+Powoduje ona:
+* zainstalowanie transpilera coffeescript oraz bowera w katalogu node_modules
+* pobranie wymaganych zależności i umieszczenie ich w katalogu /src/main/webapp/bower_components
+* skompilowanie istniejacych plików coffee.
 
-W celu zainstalowania bibliotek wystarczy wykonać komendę:
+W celu samodzielnego pobrania zależności wystarczy wykonać komendę:
 
 ```bash
    $ ../../../node_modules/bower/bin/bower install
