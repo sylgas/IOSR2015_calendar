@@ -1,0 +1,19 @@
+{
+  "name": "calendarplus",
+  "description": "calendarPLUS",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xorver/IOSR2015_calendar.git"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "2.1.x"
+  },
+  "dependencies": {
+    "bower": "1.4.1"
+  },
+  "scripts": {
+    "postinstall": "bower install --config.cwd=./src/main/webapp"
+  }
+}
