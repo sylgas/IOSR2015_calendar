@@ -4,6 +4,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -14,7 +15,8 @@ import redis.embedded.RedisServer;
 @Profile("dev")
 public class RedisDevConfig {
 
-    @Bean(name = "redisConnectionFactory")
+    @Bean
+    @DependsOn("redisServer")
     public RedisConnectionFactory redisConnectionFactory() {
         return new JedisConnectionFactory();
     }
