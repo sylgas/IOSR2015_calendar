@@ -9,13 +9,6 @@
     <name>calendarPLUS Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
-    <repositories>
-        <repository>
-            <id>clojars.org</id>
-            <url>http://clojars.org/repo</url>
-        </repository>
-    </repositories>
-
     <properties>
         <jdk.version>1.8</jdk.version>
         <maven.compiler.version>3.2</maven.compiler.version>
@@ -36,7 +29,7 @@
         <javax.inject.version>1</javax.inject.version>
         <webapp.runner.version>8.0.18.0-M1</webapp.runner.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <redis.embedded.version>0.5</redis.embedded.version>
+        <redis.embedded.version>0.6</redis.embedded.version>
     </properties>
 
     <dependencies>
@@ -75,7 +68,7 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>redis.embedded</groupId>
+            <groupId>com.github.kstyrc</groupId>
             <artifactId>embedded-redis</artifactId>
             <version>${redis.embedded.version}</version>
         </dependency>
