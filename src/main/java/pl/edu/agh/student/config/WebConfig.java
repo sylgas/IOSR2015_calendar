@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"pl.edu.agh.student.controller"})
+@ComponentScan(basePackages = {"pl.edu.agh.student"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
