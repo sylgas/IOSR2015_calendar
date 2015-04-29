@@ -1,34 +1,48 @@
-angular.module('calendar').controller 'CalendarController', ($rootScope, $scope, $modal) ->
+angular.module('calendar').controller 'CalendarController', ($rootScope, $scope, $modal, EventService) ->
   new class
     constructor: ->
+      $scope.eventSources = [[]]
       $rootScope.title = "Calendar"
       $scope.uiConfig =
         calendar:
           height: 450
           editable: true
+          selectable: true
           header:
             left: 'month agendaWeek agendaDay'
             center: 'title'
             right: 'today prev,next'
+          eventDrop: (event) ->
+            changeEventDuration(event)
+          eventResize: (event) ->
+            changeEventDuration(event)
+          select: (start, end) ->
+            createEvent(start, end)
+          viewRender: (view) ->
+            displayEvents(view.start, view.end)
 
-      $scope.createEvent = @createEvent
+    changeEventDuration = (event) ->
+      #todo: change duration of event
+      console.log(event)
 
-      #example of adding event
-      event =
-        title: 'All Day Event'
-        start: new Date(2015, 3, 15)
-      $scope.eventSources = [[event]]
+    createEvent = (start, end) ->
+      #todo: redirect to create event with chosen duration
+      console.log("start: " + start)
+      console.log("end: " + end)
 
-    createEvent: =>
-      @editEvent(null)
+    displayEvents = (start, end) ->
+      #todo: change after finish of service implementation
+      receiveEvent(EventService.getBetweenDate(start, end))
 
-    editEvent: (event) =>
-      modalInstance = $modal.open
-        templateUrl: 'resources/views/modals/event.html'
-        controller: 'EventController'
-        resolve:
-          event: -> event
-      modalInstance.result.then(@onEventEdited)
+    receiveEvent = (events) =>
+      $scope.eventSources[0] = []
+      addEvent(event) for event in events
 
-    onEventEdited: (event) ->
-      $scope.eventSources[0].push(event)
+    addEvent = (event) ->
+      $scope.eventSources[0].push({
+        title: event.name
+        start: event.baseData.startDate
+        end: event.baseData.endDate
+        allDay: !event.baseData.endDate?
+        event: event
+      })
