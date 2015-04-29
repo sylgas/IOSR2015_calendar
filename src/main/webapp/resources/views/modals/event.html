@@ -1,17 +1,19 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h3 class="modal-title">Wydarzenie</h3>
+        <h3 class="modal-title">Event</h3>
     </div>
     <div class="modal-body">
         <div class="form-horizontal">
             <div class="form-group">
-                <label for="name" class="col-md-4 control-label">Nazwa:</label>
+                <label for="name" class="col-md-4 control-label">Name:</label>
+
                 <div class="col-md-7">
                     <input class="form-control" id="name" placeholder="nazwa" ng-model="event.name">
                 </div>
             </div>
             <div class="form-group">
-                <label for="date" class="col-md-4 control-label">Data:</label>
+                <label for="date" class="col-md-4 control-label">Date:</label>
+
                 <div class="col-md-7">
                     <input class="form-control" type="date" id="date" ng-model="event.date">
                 </div>
@@ -19,8 +21,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-default" ng-click="cancel()">Anuluj</button>
-        <button class="btn btn-primary" ng-click="save()">Zapisz</button>
+        <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
+        <button class="btn btn-primary" ng-click="$close(event)">Save</button>
     </div>
-</div>
 </div>

@@ -31,4 +31,4 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
       modalInstance.result.then(@onEventEdited)
 
     onEventEdited: (event) ->
-      $scope.eventSources[0].push(event);
+      $scope.eventSources[0].push(event)

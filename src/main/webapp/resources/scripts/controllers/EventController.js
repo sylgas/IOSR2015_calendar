@@ -4,17 +4,7 @@
     return new ((function() {
       function _Class() {
         $scope.event = event;
-        $scope.save = this.save;
-        $scope.cancel = this.cancel;
       }
-
-      _Class.prototype.save = function() {
-        return $modalInstance.close($scope.event);
-      };
-
-      _Class.prototype.cancel = function() {
-        return $modalInstance.dismiss();
-      };
 
       return _Class;
 
