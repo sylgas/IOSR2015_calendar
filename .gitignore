@@ -15,7 +15,14 @@
 target
 
 # Front end dependencies
-/bower_components
+bower_components
+
+# Node modules
+node_modules
+
+# Javascript files
+*.js
+*.js.map
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
