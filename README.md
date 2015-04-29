@@ -82,7 +82,7 @@ Należy pobrać i zainstalować IntelliJ (https://www.jetbrains.com/idea/downloa
 * File Watchers
 * NodeJS
 
-W celu automatycznej kompilacji plików .coffee należy wymagane jest skonfigurowanie watchera CoffeeScript. W tym celu należy:
+W celu automatycznej kompilacji plików .coffee wymagane jest skonfigurowanie watchera CoffeeScript. W tym celu należy:
 - wybrać z menu File/Settings/File Watchers
 - kliknąć '+' i wybrać 'CoffeeScript'
 - pole 'Program' powinno zawierać ścieżkę do zainstalowanego wcześniej transpilera. Jeżeli nie - należy podać odpowiednią ścieżkę.
