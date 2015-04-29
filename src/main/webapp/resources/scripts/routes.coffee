@@ -1,4 +1,4 @@
-app = angular.module('calendar', ['ngRoute', 'ui.map'])
+app = angular.module('calendar', ['ngRoute', 'ui.bootstrap', 'ui.calendar', 'ui.map'])
 
 app.config ($routeProvider) ->
   $routeProvider
