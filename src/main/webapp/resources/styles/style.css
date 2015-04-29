@@ -1,3 +1,11 @@
 .navbar {
     margin-bottom: 0;
 }
+
+.page-slide {
+    background: #eee;
+}
+
+.no-padding {
+    padding: 0;
+}
