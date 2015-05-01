@@ -1,2 +1,39 @@
-<div class="pageslide">
+<div class="page-content">
+    <h1>{{expandEventForm ? "Event" : "Event list"}}
+        <span ng-hide="expandEventForm" class="pull-right btn btn-link" ng-click="expand()">+ Add new event</span>
+    </h1>
+
+    <div class="form-group"></div>
+
+    <div ng-if="!expandEventForm">
+        <div class="list-group">
+            <a class="list-group-item" ng-repeat="event in events" ng-click="editEvent(event)">
+                {{event.name}}
+                <span class="badge">{{event.date | date:'yyyy-MM-dd'}}</span>
+            </a>
+        </div>
+    </div>
+    <div ng-show="expandEventForm">
+        <form role="form" class="form-horizontal" ng-submit="createEvent(form.event)">
+            <div class="form-group">
+                <label for="name" class="col-md-3 control-label">Name:</label>
+
+                <div class="col-md-8">
+                    <input required class="form-control" id="name" placeholder="nazwa" ng-model="form.event.name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="date" class="col-md-3 control-label">Date:</label>
+
+                <div class="col-md-8">
+                    <input required class="form-control" type="date" id="date" ng-model="form.event.date">
+                </div>
+            </div>
+            <legend></legend>
+            <div class="pull-right btn-group">
+                <button type="button" class="btn btn-default" ng-click="collapse()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
 </div>
