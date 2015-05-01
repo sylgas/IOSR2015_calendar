@@ -24,8 +24,8 @@
 <div ng-controller="RootController">
     <div id="breadcrumb" ng-if="title" class="breadcrumb" style="margin-bottom: 0">
         <label>{{title}}</label>
-        <span class="pull-right"><a href="" ng-click="panel.show = !panel.show">{{panel.show? "Hide events panel": "Show
-            events panel"}}</a></span>
+        <span class="pull-right"><a href="" ng-click="panel.show = !panel.show">{{panel.show? "Hide events panel":
+            "Show events panel"}}</a></span>
     </div>
     <div class="no-padding" ng-class="panel.show? 'col-md-8': 'col-md-12'" ng-view></div>
     <div class="col-md-4 no-padding page-slide" ng-show="panel.show" full-height
@@ -39,6 +39,10 @@
 <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script type="text/javascript" src="./bower_components/angular-route/angular-route.min.js"></script>
+
+<!--REST-->
+<script type="text/javascript" src="./bower_components/restangular/dist/restangular.min.js"></script>
+<script type="text/javascript" src="./bower_components/lodash/lodash.min.js"></script>
 
 <!--UI CALLENDAR-->
 <script type="text/javascript" src="./bower_components/angular-ui-calendar/src/calendar.js"></script>
@@ -58,6 +62,9 @@
 <script type="text/javascript" src="./resources/scripts/controllers/CalendarController.js"></script>
 <script type="text/javascript" src="./resources/scripts/controllers/MapController.js"></script>
 <script type="text/javascript" src="./resources/scripts/controllers/HomeController.js"></script>
+
+<!--SERVICES-->
+<script type="text/javascript" src="./resources/scripts/services/EventService.js"></script>
 
 <!--DIRECTIVES-->
 <script type="text/javascript" src="./resources/scripts/directives/fullHeight.js"></script>

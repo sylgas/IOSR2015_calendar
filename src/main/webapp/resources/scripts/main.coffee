@@ -1,5 +1,6 @@
 app = angular.module 'calendar', [
   'ngRoute'
+  'restangular'
   'ui.bootstrap'
   'ui.calendar'
   'ui.map'

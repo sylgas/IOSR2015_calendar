@@ -2,9 +2,10 @@ package pl.edu.agh.student.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.student.db.model.Event;
 import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.db.repository.UserRepository;
+import pl.edu.agh.student.dto.EventDto;
+import pl.edu.agh.student.mapper.EventMapper;
 
 import java.util.List;
 
@@ -17,11 +18,14 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public String save(Event event) {
-        return eventRepository.save(event).getId();
+    @Autowired
+    private EventMapper mapper;
+
+    public EventDto save(EventDto event) {
+        return mapper.toDto(eventRepository.save(mapper.fromDto(event)));
     }
 
-    public List<Event> getAll() {
-        return eventRepository.findAll();
+    public List<EventDto> getAll() {
+        return mapper.toDto(eventRepository.findAll());
     }
 }

@@ -2,13 +2,16 @@ package pl.edu.agh.student.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.edu.agh.student.db.model.User;
-import pl.edu.agh.student.db.repository.UserRepository;
+import pl.edu.agh.student.controller.exception.NotValidParamsException;
+import pl.edu.agh.student.dto.UserDto;
+import pl.edu.agh.student.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -16,18 +19,21 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody User user) {
-        return userRepository.save(user).getId();
+    public UserDto create(@RequestBody @Valid UserDto user, BindingResult bindingResult) throws NotValidParamsException {
+        if (bindingResult.hasErrors()) {
+            throw new NotValidParamsException();
+        }
+        return userService.save(user);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserDto> getAll() {
+        return userService.findAll();
     }
 
 }
