@@ -118,24 +118,14 @@ public class Event extends Identifiable {
     }
 
     public class AdditionalData {
-        @DBRef
-        private User user;
-        private String comments;
+        private int color;
 
-        public User getUser() {
-            return user;
+        public int getColor() {
+            return color;
         }
 
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public String getComments() {
-            return comments;
-        }
-
-        public void setComments(String comments) {
-            this.comments = comments;
+        public void setColor(int color) {
+            this.color = color;
         }
     }
 }
