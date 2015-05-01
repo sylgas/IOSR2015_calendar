@@ -1,3 +1,19 @@
 .navbar {
     margin-bottom: 0;
 }
+
+.page-slide {
+    background: #eee;
+}
+
+.page-content {
+    padding: 0 20px;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.calendar {
+    padding-top: 10px;
+}
