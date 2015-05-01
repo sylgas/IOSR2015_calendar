@@ -47,23 +47,35 @@ Aplikacja integruje się z IDE Intellij jako projekt typu SpringMVC.
 W celu uruchomienia serwera lokalnie należy wykonać:
 
 ```bash
-   $ maven package
+   $ mvn package
    $ java -jar target/dependency/webapp-runner.jar target/*.war
 ```
 Dokładniejsze instrukcje znajdują się na stronie:
 https://devcenter.heroku.com/articles/java-webapp-runner
 
-Na heroku aplikacja deply'uje się automatycznie po zmianie brancha master.
+Na heroku aplikacja deploy'uje się automatycznie po zmianie brancha master.
 
 Aplikacja webowa
 ======
 
 Należy pobrać i zainstalować NodeJS (http://nodejs.org/).
-Następnie należy zainstalować transpiler CoffeeScript komendą:
+Następnie należy wykonać z głównego katalogu aplikacji komendę:
 
 ```bash
-   $ npm install -g bower coffee-script
+   $ npm install
 ```
+
+Powoduje ona:
+* zainstalowanie transpilera coffeescript oraz bowera w katalogu node_modules
+* pobranie wymaganych zależności i umieszczenie ich w katalogu /src/main/webapp/bower_components
+* skompilowanie istniejacych plików coffee.
+
+W celu samodzielnego pobrania zależności wystarczy wykonać komendę:
+
+```bash
+   $ ../../../node_modules/bower/bin/bower install
+```
+z katalogu, w którym znajduje sie plik bower.json (/src/main/webapp).
 
 Należy pobrać i zainstalować IntelliJ (https://www.jetbrains.com/idea/download/) oraz zainstalować wtyczki:
 * AngularJS
@@ -74,3 +86,19 @@ W celu automatycznej kompilacji plików .coffee należy wymagane jest skonfiguro
 - wybrać z menu File/Settings/File Watchers
 - kliknąć '+' i wybrać 'CoffeeScript'
 - pole 'Program' powinno zawierać ścieżkę do zainstalowanego wcześniej transpilera. Jeżeli nie - należy podać odpowiednią ścieżkę.
+
+Redis
+======
+
+W celu umożliwienia współdzielenia sesji na różnych nodach klastra, serwer korzysta 
+z bazy Redis. Informacje połączenia pobierane są ze zmiennej środowiskowej
+exportowanej przez heroku: REDISTOGO_URL. 
+
+Na potrzeby developmentu i szybkiego uruchamiania aplikacji na jednym węźle,
+można skorzystać z wbudowanej bazy Redis, która aktywuje się po włączeniu profilu
+springowego "dev". Można to zrobić np. poprzez dodanie:
+
+```
+   Intellij / Run / Edit Configurations... / Tomcat Server / <config_name> / Startup/Connection / Environment Variables / Add
+   spring.profiles.active=dev
+```
