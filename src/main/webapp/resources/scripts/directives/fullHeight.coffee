@@ -1,10 +1,9 @@
-angular.module('calendar').directive 'fullHeight', ($timeout) ->
+angular.module('calendar').directive 'fullHeight', ->
   scope: no
   link: ($scope, element) ->
     setHeight = ->
-      $timeout ->
-        height = $(window).height() - 100
-        element.css('height', height + 'px')
+      height = $(window).height() - $('#breadcrumb').height() - $('#navigation').height() - 50
+      element.css('height', height + 'px')
 
     $window = angular.element(window)
     $window.on('resize', setHeight())

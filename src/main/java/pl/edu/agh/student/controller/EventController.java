@@ -6,28 +6,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.edu.agh.student.db.model.User;
-import pl.edu.agh.student.db.repository.UserRepository;
+import pl.edu.agh.student.db.model.Event;
+import pl.edu.agh.student.service.EventService;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/event")
+public class EventController {
 
     @Autowired
-    private UserRepository userRepository;
+    private EventService eventService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody User user) {
-        return userRepository.save(user).getId();
+    public String create(@RequestBody Event event) {
+        return eventService.save(event);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<Event> getAll() {
+        return eventService.getAll();
     }
 
 }
