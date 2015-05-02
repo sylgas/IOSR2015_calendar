@@ -1,10 +1,18 @@
-angular.module('calendar').service 'EventService', (Restangular) ->
+angular.module('calendar').service 'EventService', (Restangular, $q) ->
   Events = Restangular.service('event')
 
-  new class
+  fromBacked = (event) ->
+    event.startDate = new Date(event.startDate) if event.startDate
+    event.endDate = new Date(event.endDate) if event.endDate
 
+  new class
     getAll: ->
-      Events.getList()
+      promise = $q.defer()
+      Events.getList().then (events) ->
+        for event in events
+          fromBacked(event)
+        promise.resolve(events)
+      promise.promise
 
     save: (event) ->
       Events.post(event)

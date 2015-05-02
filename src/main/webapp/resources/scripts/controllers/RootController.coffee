@@ -3,19 +3,15 @@ angular.module('calendar').controller 'RootController', ($scope, EventService) -
   $scope.panel = {}
   $scope.events = []
 
-  $scope.collapseForm = -> $scope.expandEventForm = false
-  $scope.expandForm = -> $scope.expandEventForm = true
-
-  EventService.getAll().then (events) ->
-    $scope.events = events
-
   clearEventForm = ->
     $scope.form =
       event: {}
 
-  closeEventForm = ->
-    $scope.collapseForm()
+  $scope.collapseForm = ->
+    $scope.expandEventForm = false
     clearEventForm()
+
+  $scope.expandForm = -> $scope.expandEventForm = true
 
   saveEvent = (event) ->
     EventService.save(event).then (saved) ->
@@ -23,11 +19,14 @@ angular.module('calendar').controller 'RootController', ($scope, EventService) -
         event = saved
       else
         $scope.events.push saved
-      closeEventForm()
+      $scope.collapseForm()
 
   openEditFrom = (event) ->
     $scope.form.event = event
     $scope.expandForm()
+
+  EventService.getAll().then (events) ->
+    $scope.events = events
 
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom

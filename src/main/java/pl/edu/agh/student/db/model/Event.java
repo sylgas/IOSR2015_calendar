@@ -124,13 +124,13 @@ public class Event extends Identifiable {
     }
 
     public static class AdditionalData {
-        private int color;
+        private String color;
 
-        public int getColor() {
+        public String getColor() {
             return color;
         }
 
-        public AdditionalData setColor(int color) {
+        public AdditionalData setColor(String color) {
             this.color = color;
             return this;
         }

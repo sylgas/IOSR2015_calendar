@@ -23,7 +23,7 @@ public class EventDto {
 
     private Date endDate;
 
-    private int color;
+    private String color;
 
     public String getId() {
         return id;
@@ -88,11 +88,11 @@ public class EventDto {
         return this;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public EventDto setColor(int color) {
+    public EventDto setColor(String color) {
         this.color = color;
         return this;
     }
