@@ -67,6 +67,8 @@ public class Event extends Identifiable {
         private Date startDate;
         private Date endDate;
         private List<Invited> invited;
+        private Location location;
+
 
         public User getOwner() {
             return owner;
@@ -83,6 +85,15 @@ public class Event extends Identifiable {
 
         public BaseData setName(String name) {
             this.name = name;
+            return this;
+        }
+
+        public Location getLocation() {
+            return location;
+        }
+
+        public BaseData setLocation(Location location) {
+            this.location = location;
             return this;
         }
 
@@ -133,6 +144,29 @@ public class Event extends Identifiable {
         public AdditionalData setColor(String color) {
             this.color = color;
             return this;
+        }
+    }
+
+    public static class Location {
+
+        private double longitude;
+
+        private double latitude;
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
         }
     }
 }

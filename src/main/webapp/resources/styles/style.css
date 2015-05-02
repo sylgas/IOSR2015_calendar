@@ -17,3 +17,7 @@
 .calendar {
     padding-top: 10px;
 }
+
+.badge-bordered {
+    border: 1px black inset;
+}

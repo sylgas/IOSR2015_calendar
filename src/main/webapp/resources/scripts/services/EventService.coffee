@@ -4,6 +4,7 @@ angular.module('calendar').service 'EventService', (Restangular, $q) ->
   fromBacked = (event) ->
     event.startDate = new Date(event.startDate) if event.startDate
     event.endDate = new Date(event.endDate) if event.endDate
+    event
 
   new class
     getAll: ->
@@ -15,4 +16,7 @@ angular.module('calendar').service 'EventService', (Restangular, $q) ->
       promise.promise
 
     save: (event) ->
-      Events.post(event)
+      promise = $q.defer()
+      Events.post(event).then (saved) ->
+        promise.resolve(fromBacked(saved))
+      promise.promise

@@ -1,5 +1,7 @@
 package pl.edu.agh.student.dto;
 
+import pl.edu.agh.student.db.model.Event;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -25,6 +27,8 @@ public class EventDto {
 
     private String color;
 
+    private Event.Location location;
+
     public String getId() {
         return id;
     }
@@ -40,6 +44,15 @@ public class EventDto {
 
     public EventDto setFacebookId(String facebookId) {
         this.facebookId = facebookId;
+        return this;
+    }
+
+    public Event.Location getLocation() {
+        return location;
+    }
+
+    public EventDto setLocation(Event.Location location) {
+        this.location = location;
         return this;
     }
 

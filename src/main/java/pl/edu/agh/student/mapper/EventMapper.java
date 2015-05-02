@@ -24,7 +24,8 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                     .setName(baseData.getName())
                     .setDescription(baseData.getDescription())
                     .setStartDate(baseData.getStartDate())
-                    .setEndDate(baseData.getEndDate());
+                    .setEndDate(baseData.getEndDate())
+                    .setLocation(baseData.getLocation());
         }
 
         if (additionalData != null) {
@@ -42,7 +43,8 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setName(eventDto.getName())
                 .setDescription(eventDto.getDescription())
                 .setStartDate(eventDto.getStartDate())
-                .setEndDate(eventDto.getEndDate()));
+                .setEndDate(eventDto.getEndDate())
+                .setLocation(eventDto.getLocation()));
         event.setAdditionalData(new Event.AdditionalData()
                 .setColor(eventDto.getColor()));
         return event;

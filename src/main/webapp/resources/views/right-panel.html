@@ -9,9 +9,9 @@
         <div class="list-group">
             <a class="list-group-item" ng-repeat="event in events" ng-click="openEditForm(event)">
                 {{event.name}}
-                <span class="badge" ng-style="{'background-color': event.color}">&nbsp;</span>
-                <span class="badge">{{event.startDate | date:'yyyy-MM-dd'}}
-                    {{event.endDate ? " | " + (event.endDate | date:'yyyy-MM-dd') :""}}</span>
+                <span class="badge badge-bordered" ng-style="{'background-color': event.color}">&nbsp;</span>
+                <span class="badge">{{event.startDate | date:'dd/MM/yy HH:mm'}}
+                    {{event.endDate ? " - " + (event.endDate | date:'dd/MM/yy HH:mm') :""}}</span>
             </a>
         </div>
     </div>
