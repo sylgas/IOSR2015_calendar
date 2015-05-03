@@ -33,7 +33,10 @@ public class UserService {
     }
 
     public User getUserByHttpServletRequest(HttpServletRequest request) {
-        SocialUser socialUser = (SocialUser) ((SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
-        return getUserByFacebookId(socialUser.getUserId());
+        if(request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
+            SocialUser socialUser = (SocialUser) ((SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
+            return getUserByFacebookId(socialUser.getUserId());
+        }
+        return null;
     }
 }
