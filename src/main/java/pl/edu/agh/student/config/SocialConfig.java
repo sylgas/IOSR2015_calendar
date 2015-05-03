@@ -3,6 +3,7 @@ package pl.edu.agh.student.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.social.UserIdSource;
@@ -20,8 +21,17 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 
 @Configuration
 @EnableSocial
-@PropertySource("classpath:facebook.properties")
 public class SocialConfig implements SocialConfigurer {
+
+    @Configuration
+    @Profile("default")
+    @PropertySource("classpath:facebook.properties")
+    static class CloudConfig {}
+
+    @Configuration
+    @Profile("dev")
+    @PropertySource({"classpath:facebook.dev.properties"})
+    static class DevConfig {}
 
     @Autowired
     private ConnectionSignUp connectionSignUp;
