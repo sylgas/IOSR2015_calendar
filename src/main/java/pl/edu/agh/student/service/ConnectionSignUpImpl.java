@@ -15,7 +15,7 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     @Override
     public String execute(Connection<?> connection) {
         UserProfile profile = connection.fetchUserProfile();
-        userService.createUser(profile.getUsername());
-        return profile.getUsername();
+        return userService.createUser(profile.getEmail(), profile.getFirstName(),
+                profile.getLastName());
     }
 }

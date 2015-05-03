@@ -1,5 +1,7 @@
 package pl.edu.agh.student.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,7 @@ import redis.embedded.RedisServer;
 @Configuration
 @Profile("dev")
 public class RedisDevConfig {
+    static Logger logger = LoggerFactory.getLogger(RedisDevConfig.class);
 
     @Bean
     @DependsOn("redisServer")
@@ -30,8 +33,13 @@ public class RedisDevConfig {
         private RedisServer redisServer;
 
         public void afterPropertiesSet() throws Exception {
-            redisServer = new RedisServer(Protocol.DEFAULT_PORT);
-            redisServer.start();
+            try {
+                redisServer = new RedisServer(Protocol.DEFAULT_PORT);
+                redisServer.start();
+            }
+            catch (Exception e) {
+                logger.error("Failed to start embedded redis server");
+            }
         }
 
         public void destroy() throws Exception {

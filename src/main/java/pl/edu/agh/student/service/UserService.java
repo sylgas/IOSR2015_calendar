@@ -11,9 +11,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public String createUser(String username) {
-        User userModel = new User();
-        userModel.setUsername(username);
-        return userRepository.save(userModel).getId();
+    public String createUser(String facebookId, String firstName, String lastName) {
+        User user = new User();
+        user.setId(facebookId);
+        user.setFacebookId(facebookId);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        return userRepository.save(user).getId();
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findOne(username);
     }
 }

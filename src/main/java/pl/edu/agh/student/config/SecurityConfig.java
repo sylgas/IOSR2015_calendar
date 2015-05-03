@@ -1,12 +1,14 @@
 package pl.edu.agh.student.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetailsService;
@@ -17,23 +19,27 @@ import pl.edu.agh.student.service.SocialUserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
-                .loginPage("/#")
-                .loginProcessingUrl("/login/authenticate")
-                .failureUrl("/#/?error=invalid_credentials")
+                .loginPage("/#login")
+                .loginProcessingUrl("/#login/authenticate")
+                .defaultSuccessUrl("/#")
+                .failureUrl("/#login?error=invalid_credentials")
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutUrl("/#logout")
+                .logoutSuccessUrl("/#login")
                 .deleteCookies("JSESSIONID")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/login/**", "/resources/**", "/bower_components/**").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/**").permitAll() //todo enable .authenticated()
                 .and()
                 .rememberMe()
                 .and()
@@ -46,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService())
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
