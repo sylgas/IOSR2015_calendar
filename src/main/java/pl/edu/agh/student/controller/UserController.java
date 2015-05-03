@@ -7,27 +7,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.agh.student.db.model.User;
-import pl.edu.agh.student.db.repository.UserRepository;
+import pl.edu.agh.student.service.UserService;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public String create(@RequestBody User user) {
-        return userRepository.save(user).getId();
+        return userService.saveUser(user);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public User get(HttpServletRequest request) {
+        return userService.getUserByHttpServletRequest(request);
     }
 
 }
