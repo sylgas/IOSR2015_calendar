@@ -16,12 +16,12 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#/"><span class="glyphicon glyphicon glyphicon-calendar"></span></a>
             </div>
-            <div class="nav navbar-nav navbar-left">
+            <div class="nav navbar-nav navbar-left"  ng-if="AuthorizationService.isAuthorized">
                 <li><a href="#calendar">Calendar</a></li>
                 <li><a href="#map">Map</a></li>
             </div>
-            <div class="nav navbar-nav navbar-right">
-                <li ng-hide="authenticated">
+            <div class="nav navbar-nav navbar-right"  ng-if="!AuthorizationService.isAuthorized">
+                <li>
                     <a href="auth/facebook?scope=email,public_profile,user_friends">
                         <i class="fa fa-facebook" style="padding-right: 5px"></i>
                         Sign in with Facebook
@@ -32,7 +32,7 @@
     </nav>
 </div>
 
-<div ng-controller="RootController">
+<div ng-controller="RootController"  ng-if="AuthorizationService.isAuthorized">
     <div id="breadcrumb" ng-if="title" class="breadcrumb" style="margin-bottom: 0">
         <label>{{title}}</label>
         <span class="pull-right"><a href="" ng-click="panel.show = !panel.show">{{panel.show? "Hide events panel": "Show
@@ -50,6 +50,10 @@
 <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script type="text/javascript" src="./bower_components/angular-route/angular-route.min.js"></script>
+
+<!--REST-->
+<script type="text/javascript" src="./bower_components/restangular/dist/restangular.min.js"></script>
+<script type="text/javascript" src="./bower_components/lodash/lodash.min.js"></script>
 
 <!--UI CALLENDAR-->
 <script type="text/javascript" src="./bower_components/angular-ui-calendar/src/calendar.js"></script>
@@ -69,6 +73,10 @@
 <script type="text/javascript" src="./resources/scripts/controllers/CalendarController.js"></script>
 <script type="text/javascript" src="./resources/scripts/controllers/MapController.js"></script>
 <script type="text/javascript" src="./resources/scripts/controllers/HomeController.js"></script>
+
+
+<!--SERVICES-->
+<script type="text/javascript" src="./resources/scripts/services/AuthorizationService.js"></script>
 
 <!--DIRECTIVES-->
 <script type="text/javascript" src="./resources/scripts/directives/fullHeight.js"></script>

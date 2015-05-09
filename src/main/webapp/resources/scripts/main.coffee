@@ -1,9 +1,13 @@
 app = angular.module 'calendar', [
   'ngRoute'
+  'restangular'
   'ui.bootstrap'
   'ui.calendar'
   'ui.map'
 ]
+
+app.run ($rootScope, AuthorizationService) ->
+    $rootScope.AuthorizationService = AuthorizationService
 
 app.config ($routeProvider) ->
   $routeProvider
