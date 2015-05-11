@@ -17,3 +17,9 @@
 .calendar {
     padding-top: 10px;
 }
+
+.nav .inline {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 2px;
+}

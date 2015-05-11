@@ -7,7 +7,7 @@ app = angular.module 'calendar', [
 ]
 
 app.run ($rootScope, AuthorizationService) ->
-    $rootScope.AuthorizationService = AuthorizationService
+  $rootScope.AuthorizationService = AuthorizationService
 
 app.config ($routeProvider) ->
   $routeProvider

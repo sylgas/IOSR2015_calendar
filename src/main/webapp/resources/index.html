@@ -11,20 +11,27 @@
 
 <body>
 <div>
-    <nav id="navigation"  class="navbar navbar-inverse" role="navigation">
+    <nav id="navigation" class="navbar navbar-inverse" role="navigation">
         <div class="navbar-collapse collapse" id="navbar-main">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#/"><span class="glyphicon glyphicon glyphicon-calendar"></span></a>
             </div>
-            <div class="nav navbar-nav navbar-left"  ng-if="AuthorizationService.isAuthorized">
+            <div class="nav navbar-nav navbar-left hidden" ng-class="{'hidden': !AuthorizationService.user}">
                 <li><a href="#calendar">Calendar</a></li>
                 <li><a href="#map">Map</a></li>
             </div>
-            <div class="nav navbar-nav navbar-right"  ng-if="!AuthorizationService.isAuthorized">
-                <li>
+            <div class="nav navbar-nav navbar-right">
+                <li ng-class="{'hidden': AuthorizationService.user}">
                     <a href="auth/facebook?scope=email,public_profile,user_friends">
                         <i class="fa fa-facebook" style="padding-right: 5px"></i>
                         Sign in with Facebook
+                    </a>
+                </li>
+                <li class="hidden" ng-class="{'hidden': !AuthorizationService.user}">
+                    Signed as <a href="https://www.facebook.com/" class="inline"><i>{{AuthorizationService.user.firstName}}
+                    {{AuthorizationService.user.lastName}}</i></a>
+                    <a class="inline" ng-click="AuthorizationService.logout()" title="Sign out">
+                        <i class="fa fa-sign-out"></i>
                     </a>
                 </li>
             </div>
@@ -32,14 +39,15 @@
     </nav>
 </div>
 
-<div ng-controller="RootController"  ng-if="AuthorizationService.isAuthorized">
-    <div id="breadcrumb" ng-if="title" class="breadcrumb" style="margin-bottom: 0">
+<div ng-controller="RootController">
+    <div ng-class="{'hidden': !AuthorizationService.user}" id="breadcrumb" ng-if="title" class="breadcrumb hidden"
+         style="margin-bottom: 0">
         <label>{{title}}</label>
         <span class="pull-right"><a href="" ng-click="panel.show = !panel.show">{{panel.show? "Hide events panel": "Show
             events panel"}}</a></span>
     </div>
     <div class="no-padding" ng-class="panel.show? 'col-md-8': 'col-md-12'" ng-view></div>
-    <div class="col-md-4 no-padding page-slide" ng-show="panel.show" full-height
+    <div ng-if="AuthorizationService.user" class="col-md-4 no-padding page-slide" ng-show="panel.show" full-height
          ng-include="'resources/views/right-panel.html'"></div>
 </div>
 
