@@ -1,5 +1,5 @@
 angular.module('calendar').service 'AuthorizationService', (Restangular, $location) ->
-  Authorization = Restangular.service("autorization")
+  Authorization = Restangular.service("authorization")
 
   new class
     constructor: ->
@@ -7,12 +7,4 @@ angular.module('calendar').service 'AuthorizationService', (Restangular, $locati
         @user = user
 
     logout: ->
-      $location.path("#home")
-# todo: FILL THIS
-#if @user
-#Restangular.one('logout').XXX()  .then ->
-#delete @user
-
-
-
-
+        delete @user

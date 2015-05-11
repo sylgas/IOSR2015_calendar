@@ -30,7 +30,7 @@
                 <li class="hidden" ng-class="{'hidden': !AuthorizationService.user}">
                     Signed as <a href="https://www.facebook.com/" class="inline"><i>{{AuthorizationService.user.firstName}}
                     {{AuthorizationService.user.lastName}}</i></a>
-                    <a class="inline" ng-click="AuthorizationService.logout()" title="Sign out">
+                    <a class="inline" ng-click="AuthorizationService.logout()" href="logout" title="Sign out">
                         <i class="fa fa-sign-out"></i>
                     </a>
                 </li>

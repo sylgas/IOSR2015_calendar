@@ -11,7 +11,7 @@ import pl.edu.agh.student.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/autorization")
+@RequestMapping("/authorization")
 public class AuthorizationController {
 
     @Autowired
