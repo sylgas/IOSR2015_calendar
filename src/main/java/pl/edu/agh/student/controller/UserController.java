@@ -37,3 +37,18 @@ public class UserController {
     }
 
 }
+
+//@Autowired
+//private UserService userService;
+//
+//    @RequestMapping(method = RequestMethod.POST)
+//    @ResponseBody
+//    public String create(@RequestBody User user) {
+//        return userService.saveUser(user);
+//    }
+//
+//    @RequestMapping(method = RequestMethod.GET)
+//    @ResponseBody
+//    public User get(HttpServletRequest request) {
+//        return userService.getUserByHttpServletRequest(request);
+//    }

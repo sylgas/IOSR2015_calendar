@@ -6,6 +6,9 @@ app = angular.module 'calendar', [
   'ui.map'
 ]
 
+app.run ($rootScope, AuthorizationService) ->
+  $rootScope.AuthorizationService = AuthorizationService
+
 app.config ($routeProvider) ->
   $routeProvider
 

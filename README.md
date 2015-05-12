@@ -82,7 +82,7 @@ Należy pobrać i zainstalować IntelliJ (https://www.jetbrains.com/idea/downloa
 * File Watchers
 * NodeJS
 
-W celu automatycznej kompilacji plików .coffee należy wymagane jest skonfigurowanie watchera CoffeeScript. W tym celu należy:
+W celu automatycznej kompilacji plików .coffee wymagane jest skonfigurowanie watchera CoffeeScript. W tym celu należy:
 - wybrać z menu File/Settings/File Watchers
 - kliknąć '+' i wybrać 'CoffeeScript'
 - pole 'Program' powinno zawierać ścieżkę do zainstalowanego wcześniej transpilera. Jeżeli nie - należy podać odpowiednią ścieżkę.
@@ -102,3 +102,12 @@ springowego "dev". Można to zrobić np. poprzez dodanie:
    Intellij / Run / Edit Configurations... / Tomcat Server / <config_name> / Startup/Connection / Environment Variables / Add
    spring.profiles.active=dev
 ```
+
+Facebook
+======
+
+Po uruchomieniu aplikacji z profilem Springowym "dev", aby można było zalogować się
+z użyciem facebooka, server musi znajdować się pod adresem: http://localhost:8081
+
+W przypadku heroku konfiguracja facebook wskazuje na inną aplikację, która posiada
+poprawny adres: https://calendarplus.herokuapp.com/
