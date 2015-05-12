@@ -19,24 +19,27 @@ public class User extends Identifiable implements UserDetails {
         return facebookId;
     }
 
-    public void setFacebookId(String facebookId) {
+    public User setFacebookId(String facebookId) {
         this.facebookId = facebookId;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public User setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public User setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public String getEmail() {

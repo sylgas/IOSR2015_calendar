@@ -14,7 +14,7 @@
     <nav id="navigation" class="navbar navbar-inverse" role="navigation">
         <div class="navbar-collapse collapse" id="navbar-main">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#/"><span class="glyphicon glyphicon glyphicon-calendar"></span></a>
+                <a class="navbar-brand" href="#/"><span class="glyphicon glyphicon-calendar"></span></a>
             </div>
             <div class="nav navbar-nav navbar-left hidden" ng-class="{'hidden': !AuthorizationService.user}">
                 <li><a href="#calendar">Calendar</a></li>
@@ -43,11 +43,11 @@
     <div ng-class="{'hidden': !AuthorizationService.user}" id="breadcrumb" ng-if="title" class="breadcrumb hidden"
          style="margin-bottom: 0">
         <label>{{title}}</label>
-        <span class="pull-right"><a href="" ng-click="panel.show = !panel.show">{{panel.show? "Hide events panel": "Show
-            events panel"}}</a></span>
+        <span class="pull-right"><a href="" ng-click="panel.show = !panel.show">{{panel.show? "Hide events panel":
+            "Show events panel"}}</a></span>
     </div>
-    <div class="no-padding" ng-class="panel.show? 'col-md-8': 'col-md-12'" ng-view></div>
-    <div ng-if="AuthorizationService.user" class="col-md-4 no-padding page-slide" ng-show="panel.show" full-height
+    <div class="no-padding" ng-class="panel.show? 'col-md-9': 'col-md-12'" ng-view></div>
+    <div ng-if="AuthorizationService.user" class="col-md-3 no-padding page-slide" ng-show="panel.show" full-height
          ng-include="'resources/views/right-panel.html'"></div>
 </div>
 
@@ -82,9 +82,12 @@
 <script type="text/javascript" src="./resources/scripts/controllers/MapController.js"></script>
 <script type="text/javascript" src="./resources/scripts/controllers/HomeController.js"></script>
 
-
 <!--SERVICES-->
+<script type="text/javascript" src="./resources/scripts/services/EventService.js"></script>
 <script type="text/javascript" src="./resources/scripts/services/AuthorizationService.js"></script>
+
+<!--VALUES-->
+<script type="text/javascript" src="./resources/scripts/values/Event.js"></script>
 
 <!--DIRECTIVES-->
 <script type="text/javascript" src="./resources/scripts/directives/fullHeight.js"></script>
