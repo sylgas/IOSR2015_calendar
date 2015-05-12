@@ -1,44 +1,23 @@
-angular.module('calendar').service 'EventService', ($http) ->
+angular.module('calendar').service 'EventService', (Restangular, $q) ->
+  Events = Restangular.service('event')
+
+  fromBackend = (event) ->
+    event.startDate = new Date(event.startDate) if event.startDate
+    event.endDate = new Date(event.endDate) if event.endDate
+    event
+
   new class
-    baseUrl = '/event/'
+    getAll: ->
+      promise = $q.defer()
+      Events.getList().then (events) ->
+        for event in events
+          fromBackend(event)
+        promise.resolve(events)
+      promise.promise
 
-    constructor: ->
+    save: (event) ->
+      promise = $q.defer()
+      Events.post(event).then (saved) ->
+        promise.resolve(fromBackend(saved))
+      promise.promise
 
-    getBetweenDate: (startDate, endDate) ->
-      console.log(startDate)
-      console.log(endDate)
-
-      #create fake data
-      date = new Date()
-      d = date.getDate()
-      m = date.getMonth()
-      y = date.getFullYear()
-      return [
-        {
-          name: 'event1'
-          baseData: {
-            startDate: new Date(y, m, d - 3, 16, 0)
-            endDate: new Date(y, m, d - 3, 23, 0)
-          }
-        },
-        {
-          name: 'event2'
-          baseData: {
-            startDate: new Date(y, m, d, 12, 0)
-            endDate: new Date(y, m, d, 18, 30)
-          }
-        },
-        {
-          name: 'event3'
-          baseData: {
-            startDate: new Date(y, m, d + 2, 20, 0)
-            endDate: new Date(y, m, d + 3, 8, 0)
-          }
-        },
-        {
-          name: 'event4'
-          baseData: {
-            startDate: new Date(y, m, d + 1, 12, 0)
-          }
-        }
-      ]

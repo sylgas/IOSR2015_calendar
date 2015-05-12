@@ -1,0 +1,19 @@
+<div class="page-content">
+    <h1>{{expandEventForm ? "Event" : "Event list"}}
+        <span ng-hide="expandEventForm" class="pull-right btn btn-link" ng-click="expandForm()">+ Add new event</span>
+    </h1>
+
+    <div ng-if="!expandEventForm">
+        <div class="list-group">
+            <a class="list-group-item" ng-repeat="event in events" ng-click="openEditForm(event)">
+                {{event.name}}
+                <span class="badge badge-bordered" ng-style="{'background-color': event.color}">&nbsp;</span>
+                <span class="badge">{{event.startDate | date:'dd/MM/yy HH:mm'}}
+                    {{event.endDate ? " - " + (event.endDate | date:'dd/MM/yy HH:mm') :""}}</span>
+            </a>
+        </div>
+    </div>
+    <div ng-show="expandEventForm">
+        <div ng-include="'resources/views/event-form.html'"></div>
+    </div>
+</div>

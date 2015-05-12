@@ -8,32 +8,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.agh.student.controller.exception.NotValidParamsException;
-import pl.edu.agh.student.dto.UserDto;
-import pl.edu.agh.student.service.UserService;
+import pl.edu.agh.student.dto.EventDto;
+import pl.edu.agh.student.service.EventService;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/event")
+public class EventController {
 
     @Autowired
-    private UserService userService;
+    private EventService eventService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public UserDto create(@RequestBody @Valid UserDto user, BindingResult bindingResult) throws NotValidParamsException {
+    public EventDto save(@RequestBody @Valid EventDto event, BindingResult bindingResult) throws NotValidParamsException {
         if (bindingResult.hasErrors()) {
             throw new NotValidParamsException();
         }
-        return userService.save(user);
+        return eventService.save(event);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<UserDto> getAll() {
-        return userService.findAll();
+    public List<EventDto> getAll() {
+        return eventService.getAll();
     }
 
 }
