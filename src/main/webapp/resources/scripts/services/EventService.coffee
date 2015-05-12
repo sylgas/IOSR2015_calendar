@@ -1,7 +1,7 @@
 angular.module('calendar').service 'EventService', (Restangular, $q) ->
   Events = Restangular.service('event')
 
-  fromBacked = (event) ->
+  fromBackend = (event) ->
     event.startDate = new Date(event.startDate) if event.startDate
     event.endDate = new Date(event.endDate) if event.endDate
     event
@@ -11,12 +11,12 @@ angular.module('calendar').service 'EventService', (Restangular, $q) ->
       promise = $q.defer()
       Events.getList().then (events) ->
         for event in events
-          fromBacked(event)
+          fromBackend(event)
         promise.resolve(events)
       promise.promise
 
     save: (event) ->
       promise = $q.defer()
       Events.post(event).then (saved) ->
-        promise.resolve(fromBacked(saved))
+        promise.resolve(fromBackend(saved))
       promise.promise

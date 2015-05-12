@@ -36,8 +36,8 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
 
   setCoordinates = (position) ->
     $scope.form.event.location =
-      longitude: parseFloat(position.lat().toFixed(7))
-      latitude: parseFloat(position.lng().toFixed(7))
+      longitude: parseFloat(position.lat.toFixed(7))
+      latitude: parseFloat(position.lng.toFixed(7))
 
   EventService.getAll().then (events) ->
     $scope.events = events

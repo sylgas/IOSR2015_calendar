@@ -16,7 +16,10 @@ angular.module('calendar').controller 'MapController', ($rootScope, $scope, Even
 
   $scope.pointTo = (event, params) ->
     if params && $scope.expandEventForm
-      position = params[0].latLng
+      latLng = params[0].latLng
+      position =
+        lat: latLng.lat()
+        lng: latLng.lng()
       updatePointer(position)
       $rootScope.$emit(Event.POINTER_POSITION_CHANGED, position)
 

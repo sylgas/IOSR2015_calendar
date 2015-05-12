@@ -3,8 +3,6 @@
         <span ng-hide="expandEventForm" class="pull-right btn btn-link" ng-click="expandForm()">+ Add new event</span>
     </h1>
 
-    <div class="form-group"></div>
-
     <div ng-if="!expandEventForm">
         <div class="list-group">
             <a class="list-group-item" ng-repeat="event in events" ng-click="openEditForm(event)">
