@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.edu.agh.student.db.model.User;
+import pl.edu.agh.student.dto.UserDto;
 import pl.edu.agh.student.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class AuthorizationController {
 
     @RequestMapping(method = RequestMethod.GET, value = "user")
     @ResponseBody
-    public User get(HttpServletRequest request) {
+    public UserDto get(HttpServletRequest request) {
         return userService.getUserByHttpServletRequest(request);
     }
 

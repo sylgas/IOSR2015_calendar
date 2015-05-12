@@ -6,6 +6,7 @@ import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.student.dto.UserDto;
 
 @Service
 public class ConnectionSignUpImpl implements ConnectionSignUp {
@@ -22,7 +23,11 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
         Connection<Facebook> facebookConnection = (Connection<Facebook>) connection;
         String facebookId = facebookConnection.createData().getProviderUserId();
 
-        return userService.createUser(facebookId, profile.getFirstName(),
-                profile.getLastName(), profile.getEmail());
+        UserDto userDto = new UserDto()
+                .setId(facebookId)
+                .setFirstName(profile.getFirstName())
+                .setLastName(profile.getLastName());
+
+        return userService.save(userDto).getId();
     }
 }
