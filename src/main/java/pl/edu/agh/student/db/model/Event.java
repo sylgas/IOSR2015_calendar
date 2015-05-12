@@ -59,7 +59,7 @@ public class Event extends Identifiable {
         }
     }
 
-    public class BaseData {
+    public static class BaseData {
         @DBRef
         private User owner;
         private String name;
@@ -67,65 +67,106 @@ public class Event extends Identifiable {
         private Date startDate;
         private Date endDate;
         private List<Invited> invited;
+        private Location location;
+
 
         public User getOwner() {
             return owner;
         }
 
-        public void setOwner(User owner) {
+        public BaseData setOwner(User owner) {
             this.owner = owner;
+            return this;
         }
 
         public String getName() {
             return name;
         }
 
-        public void setName(String name) {
+        public BaseData setName(String name) {
             this.name = name;
+            return this;
+        }
+
+        public Location getLocation() {
+            return location;
+        }
+
+        public BaseData setLocation(Location location) {
+            this.location = location;
+            return this;
         }
 
         public String getDescription() {
             return description;
         }
 
-        public void setDescription(String description) {
+        public BaseData setDescription(String description) {
             this.description = description;
+            return this;
         }
 
         public Date getStartDate() {
             return startDate;
         }
 
-        public void setStartDate(Date startDate) {
+        public BaseData setStartDate(Date startDate) {
             this.startDate = startDate;
+            return this;
         }
 
         public Date getEndDate() {
             return endDate;
         }
 
-        public void setEndDate(Date endDate) {
+        public BaseData setEndDate(Date endDate) {
             this.endDate = endDate;
+            return this;
         }
 
         public List<Invited> getInvited() {
             return invited;
         }
 
-        public void setInvited(List<Invited> invited) {
+        public BaseData setInvited(List<Invited> invited) {
             this.invited = invited;
+            return this;
         }
     }
 
-    public class AdditionalData {
-        private int color;
+    public static class AdditionalData {
+        private String color;
 
-        public int getColor() {
+        public String getColor() {
             return color;
         }
 
-        public void setColor(int color) {
+        public AdditionalData setColor(String color) {
             this.color = color;
+            return this;
+        }
+    }
+
+    public static class Location {
+
+        private double longitude;
+
+        private double latitude;
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
         }
     }
 }

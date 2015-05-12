@@ -1,28 +1,52 @@
-angular.module('calendar').controller 'RootController', ($scope) ->
+angular.module('calendar').controller 'RootController', ($rootScope, $scope, EventService, Event) ->
 
   $scope.panel = {}
   $scope.events = []
 
-  $scope.collapse = -> $scope.expandEventForm = false
-  $scope.expand = -> $scope.expandEventForm = true
-
   clearEventForm = ->
     $scope.form =
-      event: {}
+      event:
+        color: '#000000'
 
-  createEvent = (event) ->
-    if $scope.events.indexOf(event) < 0
-      $scope.events.push event
-    $scope.collapse()
+  $scope.collapseForm = ->
+    $scope.expandEventForm = false
+    $rootScope.$emit(Event.FORM_COLLAPSED)
     clearEventForm()
 
-  editEvent = (event) ->
-    $scope.form.event = event
-    $scope.expand()
+  $scope.expandForm = -> $scope.expandEventForm = true
 
-  $scope.createEvent = createEvent
-  $scope.editEvent = editEvent
+  saveEvent = (event) ->
+    EventService.save(event).then (saved) ->
+      if event.id
+        event = saved
+      else
+        $scope.events.push saved
+      $scope.collapseForm()
+
+  openEditFrom = (event) ->
+    $scope.form.event = event
+    $scope.expandForm()
+
+  updatePosition = ->
+    position =
+      lat: $scope.form.event.location.longitude
+      lng: $scope.form.event.location.latitude
+    if position.lat and position.lng
+      $rootScope.$emit(Event.POINTER_POSITION_CHANGED, position)
+
+  setCoordinates = (position) ->
+    $scope.form.event.location =
+      longitude: parseFloat(position.lat.toFixed(7))
+      latitude: parseFloat(position.lng.toFixed(7))
+
+  EventService.getAll().then (events) ->
+    $scope.events = events
+
+  $scope.saveEvent = saveEvent
+  $scope.openEditForm = openEditFrom
+  $scope.updatePosition = updatePosition
   clearEventForm()
+  $rootScope.$on(Event.POINTER_POSITION_CHANGED, (event, position) -> setCoordinates(position))
 
 
 
