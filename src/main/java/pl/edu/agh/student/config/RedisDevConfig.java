@@ -31,7 +31,11 @@ public class RedisDevConfig {
 
         public void afterPropertiesSet() throws Exception {
             redisServer = new RedisServer(Protocol.DEFAULT_PORT);
-            redisServer.start();
+            try {
+                redisServer.start();
+            } catch (Exception e) {
+                //do nothing
+            }
         }
 
         public void destroy() throws Exception {
