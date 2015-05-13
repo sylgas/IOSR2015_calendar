@@ -1,4 +1,4 @@
-angular.module('calendar').controller 'MapController', ($rootScope, $scope, Event) ->
+angular.module('calendar').controller 'MapController', ($rootScope, $scope, Event, EventService) ->
   $rootScope.title = "Map"
 
   $scope.markers = []
