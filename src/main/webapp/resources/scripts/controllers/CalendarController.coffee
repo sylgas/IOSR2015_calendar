@@ -1,4 +1,4 @@
-angular.module('calendar').controller 'CalendarController', ($rootScope, $scope, $modal, EventService) ->
+angular.module('calendar').controller 'CalendarController', ($rootScope, $scope, $route, Event) ->
   new class
     constructor: ->
       $scope.eventSources = [[]]
@@ -12,37 +12,59 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
             left: 'month agendaWeek agendaDay'
             center: 'title'
             right: 'today prev,next'
+          eventClick: (event) ->
+            selectEvent(event.event)
           eventDrop: (event) ->
-            changeEventDuration(event)
+            changeEventDuration(event.event, event.start, event.end)
           eventResize: (event) ->
-            changeEventDuration(event)
+            changeEventDuration(event.event, event.start, event.end)
           select: (start, end) ->
             createEvent(start, end)
           viewRender: (view) ->
-            displayEvents(view.start, view.end)
+            displayEventsInDateRange(view.start, view.end)
 
-    changeEventDuration = (event) ->
-      #todo: change duration of event
-      console.log(event)
+    selectEvent = (event) ->
+      $rootScope.$emit(Event.EVENT_SELECTION, event)
+      $scope.myCalendar.fullCalendar('render')
 
-    createEvent = (start, end) ->
-      #todo: redirect to create event with chosen duration
-      console.log("start: " + start)
-      console.log("end: " + end)
+    changeEventDuration = (event, startDate, endDate) ->
+      selectEvent(event)
+      $rootScope.$emit(Event.DURATION_CHANGED, startDate, endDate)
 
-    displayEvents = (start, end) ->
-      #todo: change after finish of service implementation
-      receiveEvent(EventService.getBetweenDate(start, end))
+    createEvent = (startDate, endDate) ->
+      if (endDate - startDate == 0)
+        endDate = null
+      selectEvent(
+        startDate: startDate,
+        endDate: endDate
+      )
 
-    receiveEvent = (events) =>
+    displayEventsInDateRange = ->
+      displayEvents($rootScope.events)
+
+    displayEvents = (events) ->
       $scope.eventSources[0] = []
       addEvent(event) for event in events
 
     addEvent = (event) ->
-      $scope.eventSources[0].push({
+      $scope.eventSources[0].push(
         title: event.name
-        start: event.baseData.startDate
-        end: event.baseData.endDate
-        allDay: !event.baseData.endDate?
+        start: event.startDate
+        end: event.endDate
+        allDay: !event.endDate?
+        color: event.color
         event: event
-      })
+      )
+
+    refreshView = ->
+      displayEvents($rootScope.events)
+      $scope.myCalendar.fullCalendar('render')
+
+    $rootScope.$on(Event.PANEL_TOGGLE, () ->
+      setTimeout( ->
+          $scope.myCalendar.fullCalendar('render')
+        , 100)
+    )
+    $rootScope.$on(Event.DURATION_CHANGED, refreshView)
+    $rootScope.$on(Event.COLOR_CHANGE, refreshView)
+    $rootScope.$on(Event.EVENT_SAVED, refreshView)
