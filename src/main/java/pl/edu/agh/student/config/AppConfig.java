@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"pl.edu.agh.student.config"})
+@ComponentScan({"pl.edu.agh.student.config", "pl.edu.agh.student.service"})
 @Profile(value = {"default", "dev"})
 @Import({MongoConfig.class, RedisConfig.class})
 public class AppConfig {
