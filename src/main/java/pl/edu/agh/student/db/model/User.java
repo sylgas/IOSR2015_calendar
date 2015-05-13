@@ -5,18 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "users")
 public class User extends Identifiable {
 
-    private String facebookId;
     private String firstName;
     private String lastName;
-
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public User setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
-        return this;
-    }
 
     public String getFirstName() {
         return firstName;
