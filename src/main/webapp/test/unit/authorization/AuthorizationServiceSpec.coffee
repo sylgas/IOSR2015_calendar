@@ -21,6 +21,3 @@ describe "Authorization", ->
     expect(@AuthorizationService.user).toBeDefined()
     @AuthorizationService.logout()
     expect(@AuthorizationService.user).toBeUndefined()
-
-  afterEach ->
-    @$rootScope.$apply()
