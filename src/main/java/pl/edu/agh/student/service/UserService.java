@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public UserDto getUserByHttpServletRequest(HttpServletRequest request) {
-        if(request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
+        if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
             SocialUser socialUser = (SocialUser) ((SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
             return getUserByFacebookId(socialUser.getUserId());
         }

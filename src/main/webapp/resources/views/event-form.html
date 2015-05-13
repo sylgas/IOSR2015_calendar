@@ -17,21 +17,23 @@
         <label for="start-date" class="col-md-3 control-label">Start date:</label>
 
         <div class="col-md-8">
-            <input required class="form-control" type="datetime-local" id="start-date" ng-model="form.event.startDate">
+            <input required class="form-control" type="datetime-local" id="start-date" ng-model="form.event.startDate"
+                   ng-blur="updateDuration()">
         </div>
     </div>
     <div class="form-group">
         <label for="end-date" class="col-md-3 control-label">End date:</label>
 
         <div class="col-md-8">
-            <input class="form-control" type="datetime-local" id="end-date" ng-model="form.event.endDate">
+            <input class="form-control" type="datetime-local" id="end-date" ng-model="form.event.endDate"
+                   ng-blur="updateDuration()">
         </div>
     </div>
     <div class="form-group">
         <label for="color" class="col-md-3 control-label">Color:</label>
 
         <div class="col-md-8">
-            <input class="form-control" type="color" id="color" ng-model="form.event.color">
+            <input class="form-control" type="color" id="color" ng-model="form.event.color" ng-change="updateColor()">
         </div>
     </div>
     <div class="form-group">

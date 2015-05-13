@@ -20,3 +20,4 @@ angular.module('calendar').service 'EventService', (Restangular, $q) ->
       Events.post(event).then (saved) ->
         promise.resolve(fromBackend(saved))
       promise.promise
+

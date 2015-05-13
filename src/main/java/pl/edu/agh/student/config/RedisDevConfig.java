@@ -36,8 +36,7 @@ public class RedisDevConfig {
             try {
                 redisServer = new RedisServer(Protocol.DEFAULT_PORT);
                 redisServer.start();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 logger.error("Failed to start embedded redis server");
             }
         }
