@@ -11,7 +11,7 @@ describe "EventService", ->
 
   beforeEach ->
     module 'calendar'
-    inject (@$httpBackend, @EventService, @$rootScope) ->
+    inject (@$httpBackend, @EventService) ->
       @$httpBackend.whenGET("/event").respond([event1, event2])
       @$httpBackend.whenPOST("/event", event1).respond(event1)
       @$httpBackend.whenPOST("/event", event2).respond(event2)

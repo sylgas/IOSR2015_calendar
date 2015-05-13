@@ -5,7 +5,7 @@ describe "Authorization", ->
 
   beforeEach ->
     module 'calendar'
-    inject (@$httpBackend, @AuthorizationService, @$rootScope) ->
+    inject (@$httpBackend, @AuthorizationService) ->
       @$httpBackend.whenGET("/authorization/user").respond(user)
 
   it 'should set authorized user', ->
