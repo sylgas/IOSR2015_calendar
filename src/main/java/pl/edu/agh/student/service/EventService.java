@@ -6,6 +6,7 @@ import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.student.db.model.User;
+import pl.edu.agh.student.db.model.Event;
 import pl.edu.agh.student.db.model.enums.EventAttendance;
 import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.dto.EventDto;
@@ -55,5 +56,20 @@ public class EventService {
             saveNewEvents(facebookService.getNoRepliesEvents(facebook), EventAttendance.NO_REPLIES, facebook);
         }
         return mapper.toDto(eventRepository.findByBaseDataOwner(user.getId()));
+    }
+
+    public void changeAttendance(HttpServletRequest request, String eventId, String attendance) {
+        Event event = eventRepository.findByFacebookId(eventId).get(0);
+        EventAttendance newAttendance = EventAttendance.valueOf(attendance.toUpperCase());
+        event.setAdditionalData(event.getAdditionalData().setAttendance(newAttendance));
+        eventRepository.save(event);
+        switch (newAttendance) {
+            case ATTENDING:
+                facebookService.acceptInvitation(facebookService.getFacebookApiFromRequestSession(request), eventId);
+            case DECLINED:
+                facebookService.declineInvitation(facebookService.getFacebookApiFromRequestSession(request), eventId);
+            case MAYBE:
+                facebookService.maybeInvitation(facebookService.getFacebookApiFromRequestSession(request), eventId);
+        }
     }
 }

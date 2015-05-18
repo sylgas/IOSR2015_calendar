@@ -34,6 +34,18 @@ public class FacebookService {
         return facebook.eventOperations().getNoReplies();
     }
 
+    public void acceptInvitation(Facebook facebook, String eventId) {
+        facebook.eventOperations().acceptInvitation(eventId);
+    }
+
+    public void declineInvitation(Facebook facebook, String eventId) {
+        facebook.eventOperations().declineInvitation(eventId);
+    }
+
+    public void maybeInvitation(Facebook facebook, String eventId) {
+        facebook.eventOperations().maybeInvitation(eventId);
+    }
+
     public Event getEvent(Facebook facebook, String id) {
         return facebook.eventOperations().getEvent(id);
     }
