@@ -1,52 +1,56 @@
 package pl.edu.agh.student.controller;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.htmlunit.MockMvcWebConnection;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pl.edu.agh.student.dto.UserDto;
+import org.springframework.web.context.WebApplicationContext;
+import pl.edu.agh.student.config.AppConfig;
+import pl.edu.agh.student.config.RedisDevConfig;
 import pl.edu.agh.student.service.UserService;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import static org.junit.Assert.*;
+
+@ActiveProfiles(resolver = TestActiveProfileResolver.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {RedisDevConfig.class, AppConfig.class})
+@WebAppConfiguration
 public class AuthorizationControllerTest {
+    @Autowired
+    private WebApplicationContext context;
 
-    @Mock
-    private UserService userService;
+    private MockMvc mockMvc;
 
-    @InjectMocks
-    private AuthorizationController authorizationController;
-
-    private org.springframework.test.web.servlet.MockMvc mockMvc;
+    private WebClient webClient;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(authorizationController).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        webClient = new WebClient();
+        webClient.setWebConnection(new MockMvcWebConnection(mockMvc));
     }
 
     @Test
     public void testUnauthorized() throws Exception {
-        when(userService.getUserByHttpServletRequest(any())).thenReturn(null);
-
-        mockMvc.perform(get("/authorization/user"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testAuthorized() throws Exception {
-        UserDto userDto = mock(UserDto.class);
-
-        when(userService.getUserByHttpServletRequest(any())).thenReturn(userDto);
-
-        mockMvc.perform(get("/authorization/user"))
-                .andExpect(status().isOk());
+        MvcResult result =
+                mockMvc.perform(get("/authorization/user"))
+                .andExpect(status().isOk())
+                .andReturn();
+        assertEquals(0, result.getResponse().getContentLength());
     }
 
 }
