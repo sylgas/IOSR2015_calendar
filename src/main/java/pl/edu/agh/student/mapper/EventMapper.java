@@ -58,7 +58,7 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
         return event;
     }
 
-    public Event fromFacebookEvent(org.springframework.social.facebook.api.Event facebookEvent, EventAttendance attendance) {
+    public Event fromFacebookEvent(org.springframework.social.facebook.api.Event facebookEvent, EventAttendance attendance, String color) {
         Event event = new Event();
         event.setFacebookId(facebookEvent.getId());
 
@@ -74,7 +74,6 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
 
         if (facebookEvent.isDateOnly())
             if (facebookEvent.getPlace() != null && facebookEvent.getPlace().getLocation() != null) {
-                System.out.println("not null");
                 location = new Event.Location()
                         .setLatitude(facebookEvent.getPlace().getLocation().getLatitude())
                         .setLongitude(facebookEvent.getPlace().getLocation().getLongitude());
@@ -88,7 +87,8 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setOwner(owner)
                 .setLocation(location));
         event.setAdditionalData(new Event.AdditionalData()
-                .setAttendance(attendance));
+                .setAttendance(attendance)
+                .setColor(color));
 
         return event;
     }

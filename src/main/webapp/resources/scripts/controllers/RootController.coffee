@@ -78,6 +78,9 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     $rootScope.events = events
     $rootScope.$emit(Event.EVENTS_LOAD)
 
+  EventService.getAllRemote().then (events) ->
+    $rootScope.events.push.apply($rootScope.events, events)
+
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom
   $scope.updatePosition = updatePosition

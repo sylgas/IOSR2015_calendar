@@ -20,6 +20,20 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
         promise.resolve(events)
       promise.promise
 
+    getAllRemote: ->
+      promise = $q.defer()
+      Events.one("remote").getList().then (events) ->
+        for event in events
+          fromBackend(event)
+        promise.resolve(events)
+      promise.promise
+
+    changeAttendance: (eventId, attendance) ->
+      promise = $q.defer()
+      Events.one(eventId).one(attendance).put().then ->
+        promise.resolve()
+      promise.promise
+
     save: (event) ->
       promise = $q.defer()
       Events.post(toBackend(event)).then (saved) ->
