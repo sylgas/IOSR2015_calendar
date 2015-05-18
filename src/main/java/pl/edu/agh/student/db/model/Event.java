@@ -2,6 +2,7 @@ package pl.edu.agh.student.db.model;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import pl.edu.agh.student.db.model.enums.EventAttendance;
 
 import java.util.Date;
 import java.util.List;
@@ -137,12 +138,23 @@ public class Event extends Identifiable {
     public static class AdditionalData {
         private String color;
 
+        private EventAttendance attendance;
+
         public String getColor() {
             return color;
         }
 
         public AdditionalData setColor(String color) {
             this.color = color;
+            return this;
+        }
+
+        public EventAttendance getAttendance() {
+            return attendance;
+        }
+
+        public AdditionalData setAttendance(EventAttendance attendance) {
+            this.attendance = attendance;
             return this;
         }
     }
@@ -157,16 +169,18 @@ public class Event extends Identifiable {
             return longitude;
         }
 
-        public void setLongitude(double longitude) {
+        public Location setLongitude(double longitude) {
             this.longitude = longitude;
+            return this;
         }
 
         public double getLatitude() {
             return latitude;
         }
 
-        public void setLatitude(double latitude) {
+        public Location setLatitude(double latitude) {
             this.latitude = latitude;
+            return this;
         }
     }
 }

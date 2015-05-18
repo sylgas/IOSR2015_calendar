@@ -1,6 +1,7 @@
 package pl.edu.agh.student.dto;
 
 import pl.edu.agh.student.db.model.Event;
+import pl.edu.agh.student.db.model.enums.EventAttendance;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,6 +29,8 @@ public class EventDto {
     private String color;
 
     private Event.Location location;
+
+    private EventAttendance attendance;
 
     public String getId() {
         return id;
@@ -107,6 +110,15 @@ public class EventDto {
 
     public EventDto setColor(String color) {
         this.color = color;
+        return this;
+    }
+
+    public EventAttendance getAttendance() {
+        return attendance;
+    }
+
+    public EventDto setAttendance(EventAttendance attendance) {
+        this.attendance = attendance;
         return this;
     }
 }
