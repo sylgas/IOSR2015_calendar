@@ -1,4 +1,5 @@
 Event =
+  EVENTS_LOAD: 'eventsLoad'
   PANEL_TOGGLE: 'panelToggle'
   EVENT_SAVED: 'eventSaved'
   EVENT_SELECTION: 'eventSelection'

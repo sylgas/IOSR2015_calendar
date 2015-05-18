@@ -63,6 +63,8 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
           $scope.myCalendar.fullCalendar('render')),
         100)
     )
+
+    $rootScope.$on(Event.EVENTS_LOAD, refreshView)
     $rootScope.$on(Event.DURATION_CHANGED, refreshView)
     $rootScope.$on(Event.COLOR_CHANGE, refreshView)
     $rootScope.$on(Event.EVENT_SAVED, refreshView)
