@@ -14,7 +14,7 @@ import redis.clients.jedis.Protocol;
 import redis.embedded.RedisServer;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "test"})
 public class RedisDevConfig {
     static Logger logger = LoggerFactory.getLogger(RedisDevConfig.class);
 
