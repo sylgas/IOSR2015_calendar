@@ -3,6 +3,10 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
   $scope.panel = {}
   $rootScope.events = []
 
+  getPosition = (event) ->
+    lat: event.location.latitude
+    lng: event.location.longitude
+
   clearEventForm = ->
     $scope.form =
       event:
@@ -50,11 +54,9 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     $scope.expandForm()
 
   updatePosition = ->
-    position =
-      lat: $scope.form.event.location.latitude
-      lng: $scope.form.event.location.longitude
+    position = getPosition($scope.form.event)
     if position.lat and position.lng
-      $rootScope.$emit(Event.POSITION_UPDATED, position)
+      $rootScope.$emit(Event.POSITION_CHANGED, position)
 
   updateDuration = ->
     $rootScope.$emit(Event.DURATION_CHANGED, $scope.form.event.startDate, $scope.form.event.endDate)
@@ -85,6 +87,8 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
 
   clearEventForm()
 
+  $rootScope.getPosition = getPosition
+  $rootScope.isFormExpanded = -> $scope.expandEventForm
   $rootScope.$on(Event.POINTER_POSITION_CHANGED, (event, position) -> setCoordinates(position))
   $rootScope.$on(Event.DURATION_CHANGED, (e, startDate, endDate) -> setDuration(startDate, endDate))
   $rootScope.$on(Event.EVENT_SELECTION, (e, event) -> openEditFrom(event))
