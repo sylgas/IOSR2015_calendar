@@ -1,9 +1,13 @@
-angular.module('calendar').service 'EventService', (Restangular, $q) ->
+angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope) ->
   Events = Restangular.service('event')
 
   fromBackend = (event) ->
     event.startDate = new Date(event.startDate) if event.startDate
     event.endDate = new Date(event.endDate) if event.endDate
+    event
+
+  toBackend = (event) ->
+    event.owner = $rootScope.AuthorizationService.user
     event
 
   new class
@@ -17,7 +21,7 @@ angular.module('calendar').service 'EventService', (Restangular, $q) ->
 
     save: (event) ->
       promise = $q.defer()
-      Events.post(event).then (saved) ->
+      Events.post(toBackend(event)).then (saved) ->
         promise.resolve(fromBackend(saved))
       promise.promise
 

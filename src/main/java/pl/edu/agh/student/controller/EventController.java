@@ -11,6 +11,7 @@ import pl.edu.agh.student.controller.exception.NotValidParamsException;
 import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.service.EventService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<EventDto> getAll() {
-        return eventService.getAll();
+    public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
+        return eventService.getAllByCurrentUser(request);
     }
 
 }
