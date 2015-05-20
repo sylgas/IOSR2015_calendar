@@ -34,10 +34,10 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
     createEvent = (startDate, endDate) ->
       if (endDate - startDate == 0)
         endDate = null
-      selectEvent({
+      selectEvent(
         startDate: startDate,
         endDate: endDate
-      })
+      )
 
     displayEventsInDateRange = (start, end) ->
       displayEvents($rootScope.events)

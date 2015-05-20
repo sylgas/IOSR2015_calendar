@@ -1,5 +1,5 @@
 angular.module('calendar').controller 'RootController', ($rootScope, $scope, EventService, Event) ->
-
+  $scope.authorized = $rootScope.AuthorizationService.user ?
   $scope.panel = {}
   $rootScope.events = []
 
@@ -17,6 +17,8 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     wasHide = !$scope.panel.show;
     $scope.panel.show = true
     $scope.expandEventForm = true
+    event = $scope.form.event if $scope.form.event.id
+    $rootScope.$emit(Event.FORM_EXPANDED, event)
     if wasHide
       $rootScope.$emit(Event.PANEL_TOGGLE)
 
@@ -30,7 +32,7 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
         event = saved
       else
         $rootScope.events.push saved
-        $rootScope.$emit(Event.EVENT_SAVED)
+      $rootScope.$emit(Event.EVENT_SAVED)
       $scope.collapseForm()
 
   openEditFrom = (event) ->
@@ -39,18 +41,18 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
 
   updatePosition = ->
     position =
-      lat: $scope.form.event.location.longitude
-      lng: $scope.form.event.location.latitude
+      lat: $scope.form.event.location.latitude
+      lng: $scope.form.event.location.longitude
     if position.lat and position.lng
-      $rootScope.$emit(Event.POINTER_POSITION_CHANGED, position)
+      $rootScope.$emit(Event.POSITION_UPDATED, position)
 
   updateDuration = ->
     $rootScope.$emit(Event.DURATION_CHANGED, $scope.form.event.startDate, $scope.form.event.endDate)
 
   setCoordinates = (position) ->
     $scope.form.event.location =
-      longitude: parseFloat(position.lat.toFixed(7))
-      latitude: parseFloat(position.lng.toFixed(7))
+      longitude: parseFloat(position.lng.toFixed(7))
+      latitude: parseFloat(position.lat.toFixed(7))
 
   setDuration = (startDate, endDate) ->
     $scope.form.event.startDate = new Date(startDate)
