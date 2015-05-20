@@ -27,6 +27,6 @@ public class EventService {
 
     public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
         User user = userService.getUserByHttpServletRequest(request);
-        return mapper.toDto(eventRepository.findByBaseDataOwner(user));
+        return mapper.toDto(eventRepository.findAll());
     }
 }
