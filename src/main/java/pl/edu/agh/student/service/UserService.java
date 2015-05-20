@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.social.security.SocialUser;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.student.db.model.User;
 import pl.edu.agh.student.db.repository.UserRepository;
 import pl.edu.agh.student.dto.UserDto;
 import pl.edu.agh.student.mapper.UserMapper;
@@ -33,10 +34,14 @@ public class UserService {
         return userMapper.toDto(userRepository.findOne(id));
     }
 
-    public UserDto getUserByHttpServletRequest(HttpServletRequest request) {
+    public UserDto getUserDtoByHttpServletRequest(HttpServletRequest request) {
+        return userMapper.toDto(getUserByHttpServletRequest(request));
+    }
+
+    public User getUserByHttpServletRequest(HttpServletRequest request) {
         if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
             SocialUser socialUser = (SocialUser) ((SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
-            return getUserByFacebookId(socialUser.getUserId());
+            return userRepository.findOne(socialUser.getUserId());
         }
         return null;
     }

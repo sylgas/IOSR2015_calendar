@@ -20,7 +20,7 @@ public class AuthorizationController {
     @RequestMapping(method = RequestMethod.GET, value = "user")
     @ResponseBody
     public UserDto get(HttpServletRequest request) {
-        return userService.getUserByHttpServletRequest(request);
+        return userService.getUserDtoByHttpServletRequest(request);
     }
 
 }

@@ -50,5 +50,5 @@ public class UserController {
 //    @RequestMapping(method = RequestMethod.GET)
 //    @ResponseBody
 //    public User get(HttpServletRequest request) {
-//        return userService.getUserByHttpServletRequest(request);
+//        return userService.getUserDtoByHttpServletRequest(request);
 //    }
