@@ -34,10 +34,7 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
     createEvent = (startDate, endDate) ->
       if (endDate - startDate == 0)
         endDate = null
-      selectEvent({
-        startDate: startDate,
-        endDate: endDate
-      })
+      $rootScope.$emit(Event.DURATION_CHANGED, startDate, endDate)
 
     displayEventsInDateRange = (start, end) ->
       displayEvents($rootScope.events)
@@ -47,12 +44,13 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
       addEvent(event) for event in events
 
     addEvent = (event) ->
+      eventCopy = angular.copy(event)
       $scope.eventSources[0].push({
-        title: event.name
-        start: event.startDate
-        end: event.endDate
-        allDay: !event.endDate?
-        color: event.color
+        title: eventCopy.name
+        start: eventCopy.startDate
+        end: eventCopy.endDate
+        allDay: !eventCopy.endDate?
+        color: eventCopy.color
         event: event
       })
 
@@ -65,6 +63,9 @@ angular.module('calendar').controller 'CalendarController', ($rootScope, $scope,
           $scope.myCalendar.fullCalendar('render')),
         100)
     )
+
+    $rootScope.$on(Event.EVENTS_LOAD, refreshView)
     $rootScope.$on(Event.DURATION_CHANGED, refreshView)
     $rootScope.$on(Event.COLOR_CHANGE, refreshView)
     $rootScope.$on(Event.EVENT_SAVED, refreshView)
+    $rootScope.$on(Event.FORM_COLLAPSED, refreshView)

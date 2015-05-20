@@ -8,6 +8,14 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
       event:
         color: '#000000'
 
+  eventCache = null
+  $scope.cancelForm = ->
+    index = $rootScope.events.indexOf($scope.form.event)
+    if index != -1
+      $rootScope.events[index] = angular.copy(eventCache)
+    eventCache = null
+    $scope.collapseForm()
+
   $scope.collapseForm = ->
     $scope.expandEventForm = false
     $rootScope.$emit(Event.FORM_COLLAPSED)
@@ -34,6 +42,8 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
       $scope.collapseForm()
 
   openEditFrom = (event) ->
+    if eventCache == null
+      eventCache = angular.copy(event)
     $scope.form.event = event
     $scope.expandForm()
 
@@ -53,6 +63,7 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
       latitude: parseFloat(position.lng.toFixed(7))
 
   setDuration = (startDate, endDate) ->
+    $scope.expandForm()
     $scope.form.event.startDate = new Date(startDate)
     if (endDate != null)
       $scope.form.event.endDate = new Date(endDate)
@@ -61,6 +72,7 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
 
   EventService.getAll().then (events) ->
     $rootScope.events = events
+    $rootScope.$emit(Event.EVENTS_LOAD)
 
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom
