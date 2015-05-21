@@ -33,6 +33,10 @@ public class EventService {
         return mapper.toDto(eventRepository.save(mapper.fromDto(event)));
     }
 
+    public List<EventDto> getAll() {
+        return mapper.toDto(eventRepository.findAll());
+    }
+
     public List<EventDto> getByAttendance(String attendance) {
         return mapper.toDto(eventRepository.findByAttendance(attendance));
     }
