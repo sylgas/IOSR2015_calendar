@@ -13,7 +13,6 @@ import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.mapper.EventMapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("eventService")
@@ -34,18 +33,28 @@ public class EventService {
         return mapper.toDto(eventRepository.save(mapper.fromDto(event)));
     }
 
-    private List<EventDto> saveNewEvents(PagedList<Invitation> facebookInvitations, EventAttendance attendance, String color, Facebook facebook) {
-        List<EventDto> events = new ArrayList<>();
+    public List<EventDto> getByAttendance(String attendance) {
+        return mapper.toDto(eventRepository.findByAttendance(attendance));
+    }
+
+    public void synchronizeFacebookEvents(HttpServletRequest request) {
+        Facebook facebook = facebookService.getFacebookApiFromRequestSession(request);
+        if (facebook != null) {
+            updateEvents(facebookService.getAttendingEvents(facebook), EventAttendance.ATTENDING, facebook);
+            updateEvents(facebookService.getDeclinedEvents(facebook), EventAttendance.DECLINED, facebook);
+            updateEvents(facebookService.getMaybeAttendingEvents(facebook), EventAttendance.MAYBE, facebook);
+            updateEvents(facebookService.getNoRepliesEvents(facebook), EventAttendance.NO_REPLIES, facebook);
+        }
+    }
+
+    private void updateEvents(PagedList<Invitation> facebookInvitations, EventAttendance attendance, Facebook facebook) {
         if (facebookInvitations != null) {
             facebookInvitations.forEach(facebookInvitation -> {
-                if (eventRepository.findByFacebookId(facebookInvitation.getEventId()).isEmpty()) {
-                    org.springframework.social.facebook.api.Event facebookEvent =
-                            facebookService.getEvent(facebook, facebookInvitation.getEventId());
-                    events.add(mapper.toDto(eventRepository.save(mapper.fromFacebookEvent(facebookEvent, attendance, color))));
-                }
+                org.springframework.social.facebook.api.Event facebookEvent =
+                        facebookService.getEvent(facebook, facebookInvitation.getEventId());
+                eventRepository.save(mapper.fromFacebookEvent(facebookEvent, attendance));
             });
         }
-        return events;
     }
 
     public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
@@ -53,32 +62,30 @@ public class EventService {
         return mapper.toDto(eventRepository.findByBaseDataOwner(user.getId()));
     }
 
-    public List<EventDto> getNotSynchronized(HttpServletRequest request) {
-        Facebook facebook = facebookService.getFacebookApiFromRequestSession(request);
-        List<EventDto> events = new ArrayList<>();
-        if (facebook != null) {
-            events.addAll(saveNewEvents(facebookService.getAttendingEvents(facebook), EventAttendance.ATTENDING, "#5CAD5C", facebook));
-            events.addAll(saveNewEvents(facebookService.getDeclinedEvents(facebook), EventAttendance.DECLINED, "#EBECEC", facebook));
-            events.addAll(saveNewEvents(facebookService.getMaybeAttendingEvents(facebook), EventAttendance.MAYBE, "#C2C2C2", facebook));
-            events.addAll(saveNewEvents(facebookService.getNoRepliesEvents(facebook), EventAttendance.NO_REPLIES, "#C6AA8D", facebook));
+    public void changeAttendance(HttpServletRequest request, String eventId, String attendance) {
+        Event event = eventRepository.findOne(eventId);
+        EventAttendance newAttendance = EventAttendance.valueOf(attendance.toUpperCase());
+
+        String facebookId = event.getFacebookId();
+        if (facebookId != null) {
+            changeFacebookAttendance(request, facebookId, newAttendance);
         }
-        return events;
+
+        event.setBaseData(event.getBaseData().setAttendance(newAttendance));
+        eventRepository.save(event);
     }
 
-    public void changeAttendance(HttpServletRequest request, String eventId, String attendance) {
-        Event event = eventRepository.findByFacebookId(eventId).get(0);
-        EventAttendance newAttendance = EventAttendance.valueOf(attendance.toUpperCase());
-        switch (newAttendance) {
+    public void changeFacebookAttendance(HttpServletRequest request, String facebookId, EventAttendance attendance) {
+        switch (attendance) {
             case ATTENDING:
-                event.setAdditionalData(event.getAdditionalData().setAttendance(newAttendance).setColor("#5CAD5C"));
-                facebookService.acceptInvitation(facebookService.getFacebookApiFromRequestSession(request), eventId);
+                facebookService.acceptInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
+                break;
             case DECLINED:
-                event.setAdditionalData(event.getAdditionalData().setAttendance(newAttendance).setColor("#EBECEC"));
-                facebookService.declineInvitation(facebookService.getFacebookApiFromRequestSession(request), eventId);
+                facebookService.declineInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
+                break;
             case MAYBE:
-                event.setAdditionalData(event.getAdditionalData().setAttendance(newAttendance).setColor("#C2C2C2"));
-                facebookService.maybeInvitation(facebookService.getFacebookApiFromRequestSession(request), eventId);
+                facebookService.maybeInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
+                break;
         }
-        eventRepository.save(event);
     }
 }

@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.student.db.model.Event;
 import pl.edu.agh.student.db.model.User;
 import pl.edu.agh.student.db.model.enums.EventAttendance;
+import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.db.repository.UserRepository;
 import pl.edu.agh.student.dto.EventDto;
+
+import java.util.List;
 
 @Service
 public class EventMapper extends AbstractMapper<Event, EventDto> {
@@ -16,6 +19,9 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Override
     protected EventDto toDtoIfNotNull(Event event) {
@@ -31,12 +37,12 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                     .setDescription(baseData.getDescription())
                     .setStartDate(baseData.getStartDate())
                     .setEndDate(baseData.getEndDate())
-                    .setLocation(baseData.getLocation());
+                    .setLocation(baseData.getLocation())
+                    .setAttendance(baseData.getAttendance());
         }
 
         if (additionalData != null) {
-            eventDto.setColor(additionalData.getColor())
-            .setAttendance(additionalData.getAttendance());
+            eventDto.setColor(additionalData.getColor());
         }
         return eventDto;
     }
@@ -51,15 +57,21 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setDescription(eventDto.getDescription())
                 .setStartDate(eventDto.getStartDate())
                 .setEndDate(eventDto.getEndDate())
-                .setLocation(eventDto.getLocation()));
-        event.setAdditionalData(new Event.AdditionalData()
-                .setColor(eventDto.getColor())
+                .setLocation(eventDto.getLocation())
                 .setAttendance(eventDto.getAttendance()));
+        event.setAdditionalData(new Event.AdditionalData()
+                .setColor(eventDto.getColor()));
         return event;
     }
 
-    public Event fromFacebookEvent(org.springframework.social.facebook.api.Event facebookEvent, EventAttendance attendance, String color) {
+    public Event fromFacebookEvent(org.springframework.social.facebook.api.Event facebookEvent, EventAttendance attendance) {
         Event event = new Event();
+        List<Event> databaseEvents = eventRepository.findByFacebookId(facebookEvent.getId());
+        if (!databaseEvents.isEmpty()) {
+            Event databaseEvent = databaseEvents.get(0);
+            event.setId(databaseEvent.getId());
+            event.setAdditionalData(databaseEvent.getAdditionalData());
+        }
         event.setFacebookId(facebookEvent.getId());
 
         String ownerId = facebookEvent.getOwner().getId();
@@ -85,10 +97,8 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setStartDate(facebookEvent.getStartTime())
                 .setEndDate(facebookEvent.getEndTime())
                 .setOwner(owner)
-                .setLocation(location));
-        event.setAdditionalData(new Event.AdditionalData()
-                .setAttendance(attendance)
-                .setColor(color));
+                .setLocation(location)
+                .setAttendance(attendance));
 
         return event;
     }

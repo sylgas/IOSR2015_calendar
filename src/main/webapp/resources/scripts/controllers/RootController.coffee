@@ -39,6 +39,8 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     $rootScope.$emit(Event.PANEL_TOGGLE)
 
   saveEvent = (event) ->
+    if not event.id
+      event.attendance = "ATTENDING"
     EventService.save(event).then (saved) ->
       if event.id
         event = saved
@@ -77,9 +79,6 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
   EventService.getAll().then (events) ->
     $rootScope.events = events
     $rootScope.$emit(Event.EVENTS_LOAD)
-
-  EventService.getAllRemote().then (events) ->
-    $rootScope.events.push.apply($rootScope.events, events)
 
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom

@@ -34,17 +34,16 @@ public class EventController {
         return eventService.getAllByCurrentUser(request);
     }
 
-    @RequestMapping(value = "/remote", method = RequestMethod.GET)
+    @RequestMapping(value = "/synchronize", method = RequestMethod.GET)
     @ResponseBody
-    public List<EventDto> getNotSynchronized(HttpServletRequest request) {
-        return eventService.getNotSynchronized(request);
+    public void synchronizeFacebookEvents(HttpServletRequest request) {
+        eventService.synchronizeFacebookEvents(request);
     }
 
     @RequestMapping(value = "/{id}/{attendance}", method = RequestMethod.PUT)
     @ResponseBody
     public void changeAttendance(@PathVariable("id") String id,
                                  @PathVariable("attendance") String attendance, HttpServletRequest request) {
-        eventService.changeAttendance(request, id, attendance);
+        eventService.changeAttendance(request, id, attendance.toUpperCase());
     }
-
 }

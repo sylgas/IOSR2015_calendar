@@ -69,7 +69,7 @@ public class Event extends Identifiable {
         private Date endDate;
         private List<Invited> invited;
         private Location location;
-
+        private EventAttendance attendance;
 
         public User getOwner() {
             return owner;
@@ -133,12 +133,19 @@ public class Event extends Identifiable {
             this.invited = invited;
             return this;
         }
+
+        public EventAttendance getAttendance() {
+            return attendance;
+        }
+
+        public BaseData setAttendance(EventAttendance attendance) {
+            this.attendance = attendance;
+            return this;
+        }
     }
 
     public static class AdditionalData {
         private String color;
-
-        private EventAttendance attendance;
 
         public String getColor() {
             return color;
@@ -146,15 +153,6 @@ public class Event extends Identifiable {
 
         public AdditionalData setColor(String color) {
             this.color = color;
-            return this;
-        }
-
-        public EventAttendance getAttendance() {
-            return attendance;
-        }
-
-        public AdditionalData setAttendance(EventAttendance attendance) {
-            this.attendance = attendance;
             return this;
         }
     }
