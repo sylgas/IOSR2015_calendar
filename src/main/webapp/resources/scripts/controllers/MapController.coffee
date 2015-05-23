@@ -96,4 +96,5 @@ angular.module('calendar').controller 'MapController', ($rootScope, $scope, Even
       $scope.currentMarker = marker
   )
   $rootScope.$on(Event.EVENT_SAVED, invalidateView)
+  $rootScope.$on(Event.EVENTS_LOAD, invalidateView)
   $scope.$watch('map', invalidateView)
