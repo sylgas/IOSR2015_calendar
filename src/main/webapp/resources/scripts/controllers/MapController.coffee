@@ -35,6 +35,7 @@ angular.module('calendar').controller 'MapController', ($rootScope, $scope, Even
     addMarker(event, index) for event, index in $rootScope.events
 
   buildIcon = (color) ->
+    color = '#000000' if not color
     new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color.substring(1),
       new google.maps.Size(21, 34),
       new google.maps.Point(0, 0),
@@ -95,4 +96,5 @@ angular.module('calendar').controller 'MapController', ($rootScope, $scope, Even
       $scope.currentMarker = marker
   )
   $rootScope.$on(Event.EVENT_SAVED, invalidateView)
+  $rootScope.$on(Event.EVENTS_LOAD, invalidateView)
   $scope.$watch('map', invalidateView)
