@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 import pl.edu.agh.student.config.AppConfig;
 import pl.edu.agh.student.config.RedisDevConfig;
 import pl.edu.agh.student.config.SecurityConfig;
+import pl.edu.agh.student.config.TestActiveProfileResolver;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

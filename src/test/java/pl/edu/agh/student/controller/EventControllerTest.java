@@ -20,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import pl.edu.agh.student.config.AppConfig;
 import pl.edu.agh.student.config.RedisDevConfig;
 import pl.edu.agh.student.config.SecurityConfig;
+import pl.edu.agh.student.config.TestActiveProfileResolver;
 import pl.edu.agh.student.db.model.Event;
 import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.dto.EventDto;

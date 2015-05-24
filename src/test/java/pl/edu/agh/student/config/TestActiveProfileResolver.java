@@ -1,4 +1,4 @@
-package pl.edu.agh.student.controller;
+package pl.edu.agh.student.config;
 
 import org.springframework.test.context.ActiveProfilesResolver;
 
