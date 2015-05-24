@@ -1,6 +1,9 @@
 package pl.edu.agh.student.controller;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -40,15 +43,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {RedisDevConfig.class, SecurityConfig.class, AppConfig.class})
 @WebAppConfiguration
-public class EventControllerTest {
+public class UserControllerTest {
     @Autowired
     private WebApplicationContext context;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private EventRepository eventRepository;
 
     @Autowired
     private UserService userService;
@@ -68,7 +65,6 @@ public class EventControllerTest {
 
     @Before
     public void setup() {
-        eventRepository.deleteAll();
         userRepository.deleteAll();
 
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -78,42 +74,31 @@ public class EventControllerTest {
 
     @After
     public void teardown() {
-        eventRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Test
-    public void createGetEventTest() throws Exception {
+    public void createGetUserTest() throws Exception {
         // given
         UserDto userDto = new UserDto()
                 .setFacebookId("ufid")
                 .setFirstName("first")
                 .setId("ufid")
                 .setLastName("last");
-        userService.save(userDto);
-        EventDto eventDto = new EventDto()
-                .setColor("col")
-                .setDescription("desc")
-                .setEndDate(new Date())
-                .setId("id")
-                .setLocation(new Event.Location())
-                .setName("name")
-                .setOwner(userDto)
-                .setStartDate(new Date());
 
         // when
         MvcResult result =
-                mockMvc.perform(post("/event")
-                        .content(mapper.writeValueAsString(eventDto))
+                mockMvc.perform(post("/user")
+                        .content(mapper.writeValueAsString(userDto))
                         .contentType(contentType))
                         .andExpect(status().isOk())
                         .andReturn();
-        EventDto resultEventDto = mapper.readValue(result.getResponse().getContentAsString(), EventDto.class);
-
+        UserDto resultUserDto = mapper.readValue(result.getResponse().getContentAsString(), UserDto.class);
 
         // then
-        assertNotNull(resultEventDto);
-        assertEquals(mapper.writeValueAsString(eventDto), mapper.writeValueAsString(resultEventDto));
-        assertEquals(mapper.writeValueAsString(eventService.getAll().get(0)), mapper.writeValueAsString(resultEventDto));
+        assertNotNull(resultUserDto);
+        assertEquals(mapper.writeValueAsString(userDto), mapper.writeValueAsString(resultUserDto));
+        assertEquals(mapper.writeValueAsString(userService.getUserByFacebookId("ufid")),
+                mapper.writeValueAsString(resultUserDto));
     }
 }
