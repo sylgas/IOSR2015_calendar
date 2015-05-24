@@ -65,6 +65,9 @@
 
         <!--Runner-->
         <webapp.runner.version>8.0.18.0-M1</webapp.runner.version>
+
+        <!--Gson-->
+        <gson.version>1.7.1</gson.version>
     </properties>
 
     <dependencies>
@@ -237,11 +240,17 @@
             <version>${spring.test.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test-htmlunit</artifactId>
             <version>${spring.test.version}</version>
+        </dependency>
+
+        <!-- gson - json parser -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
     </dependencies>
 

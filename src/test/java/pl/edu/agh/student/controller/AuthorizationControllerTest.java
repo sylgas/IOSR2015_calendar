@@ -4,8 +4,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,7 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import pl.edu.agh.student.config.AppConfig;
 import pl.edu.agh.student.config.RedisDevConfig;
-import pl.edu.agh.student.service.UserService;
+import pl.edu.agh.student.config.SecurityConfig;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,7 +25,7 @@ import static org.junit.Assert.*;
 
 @ActiveProfiles(resolver = TestActiveProfileResolver.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {RedisDevConfig.class, AppConfig.class})
+@ContextConfiguration(classes = {RedisDevConfig.class, SecurityConfig.class, AppConfig.class})
 @WebAppConfiguration
 public class AuthorizationControllerTest {
     @Autowired
@@ -45,7 +43,7 @@ public class AuthorizationControllerTest {
     }
 
     @Test
-    public void testUnauthorized() throws Exception {
+    public void testUnauthorizedAuthorizationCheck() throws Exception {
         MvcResult result =
                 mockMvc.perform(get("/authorization/user"))
                 .andExpect(status().isOk())
