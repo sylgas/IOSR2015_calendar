@@ -2,6 +2,7 @@ package pl.edu.agh.student.controller;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gson.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import pl.edu.agh.student.config.AppConfig;
 import pl.edu.agh.student.config.RedisDevConfig;
 import pl.edu.agh.student.config.SecurityConfig;
 import pl.edu.agh.student.db.model.Event;
+import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.dto.UserDto;
 import pl.edu.agh.student.service.EventService;
@@ -42,6 +44,9 @@ public class EventControllerTest {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private EventRepository eventRepository;
+
     private MockMvc mockMvc;
 
     private WebClient webClient;
@@ -55,6 +60,8 @@ public class EventControllerTest {
 
     @Before
     public void setup() {
+        eventRepository.deleteAll();
+
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, (JsonDeserializer<Date>)
                 (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()));
@@ -66,6 +73,11 @@ public class EventControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         webClient = new WebClient();
         webClient.setWebConnection(new MockMvcWebConnection(mockMvc));
+    }
+
+    @After
+    public void teardown() {
+        eventRepository.deleteAll();
     }
 
     @Test
