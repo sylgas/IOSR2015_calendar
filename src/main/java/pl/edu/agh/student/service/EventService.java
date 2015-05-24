@@ -26,8 +26,19 @@ public class EventService {
     }
 
     public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
+        List<EventDto> list = getAllOwnedByCurrentUser(request);
+        list.addAll(getAllThatInvitedCurrentUser(request));
+        return list;
+    }
+
+    public List<EventDto> getAllOwnedByCurrentUser(HttpServletRequest request) {
         User user = userService.getUserByHttpServletRequest(request);
         return mapper.toDto(eventRepository.findByBaseDataOwner(user.getId()));
+    }
+
+    public List<EventDto> getAllThatInvitedCurrentUser(HttpServletRequest request) {
+        User user = userService.getUserByHttpServletRequest(request);
+        return mapper.toDto(eventRepository.findByInvited(user.getId()));
     }
 
     public void delete(String eventId) {
