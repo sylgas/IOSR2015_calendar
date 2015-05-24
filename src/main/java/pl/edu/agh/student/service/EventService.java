@@ -29,4 +29,8 @@ public class EventService {
         User user = userService.getUserByHttpServletRequest(request);
         return mapper.toDto(eventRepository.findByBaseDataOwner(user.getId()));
     }
+
+    public void delete(String eventId) {
+        eventRepository.delete(eventId);
+    }
 }

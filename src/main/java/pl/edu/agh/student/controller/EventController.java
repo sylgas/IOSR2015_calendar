@@ -3,10 +3,7 @@ package pl.edu.agh.student.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.student.controller.exception.NotValidParamsException;
 import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.service.EventService;
@@ -37,4 +34,9 @@ public class EventController {
         return eventService.getAllByCurrentUser(request);
     }
 
+    @RequestMapping(value = "{eventId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void delete(@PathVariable("eventId") String eventId) {
+        eventService.delete(eventId);
+    }
 }
