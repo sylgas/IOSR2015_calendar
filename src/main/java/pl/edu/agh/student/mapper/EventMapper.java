@@ -11,6 +11,9 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private InvitedMapper invitedMapper;
+
     @Override
     protected EventDto toDtoIfNotNull(Event event) {
         Event.BaseData baseData = event.getBaseData();
@@ -25,7 +28,8 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                     .setDescription(baseData.getDescription())
                     .setStartDate(baseData.getStartDate())
                     .setEndDate(baseData.getEndDate())
-                    .setLocation(baseData.getLocation());
+                    .setLocation(baseData.getLocation())
+                    .setInvited(invitedMapper.toDto(baseData.getInvited()));
         }
 
         if (additionalData != null) {
@@ -44,7 +48,8 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setDescription(eventDto.getDescription())
                 .setStartDate(eventDto.getStartDate())
                 .setEndDate(eventDto.getEndDate())
-                .setLocation(eventDto.getLocation()));
+                .setLocation(eventDto.getLocation())
+                .setInvited(invitedMapper.fromDto(eventDto.getInvited())));
         event.setAdditionalData(new Event.AdditionalData()
                 .setColor(eventDto.getColor()));
         return event;

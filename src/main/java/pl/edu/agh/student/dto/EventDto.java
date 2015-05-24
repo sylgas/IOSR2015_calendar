@@ -5,6 +5,7 @@ import pl.edu.agh.student.db.model.Event;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 public class EventDto {
 
@@ -28,6 +29,8 @@ public class EventDto {
     private String color;
 
     private Event.Location location;
+
+    private List<InvitedDto> invited;
 
     public String getId() {
         return id;
@@ -109,4 +112,14 @@ public class EventDto {
         this.color = color;
         return this;
     }
+
+    public List<InvitedDto> getInvited() {
+        return invited;
+    }
+
+    public EventDto setInvited(List<InvitedDto> invited) {
+        this.invited = invited;
+        return this;
+    }
+
 }

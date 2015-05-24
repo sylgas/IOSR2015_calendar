@@ -54,6 +54,40 @@
                    ng-model="form.event.location.latitude">
         </div>
     </div>
+
+    <h3>Invitations</h3>
+
+    <div class="form-group" ng-class="{'ng-pending': isSearching}">
+        <label for="latitude" class="col-md-3 control-label">Invite:</label>
+
+        <div class="col-md-8">
+            <p class="input-group">
+                <input type="text" class="form-control" id="invite"
+                       ng-model="form.invited"
+                       placeholder="Wyszukaj"
+                       typeahead-wait-ms="500"
+                       typeahead-loading="isSearching"
+                       typeahead-editable="false"
+                       name="invite"
+                       autocomplete="off"
+                       typeahead="found as (found.firstName + ' ' + found.lastName) for found in search($viewValue)"
+                       typeahead-input-formatter="formatInputInvite($model)">
+                <span class="input-group-btn">
+                     <button type="button" ng-disabled="!form.invited" class="btn btn-default"
+                             ng-click="inviteUser(form.invited)"><i class="fa fa-user-plus"></i></button>
+                </span>
+            </p>
+        </div>
+        <label ng-show="isSearching" style="padding-top: 7px"><i class="fa fa-spinner fa-spin"></i></label>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item" ng-repeat="invited in form.event.invited">{{invited.user.firstName}}
+            {{invited.user.lastName}}
+            <span ng-show="ResponseStatus[invited.responseStatus].icon" class="pull-right"><i
+                    class="fa {{ResponseStatus[invited.responseStatus].icon}}"
+                    ng-style="{'color': ResponseStatus[invited.responseStatus].color}"></i></span>
+        </div>
+    </div>
     <legend></legend>
     <div class="pull-right btn-group">
         <button type="button" class="btn btn-default" ng-click="cancelForm()">Cancel</button>
