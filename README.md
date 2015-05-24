@@ -16,12 +16,6 @@ https://www.mongodb.org/downloads
 
 3. Dodaj mongo/bin do PATH
 
-4. Zmień w pliku src/main/resources/config.properties wartosci:
-```bash
-   mongodb.host = localhost
-   mongodb.port = 27017
-```
-
 5. Uruchom mongo za pomoca komendy:
 ```bash
    $ mongod
@@ -39,6 +33,9 @@ https://www.mongodb.org/downloads
    )
 ```
 
+7. Uruchamiając aplikację ze Springowym profilem dev (patrz run configuration Redis), 
+aplikacja połączy się z bazą pod adresem localhost:27017, adres ten można zmienić modyfikując plik src/main/resources/mongo.dev.config
+ 
 Serwer
 ======
 
