@@ -1,6 +1,6 @@
-angular.module('calendar').controller 'RootController', ($rootScope, $scope, EventService, Event) ->
+angular.module('calendar').controller 'RootController', ($rootScope, $scope, EventService, Event, UserService, ResponseStatus) ->
   $scope.authorized = $rootScope.AuthorizationService.user ?
-  $scope.panel = {}
+    $scope.panel = {}
   $rootScope.events = []
 
   getPosition = (event) ->
@@ -11,6 +11,7 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     $scope.form =
       event:
         color: '#000000'
+        invited: []
 
   eventCache = null
   $scope.cancelForm = ->
@@ -74,14 +75,40 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     else
       $scope.form.event.endDate = null
 
+  searchFilter = (users) ->
+    users.filter (user) ->
+      for invited in $scope.form.event.invited
+        if user.id is invited.user.id
+          return false
+      true
+
+  formatInputInvite = (invite) ->
+    if not invite
+      label = ""
+    else
+      label = invite.firstName + ' ' + invite.lastName
+    label
+
+  inviteUser = ->
+    $scope.form.event.invited.push
+      user: $scope.form.invited
+    delete $scope.form.invited
+
   EventService.getAll().then (events) ->
     $rootScope.events = events
     $rootScope.$emit(Event.EVENTS_LOAD)
 
+  $scope.formatInputInvite = formatInputInvite
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom
   $scope.updatePosition = updatePosition
   $scope.updateDuration = updateDuration
+  $scope.inviteUser = inviteUser
+  $scope.ResponseStatus = ResponseStatus
+
+  $scope.search = (phrase) ->
+    UserService.search(phrase, searchFilter)
+
   $scope.updateColor = ->
     $rootScope.$emit(Event.COLOR_CHANGE)
 
