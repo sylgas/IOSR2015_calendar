@@ -2,7 +2,6 @@ package pl.edu.agh.student.db.model;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import pl.edu.agh.student.db.model.enums.EventAttendance;
 
 import java.util.Date;
 import java.util.List;
@@ -38,7 +37,7 @@ public class Event extends Identifiable {
         this.additionalData = additionalData;
     }
 
-    public class Invited {
+    public static class Invited {
         @DBRef
         private User user;
         private String rspvStatus;
@@ -47,16 +46,18 @@ public class Event extends Identifiable {
             return user;
         }
 
-        public void setUser(User user) {
+        public Invited setUser(User user) {
             this.user = user;
+            return this;
         }
 
         public String getRspvStatus() {
             return rspvStatus;
         }
 
-        public void setRspvStatus(String rspvStatus) {
+        public Invited setRspvStatus(String rspvStatus) {
             this.rspvStatus = rspvStatus;
+            return this;
         }
     }
 
@@ -69,7 +70,6 @@ public class Event extends Identifiable {
         private Date endDate;
         private List<Invited> invited;
         private Location location;
-        private EventAttendance attendance;
 
         public User getOwner() {
             return owner;
@@ -131,15 +131,6 @@ public class Event extends Identifiable {
 
         public BaseData setInvited(List<Invited> invited) {
             this.invited = invited;
-            return this;
-        }
-
-        public EventAttendance getAttendance() {
-            return attendance;
-        }
-
-        public BaseData setAttendance(EventAttendance attendance) {
-            this.attendance = attendance;
             return this;
         }
     }

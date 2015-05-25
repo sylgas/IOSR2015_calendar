@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.RsvpStatus;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.student.db.model.User;
 import pl.edu.agh.student.db.model.Event;
-import pl.edu.agh.student.db.model.enums.EventAttendance;
 import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.mapper.EventMapper;
@@ -29,58 +29,74 @@ public class EventService {
     @Autowired
     private FacebookService facebookService;
 
-    public EventDto save(EventDto event) {
-        return mapper.toDto(eventRepository.save(mapper.fromDto(event)));
+    public EventDto save(HttpServletRequest request, EventDto event) {
+        Event eventDo = mapper.fromDto(event);
+        if (event.getId() == null) {
+            User user = userService.getUserByHttpServletRequest(request);
+            Event.BaseData baseData = eventDo.getBaseData();
+            List<Event.Invited> invitedUsers = baseData.getInvited();
+            Event.Invited invited = new Event.Invited()
+                    .setUser(user)
+                    .setRspvStatus(RsvpStatus.ATTENDING.toString());
+            invitedUsers.add(invited);
+            eventDo.setBaseData(baseData.setInvited(invitedUsers));
+        }
+        return mapper.toDto(eventRepository.save(eventDo));
     }
 
-    public List<EventDto> getAll() {
-        return mapper.toDto(eventRepository.findAll());
+    public List<EventDto> getAllByInvited(HttpServletRequest request) {
+        User user = userService.getUserByHttpServletRequest(request);
+        synchronizeFacebookEvents(request, user);
+        return mapper.toDto(eventRepository.findByInvited(user.getId()));
     }
 
-    public List<EventDto> getByAttendance(String attendance) {
-        return mapper.toDto(eventRepository.findByAttendance(attendance));
-    }
-
-    public void synchronizeFacebookEvents(HttpServletRequest request) {
+    public void synchronizeFacebookEvents(HttpServletRequest request, User user) {
         Facebook facebook = facebookService.getFacebookApiFromRequestSession(request);
         if (facebook != null) {
-            updateEvents(facebookService.getAttendingEvents(facebook), EventAttendance.ATTENDING, facebook);
-            updateEvents(facebookService.getDeclinedEvents(facebook), EventAttendance.DECLINED, facebook);
-            updateEvents(facebookService.getMaybeAttendingEvents(facebook), EventAttendance.MAYBE, facebook);
-            updateEvents(facebookService.getNoRepliesEvents(facebook), EventAttendance.NO_REPLIES, facebook);
+            updateEvents(facebookService.getAttendingEvents(facebook), user, RsvpStatus.ATTENDING, facebook);
+            updateEvents(facebookService.getDeclinedEvents(facebook), user, RsvpStatus.DECLINED, facebook);
+            updateEvents(facebookService.getMaybeAttendingEvents(facebook), user, RsvpStatus.MAYBE, facebook);
+            updateEvents(facebookService.getNoRepliesEvents(facebook), user, RsvpStatus.NOT_REPLIED, facebook);
         }
     }
 
-    private void updateEvents(PagedList<Invitation> facebookInvitations, EventAttendance attendance, Facebook facebook) {
+    private void updateEvents(PagedList<Invitation> facebookInvitations, User user, RsvpStatus rsvpStatus, Facebook facebook) {
         if (facebookInvitations != null) {
             facebookInvitations.forEach(facebookInvitation -> {
                 org.springframework.social.facebook.api.Event facebookEvent =
                         facebookService.getEvent(facebook, facebookInvitation.getEventId());
-                eventRepository.save(mapper.fromFacebookEvent(facebookEvent, attendance));
+                        eventRepository.save(mapper.fromFacebookEvent(facebookEvent, user, rsvpStatus));
             });
         }
     }
 
-    public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
-        User user = userService.getUserByHttpServletRequest(request);
-        return mapper.toDto(eventRepository.findByBaseDataOwner(user.getId()));
-    }
-
-    public void changeAttendance(HttpServletRequest request, String eventId, String attendance) {
+    public void changeRsvpStatus(HttpServletRequest request, String eventId, RsvpStatus rsvpStatus) {
         Event event = eventRepository.findOne(eventId);
-        EventAttendance newAttendance = EventAttendance.valueOf(attendance.toUpperCase());
+        User user = userService.getUserByHttpServletRequest(request);
 
         String facebookId = event.getFacebookId();
         if (facebookId != null) {
-            changeFacebookAttendance(request, facebookId, newAttendance);
+            changeFacebookAttendance(request, facebookId, rsvpStatus);
         }
 
-        event.setBaseData(event.getBaseData().setAttendance(newAttendance));
+        Event.BaseData baseData = event.getBaseData();
+        List<Event.Invited> invited = baseData.getInvited();
+        invited.get(getInvitedIndexByUserId(invited, user.getId())).setRspvStatus(rsvpStatus.toString());
+        event.setBaseData(baseData.setInvited(invited));
         eventRepository.save(event);
     }
 
-    public void changeFacebookAttendance(HttpServletRequest request, String facebookId, EventAttendance attendance) {
-        switch (attendance) {
+    public Integer getInvitedIndexByUserId(List<Event.Invited> invitedUsers, String id) {
+        int i = 0;
+        for (Event.Invited invited: invitedUsers) {
+            if (invited.getUser().getId().equals(id)) return i;
+            i++;
+        }
+        return null;
+    }
+
+    public void changeFacebookAttendance(HttpServletRequest request, String facebookId, RsvpStatus rsvpStatus) {
+        switch (rsvpStatus) {
             case ATTENDING:
                 facebookService.acceptInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
                 break;

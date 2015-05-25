@@ -12,9 +12,9 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
     event
 
   new class
-    getAllByAttendance: (attendance) ->
+    getAll: ->
       promise = $q.defer()
-      Events.one(attendance).getList().then (events) ->
+      Events.getList().then (events) ->
         for event in events
           fromBackend(event)
         promise.resolve(events)

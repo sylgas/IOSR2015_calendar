@@ -1,14 +1,15 @@
 package pl.edu.agh.student.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.facebook.api.RsvpStatus;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.student.db.model.Event;
 import pl.edu.agh.student.db.model.User;
-import pl.edu.agh.student.db.model.enums.EventAttendance;
 import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.db.repository.UserRepository;
 import pl.edu.agh.student.dto.EventDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,8 +38,7 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                     .setDescription(baseData.getDescription())
                     .setStartDate(baseData.getStartDate())
                     .setEndDate(baseData.getEndDate())
-                    .setLocation(baseData.getLocation())
-                    .setAttendance(baseData.getAttendance());
+                    .setLocation(baseData.getLocation());
         }
 
         if (additionalData != null) {
@@ -58,19 +58,28 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setStartDate(eventDto.getStartDate())
                 .setEndDate(eventDto.getEndDate())
                 .setLocation(eventDto.getLocation())
-                .setAttendance(eventDto.getAttendance()));
+                .setInvited(new ArrayList<>()));
         event.setAdditionalData(new Event.AdditionalData()
                 .setColor(eventDto.getColor()));
         return event;
     }
 
-    public Event fromFacebookEvent(org.springframework.social.facebook.api.Event facebookEvent, EventAttendance attendance) {
+    public Event fromFacebookEvent(org.springframework.social.facebook.api.Event facebookEvent, User user, RsvpStatus rsvpStatus) {
         Event event = new Event();
         List<Event> databaseEvents = eventRepository.findByFacebookId(facebookEvent.getId());
+        List<Event.Invited> invitedUsers = new ArrayList<>();
+
         if (!databaseEvents.isEmpty()) {
             Event databaseEvent = databaseEvents.get(0);
             event.setId(databaseEvent.getId());
             event.setAdditionalData(databaseEvent.getAdditionalData());
+            invitedUsers = event.getBaseData().getInvited();
+        }
+        else {
+            Event.Invited invited = new Event.Invited()
+                    .setUser(user)
+                    .setRspvStatus(String.valueOf(rsvpStatus));
+            invitedUsers.add(invited);
         }
         event.setFacebookId(facebookEvent.getId());
 
@@ -98,7 +107,7 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setEndDate(facebookEvent.getEndTime())
                 .setOwner(owner)
                 .setLocation(location)
-                .setAttendance(attendance));
+                .setInvited(invitedUsers));
 
         return event;
     }
