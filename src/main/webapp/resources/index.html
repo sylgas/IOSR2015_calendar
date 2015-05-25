@@ -40,14 +40,14 @@
 </div>
 
 <div ng-controller="RootController">
-    <div ng-class="{'hidden': !AuthorizationService.user}" id="breadcrumb" ng-if="title" class="breadcrumb hidden"
+    <div id="breadcrumb" ng-if="title && AuthorizationService.user" class="breadcrumb"
          style="margin-bottom: 0">
         <label>{{title}}</label>
         <span class="pull-right"><a href="" ng-click="togglePanel()">{{panel.show? "Hide events panel":
             "Show events panel"}}</a></span>
     </div>
     <div class="no-padding" ng-class="panel.show? 'col-md-9': 'col-md-12'" ng-view></div>
-    <div ng-if="AuthorizationService.user" class="col-md-3 no-padding page-slide" ng-show="panel.show" full-height
+    <div class="col-md-3 no-padding page-slide" ng-show="panel.show && AuthorizationService.user" full-height
          ng-include="'resources/views/right-panel.html'"></div>
 </div>
 
@@ -56,7 +56,7 @@
 <script type="text/javascript" src="./bower_components/jquery-ui/ui/jquery-ui.js"></script>
 <script type="text/javascript" src="./bower_components/angularjs/angular.min.js"></script>
 <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script type="text/javascript" src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script type="text/javascript" src="./bower_components/angular-route/angular-route.min.js"></script>
 
 <!--REST-->
@@ -84,10 +84,12 @@
 
 <!--SERVICES-->
 <script type="text/javascript" src="./resources/scripts/services/EventService.js"></script>
+<script type="text/javascript" src="./resources/scripts/services/UserService.js"></script>
 <script type="text/javascript" src="./resources/scripts/services/AuthorizationService.js"></script>
 
 <!--VALUES-->
 <script type="text/javascript" src="./resources/scripts/values/Event.js"></script>
+<script type="text/javascript" src="./resources/scripts/values/ResponseStatus.js"></script>
 
 <!--DIRECTIVES-->
 <script type="text/javascript" src="./resources/scripts/directives/fullHeight.js"></script>

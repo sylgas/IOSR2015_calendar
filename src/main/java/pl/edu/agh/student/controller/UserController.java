@@ -3,10 +3,7 @@ package pl.edu.agh.student.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.student.controller.exception.NotValidParamsException;
 import pl.edu.agh.student.dto.UserDto;
 import pl.edu.agh.student.service.UserService;
@@ -36,19 +33,10 @@ public class UserController {
         return userService.findAll();
     }
 
-}
+    @RequestMapping(method = RequestMethod.GET, value = "search/{phrase}")
+    @ResponseBody
+    public List<UserDto> search(@PathVariable String phrase) throws NotValidParamsException {
+        return userService.searchByNameOrLastname(phrase);
+    }
 
-//@Autowired
-//private UserService userService;
-//
-//    @RequestMapping(method = RequestMethod.POST)
-//    @ResponseBody
-//    public String create(@RequestBody User user) {
-//        return userService.saveUser(user);
-//    }
-//
-//    @RequestMapping(method = RequestMethod.GET)
-//    @ResponseBody
-//    public User get(HttpServletRequest request) {
-//        return userService.getUserByHttpServletRequest(request);
-//    }
+}
