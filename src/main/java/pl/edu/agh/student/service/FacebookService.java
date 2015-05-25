@@ -49,7 +49,7 @@ public class FacebookService {
 
     public Facebook getFacebookApiFromRequestSession(HttpServletRequest request) {
         SecurityContextImpl context = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        if(context != null) {
+        if (context != null) {
             SocialAuthenticationToken token = (SocialAuthenticationToken) context.getAuthentication();
             return ((Connection<Facebook>) token.getConnection()).getApi();
         }

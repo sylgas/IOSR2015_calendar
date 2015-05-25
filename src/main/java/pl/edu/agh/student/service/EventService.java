@@ -65,7 +65,7 @@ public class EventService {
             facebookInvitations.forEach(facebookInvitation -> {
                 org.springframework.social.facebook.api.Event facebookEvent =
                         facebookService.getEvent(facebook, facebookInvitation.getEventId());
-                        eventRepository.save(mapper.fromFacebookEvent(facebookEvent, user, rsvpStatus));
+                eventRepository.save(mapper.fromFacebookEvent(facebookEvent, user, rsvpStatus));
             });
         }
     }
@@ -76,7 +76,7 @@ public class EventService {
 
         String facebookId = event.getFacebookId();
         if (facebookId != null) {
-            changeFacebookAttendance(request, facebookId, rsvpStatus);
+            changeFacebookRsvpStatus(request, facebookId, rsvpStatus);
         }
 
         Event.BaseData baseData = event.getBaseData();
@@ -88,14 +88,14 @@ public class EventService {
 
     public Integer getInvitedIndexByUserId(List<Event.Invited> invitedUsers, String id) {
         int i = 0;
-        for (Event.Invited invited: invitedUsers) {
+        for (Event.Invited invited : invitedUsers) {
             if (invited.getUser().getId().equals(id)) return i;
             i++;
         }
         return null;
     }
 
-    public void changeFacebookAttendance(HttpServletRequest request, String facebookId, RsvpStatus rsvpStatus) {
+    public void changeFacebookRsvpStatus(HttpServletRequest request, String facebookId, RsvpStatus rsvpStatus) {
         switch (rsvpStatus) {
             case ATTENDING:
                 facebookService.acceptInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
