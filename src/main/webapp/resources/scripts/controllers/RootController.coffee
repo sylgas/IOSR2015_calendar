@@ -94,10 +94,23 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
       user: $scope.form.invited
     delete $scope.form.invited
 
-  EventService.getAll().then (events) ->
-    $rootScope.events = events
+  getAll = ->
+    EventService.getAll().then (events) ->
+      $rootScope.events = events
+      $rootScope.$emit(Event.EVENTS_LOAD)
+
+  getFacebookOnly = ->
+    $rootScope.events = []
     $rootScope.$emit(Event.EVENTS_LOAD)
 
+  getByStatus = (status) ->
+    $rootScope.events = []
+    $rootScope.$emit(Event.EVENTS_LOAD)
+
+  getAll()
+  $scope.getAll = getAll
+  $scope.getFacebookOnly = getFacebookOnly
+  $scope.getByStatus = getByStatus
   $scope.formatInputInvite = formatInputInvite
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom
