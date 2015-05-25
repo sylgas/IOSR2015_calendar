@@ -12,9 +12,16 @@
   },
   "dependencies": {
     "bower": "1.4.1",
-    "coffee-script": "1.9.2"
+    "coffee-script": "1.9.2",
+    "karma": "^0.12.31"
   },
   "scripts": {
     "postinstall": "bower install --config.cwd=./src/main/webapp && coffee -c ./src/main/webapp/resources/scripts"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.3.3",
+    "karma-jasmine": "^0.3.5",
+    "karma-chrome-launcher": "^0.1.10",
+    "karma-firefox-launcher": "^0.1.6"
   }
 }

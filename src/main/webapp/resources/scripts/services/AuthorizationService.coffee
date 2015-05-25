@@ -7,4 +7,4 @@ angular.module('calendar').service 'AuthorizationService', (Restangular, $locati
         @user = user
 
     logout: ->
-        delete @user
+      delete @user

@@ -26,12 +26,14 @@ public class SocialConfig implements SocialConfigurer {
     @Configuration
     @Profile("default")
     @PropertySource("classpath:facebook.properties")
-    static class CloudConfig {}
+    static class CloudConfig {
+    }
 
     @Configuration
     @Profile({"dev", "test"})
     @PropertySource({"classpath:facebook.dev.properties"})
-    static class DevConfig {}
+    static class DevConfig {
+    }
 
     @Autowired
     private ConnectionSignUp connectionSignUp;
