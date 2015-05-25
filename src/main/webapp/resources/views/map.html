@@ -1,5 +1,12 @@
 <section id="map">
-    <div ui-map-marker="pointer"></div>
+
+    <ul class="list-unstyled">
+        <li ng-repeat="marker in markers" ui-map-marker="markers[$index]"
+            ui-event="{'map-click': 'markerClicked(marker)'}">
+        </li>
+        <li ui-map-marker="pointer"></li>
+    </ul>
+
 
     <div ui-map="map" full-height ui-options="mapOptions" class="map-canvas"
          ui-event="{'map-click': 'pointTo($event, $params)'}"></div>
