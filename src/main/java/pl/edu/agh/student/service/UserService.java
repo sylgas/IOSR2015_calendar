@@ -12,6 +12,8 @@ import pl.edu.agh.student.mapper.UserMapper;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
 public class UserService {
 
@@ -36,6 +38,19 @@ public class UserService {
 
     public UserDto getUserDtoByHttpServletRequest(HttpServletRequest request) {
         return userMapper.toDto(getUserByHttpServletRequest(request));
+    }
+
+    public List<UserDto> searchByNameOrLastname(String phrase) {
+        checkNotNull(phrase);
+        String[] phrases = phrase.trim().split("\\s+");
+        StringBuilder regex = new StringBuilder();
+        if (phrases.length > 0) {
+            regex.append(phrases[0]);
+            for (int i = 1; i < phrases.length; i++) {
+                regex.append(phrases[0]).append("|");
+            }
+        }
+        return userMapper.toDto(userRepository.findByNameOrLastNameRegex(regex.toString()));
     }
 
     public User getUserByHttpServletRequest(HttpServletRequest request) {
