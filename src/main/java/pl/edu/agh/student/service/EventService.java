@@ -25,6 +25,10 @@ public class EventService {
         return mapper.toDto(eventRepository.save(mapper.fromDto(event)));
     }
 
+    public EventDto getById(String id) {
+        return mapper.toDto(eventRepository.findOne(id));
+    }
+
     public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
         List<EventDto> list = getAllOwnedByCurrentUser(request);
         list.addAll(getAllThatInvitedCurrentUser(request));

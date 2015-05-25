@@ -43,6 +43,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -198,6 +199,28 @@ public class EventControllerTest {
         assertEquals(2, allList.size());
         assertEquals(allList.get(0).getId(), eventDto1.getId());
         assertEquals(allList.get(1).getId(), eventDto2.getId());
+    }
 
+    @Test
+    public void deleteEvent() throws Exception {
+        // given
+        EventDto eventDto1 = new EventDto()
+                .setColor("col")
+                .setDescription("desc")
+                .setEndDate(new Date())
+                .setId("id1")
+                .setLocation(new Event.Location())
+                .setName("name1")
+                .setOwner(userDto1)
+                .setStartDate(new Date());
+        eventService.save(eventDto1);
+        assertNotNull(eventService.getById("id1"));
+
+        // when
+        mockMvc.perform(delete("/event/id1"))
+                .andExpect(status().isOk());
+
+        // then
+        assertNull(eventService.getById("id1"));
     }
 }
