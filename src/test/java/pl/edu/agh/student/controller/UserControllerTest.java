@@ -1,9 +1,6 @@
 package pl.edu.agh.student.controller;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -24,16 +21,11 @@ import pl.edu.agh.student.config.AppConfig;
 import pl.edu.agh.student.config.RedisDevConfig;
 import pl.edu.agh.student.config.SecurityConfig;
 import pl.edu.agh.student.config.TestActiveProfileResolver;
-import pl.edu.agh.student.db.model.Event;
-import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.db.repository.UserRepository;
-import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.dto.UserDto;
-import pl.edu.agh.student.service.EventService;
 import pl.edu.agh.student.service.UserService;
 
 import java.nio.charset.Charset;
-import java.util.Date;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

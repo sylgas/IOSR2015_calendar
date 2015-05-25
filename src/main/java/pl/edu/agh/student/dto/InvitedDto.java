@@ -5,21 +5,23 @@ import pl.edu.agh.student.db.model.ResponseStatus;
 public class InvitedDto {
     private UserDto user;
 
+    private ResponseStatus responseStatus = ResponseStatus.NONE;
+
     public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public InvitedDto setUser(UserDto user) {
         this.user = user;
+        return this;
     }
-
-    private ResponseStatus responseStatus = ResponseStatus.NONE;
 
     public ResponseStatus getResponseStatus() {
         return responseStatus;
     }
 
-    public void setResponseStatus(ResponseStatus responseStatus) {
+    public InvitedDto setResponseStatus(ResponseStatus responseStatus) {
         this.responseStatus = responseStatus;
+        return this;
     }
 }

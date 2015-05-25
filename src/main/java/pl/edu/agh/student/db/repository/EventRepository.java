@@ -9,6 +9,6 @@ public interface EventRepository extends Repository<Event> {
     @Query(value = "{ 'baseData.owner.$id' : ?0 }")
     List<Event> findByBaseDataOwner(String userId);
 
-    @Query(value = "{ 'baseData.invited' : ?0 }")
+    @Query(value = "{ 'baseData.invited.user.$id' : { $in : [?0]} } }")
     List<Event> findByInvited(String userId);
 }
