@@ -98,7 +98,7 @@ public class EventControllerTest {
                 .setId("id")
                 .setLocation(new Event.Location())
                 .setName("name")
-                .setOwner(userDto)
+                .setOwner(userDto.getId())
                 .setStartDate(new Date());
 
         // when

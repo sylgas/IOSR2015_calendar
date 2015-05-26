@@ -1,7 +1,13 @@
 package pl.edu.agh.student.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.Invitation;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.RsvpStatus;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.student.db.model.Event;
+import pl.edu.agh.student.db.model.Invited;
 import pl.edu.agh.student.db.model.User;
 import pl.edu.agh.student.db.repository.EventRepository;
 import pl.edu.agh.student.dto.EventDto;
@@ -38,9 +44,14 @@ public class EventService {
         return mapper.toDto(eventRepository.save(eventDo));
     }
 
-
     public EventDto get(String id) {
         return mapper.toDto(eventRepository.findOne(id));
+    }
+
+    public List<EventDto> getAllByInvited(HttpServletRequest request) {
+        User user = userService.getUserByHttpServletRequest(request);
+        synchronizeFacebookEvents(request, user);
+        return mapper.toDto(eventRepository.findByInvited(user.getId()));
     }
     
     public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
