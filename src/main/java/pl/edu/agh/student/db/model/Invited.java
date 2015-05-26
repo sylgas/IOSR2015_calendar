@@ -1,26 +1,29 @@
 package pl.edu.agh.student.db.model;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.social.facebook.api.RsvpStatus;
 
 public class Invited {
     @DBRef
     private User user;
-    private ResponseStatus responseStatus;
+    private RsvpStatus responseStatus;
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public Invited setUser(User user) {
         this.user = user;
+        return this;
     }
 
-    public ResponseStatus getResponseStatus() {
+    public RsvpStatus getResponseStatus() {
         return responseStatus;
     }
 
-    public void setResponseStatus(ResponseStatus responseStatus) {
+    public Invited setResponseStatus(RsvpStatus responseStatus) {
         this.responseStatus = responseStatus;
+        return this;
     }
 
 }

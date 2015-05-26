@@ -13,7 +13,7 @@ public class EventDto {
 
     private String facebookId;
 
-    private UserDto owner;
+    private String owner;
 
     @NotNull
     @Size(min = 1)
@@ -59,11 +59,11 @@ public class EventDto {
         return this;
     }
 
-    public UserDto getOwner() {
+    public String getOwner() {
         return owner;
     }
 
-    public EventDto setOwner(UserDto owner) {
+    public EventDto setOwner(String owner) {
         this.owner = owner;
         return this;
     }
