@@ -212,8 +212,14 @@ public class EventControllerTest {
 
         // then
         assertEquals(2, allList.size());
-        assertEquals(allList.get(0).getId(), eventDto1.getId());
-        assertEquals(allList.get(1).getId(), eventDto2.getId());
+        if(allList.get(0).getId().equals(eventDto1.getId())) {
+            assertEquals(allList.get(0).getId(), eventDto1.getId());
+            assertEquals(allList.get(1).getId(), eventDto2.getId());
+        }
+        else {
+            assertEquals(allList.get(0).getId(), eventDto2.getId());
+            assertEquals(allList.get(1).getId(), eventDto1.getId());
+        }
     }
 
     @Test
