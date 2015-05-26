@@ -119,7 +119,7 @@ public class EventControllerTest {
                 .setId("id")
                 .setLocation(new Event.Location())
                 .setName("name")
-                .setOwner(userDto1)
+                .setOwner(userDto.getId())
                 .setStartDate(new Date());
 
         // when
@@ -134,7 +134,7 @@ public class EventControllerTest {
         // then
         assertNotNull(resultEventDto);
         assertEquals(mapper.writeValueAsString(eventDto), mapper.writeValueAsString(resultEventDto));
-//        assertEquals(mapper.writeValueAsString(eventService.getAll().get(0)), mapper.writeValueAsString(resultEventDto));
+        assertEquals(mapper.writeValueAsString(eventService.get("id")), mapper.writeValueAsString(resultEventDto));
     }
 
     @Test
