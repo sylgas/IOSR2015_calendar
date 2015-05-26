@@ -14,6 +14,8 @@ import pl.edu.agh.student.dto.EventDto;
 import pl.edu.agh.student.mapper.EventMapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service("eventService")
@@ -48,16 +50,30 @@ public class EventService {
         return mapper.toDto(eventRepository.findOne(id));
     }
 
-    public List<EventDto> getAllByInvited(HttpServletRequest request) {
+    public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
+        List<EventDto> list = getAllOwnedByCurrentUser(request);
+        list.addAll(getAllThatInvitedCurrentUser(request));
+        return new ArrayList<>(new HashSet<>(list));
+    }
+
+    public List<EventDto> getAllOwnedByCurrentUser(HttpServletRequest request) {
+        User user = userService.getUserByHttpServletRequest(request);
+        synchronizeFacebookEvents(request, user);
+        return mapper.toDto(eventRepository.findByOwner(user.getId()));
+    }
+
+    public List<EventDto> getAll() {
+        return mapper.toDto(eventRepository.findAll());
+    }
+
+    public List<EventDto> getAllThatInvitedCurrentUser(HttpServletRequest request) {
         User user = userService.getUserByHttpServletRequest(request);
         synchronizeFacebookEvents(request, user);
         return mapper.toDto(eventRepository.findByInvited(user.getId()));
     }
-    
-    public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
-        User user = userService.getUserByHttpServletRequest(request);
-        synchronizeFacebookEvents(request, user);
-        return mapper.toDto(eventRepository.findByInvited(user.getId()));
+
+    public void delete(String eventId) {
+        eventRepository.delete(eventId);
     }
 
     public void synchronizeFacebookEvents(HttpServletRequest request, User user) {

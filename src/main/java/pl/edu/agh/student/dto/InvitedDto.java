@@ -5,22 +5,24 @@ import org.springframework.social.facebook.api.RsvpStatus;
 
 public class InvitedDto {
     private UserDto user;
+    
+    private RsvpStatus responseStatus = RsvpStatus.NOT_REPLIED;
 
     public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public InvitedDto setUser(UserDto user) {
         this.user = user;
+        return this;
     }
-
-    private RsvpStatus responseStatus = RsvpStatus.NOT_REPLIED;
 
     public RsvpStatus getResponseStatus() {
         return responseStatus;
     }
 
-    public void setResponseStatus(RsvpStatus responseStatus) {
+    public InvitedDto setResponseStatus(RsvpStatus responseStatus) {
         this.responseStatus = responseStatus;
+        return this;
     }
 }

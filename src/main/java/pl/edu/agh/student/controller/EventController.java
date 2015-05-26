@@ -35,10 +35,15 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<EventDto> getAllByInvited(HttpServletRequest request) {
-        return eventService.getAllByInvited(request);
+    public List<EventDto> getAllByCurrentUser(HttpServletRequest request) {
+        return eventService.getAllByCurrentUser(request);
     }
 
+    @RequestMapping(value = "{eventId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void delete(@PathVariable("eventId") String eventId) {
+        eventService.delete(eventId);
+    }
     @RequestMapping(value = "/synchronize", method = RequestMethod.GET)
     @ResponseBody
     public void synchronizeFacebookEvents(HttpServletRequest request) {
@@ -50,5 +55,11 @@ public class EventController {
     public void changeRsvpStatus(@PathVariable("id") String id,
                                  @PathVariable("rsvpStatus") String rsvpStatus, HttpServletRequest request) {
         eventService.changeRsvpStatus(request, id, RsvpStatus.valueOf(rsvpStatus.toUpperCase()));
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public List<EventDto> getAll() {
+        return eventService.getAll();
     }
 }

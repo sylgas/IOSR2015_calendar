@@ -16,4 +16,6 @@ public interface EventRepository extends Repository<Event> {
     @Query(value = "{ 'baseData.attendance' : ?0 }")
     public List<Event> findByAttendance(String attendance);
 
+    @Query(value = "{ 'baseData.owner' : ?0 }")
+    List<Event> findByOwner(String userId);
 }
