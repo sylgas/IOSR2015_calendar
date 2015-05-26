@@ -15,7 +15,4 @@ public interface EventRepository extends Repository<Event> {
 
     @Query(value = "{ 'baseData.attendance' : ?0 }")
     public List<Event> findByAttendance(String attendance);
-
-    @Query(value = "{ 'baseData.invited.user.$id' : { $in : [?0]} } }")
-    List<Event> findByInvited(String userId);
 }

@@ -127,6 +127,5 @@ public class EventService {
                 facebookService.maybeInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
                 break;
         }
-        return mapper.toDto(eventRepository.findByBaseDataOwner(user.getId()));
     }
 }
