@@ -62,10 +62,6 @@ public class EventService {
         return mapper.toDto(eventRepository.findByOwner(user.getId()));
     }
 
-    public List<EventDto> getAll() {
-        return mapper.toDto(eventRepository.findAll());
-    }
-
     public List<EventDto> getAllThatInvitedCurrentUser(HttpServletRequest request) {
         User user = userService.getUserByHttpServletRequest(request);
         synchronizeFacebookEvents(request, user);
