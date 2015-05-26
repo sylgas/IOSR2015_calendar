@@ -5,6 +5,7 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
     event.startDate = new Date(event.startDate) if event.startDate
     event.endDate = new Date(event.endDate) if event.endDate
     event.color = '#000000' if not event.color
+    event.invited = [] if not event.invited
     event
 
   toBackend = (event) ->

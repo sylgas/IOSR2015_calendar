@@ -6,6 +6,7 @@ import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.RsvpStatus;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.student.db.model.Invited;
 import pl.edu.agh.student.db.model.User;
 import pl.edu.agh.student.db.model.Event;
 import pl.edu.agh.student.db.repository.EventRepository;
@@ -34,11 +35,10 @@ public class EventService {
         if (event.getId() == null) {
             User user = userService.getUserByHttpServletRequest(request);
             Event.BaseData baseData = eventDo.getBaseData();
-            List<Event.Invited> invitedUsers = baseData.getInvited();
-            Event.Invited invited = new Event.Invited()
+            List<Invited> invitedUsers = baseData.getInvited();
+            invitedUsers.add(new Invited()
                     .setUser(user)
-                    .setRspvStatus(RsvpStatus.ATTENDING.toString());
-            invitedUsers.add(invited);
+                    .setResponseStatus(RsvpStatus.ATTENDING));
             eventDo.setBaseData(baseData.setInvited(invitedUsers));
         }
         return mapper.toDto(eventRepository.save(eventDo));
@@ -80,15 +80,15 @@ public class EventService {
         }
 
         Event.BaseData baseData = event.getBaseData();
-        List<Event.Invited> invited = baseData.getInvited();
-        invited.get(getInvitedIndexByUserId(invited, user.getId())).setRspvStatus(rsvpStatus.toString());
+        List<Invited> invited = baseData.getInvited();
+        invited.get(getInvitedIndexByUserId(invited, user.getId())).setResponseStatus(rsvpStatus);
         event.setBaseData(baseData.setInvited(invited));
         eventRepository.save(event);
     }
 
-    public Integer getInvitedIndexByUserId(List<Event.Invited> invitedUsers, String id) {
+    public Integer getInvitedIndexByUserId(List<Invited> invitedUsers, String id) {
         int i = 0;
-        for (Event.Invited invited : invitedUsers) {
+        for (Invited invited : invitedUsers) {
             if (invited.getUser().getId().equals(id)) return i;
             i++;
         }

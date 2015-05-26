@@ -37,30 +37,6 @@ public class Event extends Identifiable {
         this.additionalData = additionalData;
     }
 
-    public static class Invited {
-        @DBRef
-        private User user;
-        private String rspvStatus;
-
-        public User getUser() {
-            return user;
-        }
-
-        public Invited setUser(User user) {
-            this.user = user;
-            return this;
-        }
-
-        public String getRspvStatus() {
-            return rspvStatus;
-        }
-
-        public Invited setRspvStatus(String rspvStatus) {
-            this.rspvStatus = rspvStatus;
-            return this;
-        }
-    }
-
     public static class BaseData {
         @DBRef
         private User owner;
@@ -172,4 +148,5 @@ public class Event extends Identifiable {
             return this;
         }
     }
+
 }
