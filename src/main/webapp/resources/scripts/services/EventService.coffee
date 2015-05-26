@@ -9,7 +9,8 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
     event
 
   toBackend = (event) ->
-    event.owner = $rootScope.AuthorizationService.user
+    owner = $rootScope.AuthorizationService.user
+    event.owner = "#{owner.firstName} #{owner.lastName}"
     event
 
   new class

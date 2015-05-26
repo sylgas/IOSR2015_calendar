@@ -37,7 +37,7 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setFacebookId(event.getFacebookId());
 
         if (baseData != null) {
-            eventDto.setOwner(userMapper.toDto(baseData.getOwner()))
+            eventDto.setOwner(baseData.getOwner())
                     .setName(baseData.getName())
                     .setDescription(baseData.getDescription())
                     .setStartDate(baseData.getStartDate())
@@ -56,8 +56,9 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
     protected Event fromDtoIfNotNull(EventDto eventDto) {
         Event event = new Event();
         event.setId(eventDto.getId());
+        event.setFacebookId(eventDto.getFacebookId());
         event.setBaseData(new Event.BaseData()
-                .setOwner(userMapper.fromDto(eventDto.getOwner()))
+                .setOwner(eventDto.getOwner())
                 .setName(eventDto.getName())
                 .setDescription(eventDto.getDescription())
                 .setStartDate(eventDto.getStartDate())
@@ -88,14 +89,6 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
         }
         event.setFacebookId(facebookEvent.getId());
 
-        String ownerId = facebookEvent.getOwner().getId();
-        User owner = userRepository.findOne(ownerId);
-        if (owner == null) {
-            owner = new User().setFirstName(facebookEvent.getOwner().getName());
-            owner.setId(ownerId);
-            userRepository.save(owner);
-        }
-
         Event.Location location = null;
 
         if (facebookEvent.isDateOnly())
@@ -110,7 +103,7 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
                 .setDescription(facebookEvent.getDescription())
                 .setStartDate(facebookEvent.getStartTime())
                 .setEndDate(facebookEvent.getEndTime())
-                .setOwner(owner)
+                .setOwner(facebookEvent.getOwner().getName())
                 .setLocation(location)
                 .setInvited(invitedUsers));
 

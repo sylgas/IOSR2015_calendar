@@ -6,8 +6,5 @@ angular.module('calendar').service 'AuthorizationService', (Restangular, $locati
       Authorization.one("user").get().then (user) =>
         @user = user
 
-    getAuthorized: ->
-      @user
-
     logout: ->
       delete @user

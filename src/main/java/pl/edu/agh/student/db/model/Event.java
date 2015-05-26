@@ -38,8 +38,7 @@ public class Event extends Identifiable {
     }
 
     public static class BaseData {
-        @DBRef
-        private User owner;
+        private String owner;
         private String name;
         private String description;
         private Date startDate;
@@ -47,11 +46,11 @@ public class Event extends Identifiable {
         private List<Invited> invited;
         private Location location;
 
-        public User getOwner() {
+        public String getOwner() {
             return owner;
         }
 
-        public BaseData setOwner(User owner) {
+        public BaseData setOwner(String owner) {
             this.owner = owner;
             return this;
         }
