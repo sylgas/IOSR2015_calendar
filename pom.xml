@@ -9,6 +9,22 @@
     <name>calendarPLUS Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <repositories>
+        <repository>
+            <id>spring-milestone</id>
+            <name>Spring Portfolio Milestone Repository</name>
+            <url>http://repo.springsource.org/milestone/</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <properties>
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +37,7 @@
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.social.version>1.1.0.RELEASE</spring.social.version>
         <spring.social.facebook.version>2.0.1.RELEASE</spring.social.facebook.version>
+        <spring.test.version>1.0.0.M2</spring.test.version>
 
         <!--Redis-->
         <spring.redis.version>1.0.1.RELEASE</spring.redis.version>
@@ -214,6 +231,18 @@
             <version>${slf4j.log4j.version}</version>
         </dependency>
 
+        <!-- Spring test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test-mvc</artifactId>
+            <version>${spring.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test-htmlunit</artifactId>
+            <version>${spring.test.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
