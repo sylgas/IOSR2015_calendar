@@ -56,4 +56,10 @@ public class EventController {
                                  @PathVariable("rsvpStatus") String rsvpStatus, HttpServletRequest request) {
         eventService.changeRsvpStatus(request, id, RsvpStatus.valueOf(rsvpStatus.toUpperCase()));
     }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public List<EventDto> getAll() {
+        return eventService.getAll();
+    }
 }
