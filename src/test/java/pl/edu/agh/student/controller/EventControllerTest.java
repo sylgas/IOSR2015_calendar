@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.security.SocialAuthenticationToken;
 import org.springframework.social.security.SocialUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -119,7 +122,7 @@ public class EventControllerTest {
                 .setId("id")
                 .setLocation(new Event.Location())
                 .setName("name")
-                .setOwner(userDto.getId())
+                .setOwner(userDto1.getId())
                 .setStartDate(new Date());
 
         // when
@@ -147,7 +150,7 @@ public class EventControllerTest {
                 .setId("id1")
                 .setLocation(new Event.Location())
                 .setName("name1")
-                .setOwner(userDto1)
+                .setOwner(userDto1.getId())
                 .setStartDate(new Date());
         InvitedDto invitedDto = new InvitedDto().setUser(userDto1);
         EventDto eventDto2 = new EventDto()
@@ -157,43 +160,55 @@ public class EventControllerTest {
                 .setId("id2")
                 .setLocation(new Event.Location())
                 .setName("name2")
-                .setOwner(userDto2)
+                .setOwner(userDto2.getId())
                 .setInvited(Arrays.asList(invitedDto))
                 .setStartDate(new Date());
-        eventService.save(eventDto1);
-        eventService.save(eventDto2);
 
-        SocialUser usr = mock(SocialUser.class);
-        when(usr.getUserId()).thenReturn("ufid1");
+        SocialUser usr1 = mock(SocialUser.class);
+        when(usr1.getUserId()).thenReturn("ufid1");
+        Facebook api1 = null;
+        Connection conn1 = mock(Connection.class);
+        when(conn1.getApi()).thenReturn(api1);
+        SocialAuthenticationToken auth1 = mock(SocialAuthenticationToken.class);
+        when(auth1.getPrincipal()).thenReturn(usr1);
+        when(auth1.getConnection()).thenReturn(conn1);
+        SecurityContextImpl ctx1 = mock(SecurityContextImpl.class);
+        when(ctx1.getAuthentication()).thenReturn(auth1);
+        HttpSession session1 = mock(HttpSession.class);
+        when(session1.getAttribute("SPRING_SECURITY_CONTEXT")).thenReturn(ctx1);
+        HttpServletRequest req1 = mock(HttpServletRequest.class);
+        when(req1.getSession()).thenReturn(session1);
 
-        Authentication auth = mock(Authentication.class);
-        when(auth.getPrincipal()).thenReturn(usr);
+        SocialUser usr2 = mock(SocialUser.class);
+        when(usr2.getUserId()).thenReturn("ufid2");
+        Authentication auth2 = mock(Authentication.class);
+        when(auth2.getPrincipal()).thenReturn(usr2);
+        SecurityContextImpl ctx2 = mock(SecurityContextImpl.class);
+        when(ctx2.getAuthentication()).thenReturn(auth2);
+        HttpSession session2 = mock(HttpSession.class);
+        when(session2.getAttribute("SPRING_SECURITY_CONTEXT")).thenReturn(ctx2);
+        HttpServletRequest req2 = mock(HttpServletRequest.class);
+        when(req2.getSession()).thenReturn(session2);
 
-        SecurityContextImpl ctx = mock(SecurityContextImpl.class);
-        when(ctx.getAuthentication()).thenReturn(auth);
-
-        HttpSession session = mock(HttpSession.class);
-        when(session.getAttribute("SPRING_SECURITY_CONTEXT")).thenReturn(ctx);
-
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        when(req.getSession()).thenReturn(session);
+        eventService.save(req1, eventDto1);
+        eventService.save(req2, eventDto2);
 
         //when
-        List<EventDto> ownerList = eventService.getAllOwnedByCurrentUser(req);
+        List<EventDto> ownerList = eventService.getAllOwnedByCurrentUser(req1);
 
         // then
         assertEquals(1, ownerList.size());
         assertEquals(ownerList.get(0).getId(), eventDto1.getId());
 
         // when
-        List<EventDto> invitedList = eventService.getAllThatInvitedCurrentUser(req);
+        List<EventDto> invitedList = eventService.getAllThatInvitedCurrentUser(req1);
 
         // then
         assertEquals(1, invitedList.size());
         assertEquals(invitedList.get(0).getId(), eventDto2.getId());
 
         //when
-        List<EventDto> allList = eventService.getAllByCurrentUser(req);
+        List<EventDto> allList = eventService.getAllByCurrentUser(req1);
 
         // then
         assertEquals(2, allList.size());
@@ -211,16 +226,28 @@ public class EventControllerTest {
                 .setId("id1")
                 .setLocation(new Event.Location())
                 .setName("name1")
-                .setOwner(userDto1)
+                .setOwner(userDto1.getId())
                 .setStartDate(new Date());
-        eventService.save(eventDto1);
-        assertNotNull(eventService.getById("id1"));
+
+        SocialUser usr1 = mock(SocialUser.class);
+        when(usr1.getUserId()).thenReturn("ufid1");
+        Authentication auth1 = mock(Authentication.class);
+        when(auth1.getPrincipal()).thenReturn(usr1);
+        SecurityContextImpl ctx1 = mock(SecurityContextImpl.class);
+        when(ctx1.getAuthentication()).thenReturn(auth1);
+        HttpSession session1 = mock(HttpSession.class);
+        when(session1.getAttribute("SPRING_SECURITY_CONTEXT")).thenReturn(ctx1);
+        HttpServletRequest req1 = mock(HttpServletRequest.class);
+        when(req1.getSession()).thenReturn(session1);
+
+        eventService.save(req1, eventDto1);
+        assertNotNull(eventService.get("id1"));
 
         // when
         mockMvc.perform(delete("/event/id1"))
                 .andExpect(status().isOk());
 
         // then
-        assertNull(eventService.getById("id1"));
+        assertNull(eventService.get("id1"));
     }
 }
