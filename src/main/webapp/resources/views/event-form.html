@@ -55,6 +55,7 @@
                        ng-model="form.event.location.latitude">
             </div>
         </div>
+    </fieldset>
 
     <h3>Invitations</h3>
 
@@ -81,7 +82,6 @@
         </div>
         <label ng-show="isSearching" style="padding-top: 7px"><i class="fa fa-spinner fa-spin"></i></label>
     </div>
-    </fieldset>
 
     <div class="list-group">
         <div class="list-group-item" ng-repeat="invited in form.event.invited">{{invited.user.firstName}}
