@@ -1,6 +1,7 @@
 package pl.edu.agh.student.dto;
 
-import pl.edu.agh.student.db.model.ResponseStatus;
+
+import org.springframework.social.facebook.api.RsvpStatus;
 
 public class InvitedDto {
     private UserDto user;
@@ -13,13 +14,13 @@ public class InvitedDto {
         this.user = user;
     }
 
-    private ResponseStatus responseStatus = ResponseStatus.NONE;
+    private RsvpStatus responseStatus = RsvpStatus.NOT_REPLIED;
 
-    public ResponseStatus getResponseStatus() {
+    public RsvpStatus getResponseStatus() {
         return responseStatus;
     }
 
-    public void setResponseStatus(ResponseStatus responseStatus) {
+    public void setResponseStatus(RsvpStatus responseStatus) {
         this.responseStatus = responseStatus;
     }
 }

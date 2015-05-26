@@ -1,17 +1,17 @@
 ResponseStatus =
-  ACCEPTED:
-    label: 'ACCEPTED'
+  ATTENDING:
+    label: 'ATTENDING'
     icon: 'fa-thumbs-up'
     color: 'green'
-  DENIED:
-    label: 'DENIED'
+  DECLINED:
+    label: 'DECLINED'
     icon: 'fa-thumbs-down'
     color: 'red'
   MAYBE:
     label: 'MAYBE'
     icon: 'fa-question-circle'
-  NONE:
-    label: 'NONE'
+  NOT_REPLIED:
+    label: 'NOT_REPLIED'
 
 
 angular.module('calendar').value('ResponseStatus', Object.freeze(ResponseStatus))
