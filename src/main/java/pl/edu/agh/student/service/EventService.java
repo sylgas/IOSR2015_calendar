@@ -34,8 +34,8 @@ public class EventService {
 
     public EventDto save(HttpServletRequest request, EventDto event) {
         Event eventDo = mapper.fromDto(event);
+        User user = userService.getUserByHttpServletRequest(request);
         if (event.getId() == null) {
-            User user = userService.getUserByHttpServletRequest(request);
             Event.BaseData baseData = eventDo.getBaseData();
             List<Invited> invitedUsers = baseData.getInvited();
             invitedUsers.add(new Invited()
@@ -43,7 +43,26 @@ public class EventService {
                     .setResponseStatus(RsvpStatus.ATTENDING));
             eventDo.setBaseData(baseData.setInvited(invitedUsers));
         }
+        else if (event.getFacebookId() != null) {
+            Event previousEvent = eventRepository.findOne(event.getId());
+            RsvpStatus previousResponseStatus = getCurrentUserFromInvited(previousEvent.getBaseData()
+                    .getInvited(), user.getId()).getResponseStatus();
+            RsvpStatus currentResponseStatus = getCurrentUserFromInvited(eventDo.getBaseData()
+                    .getInvited(), user.getId()).getResponseStatus();
+            if (previousResponseStatus != currentResponseStatus) {
+                changeFacebookRsvpStatus(request, eventDo.getFacebookId(), currentResponseStatus);
+            }
+        }
         return mapper.toDto(eventRepository.save(eventDo));
+    }
+
+    public Invited getCurrentUserFromInvited(List<Invited> invitedUsers, String currentUserId) {
+        for (Invited invited: invitedUsers) {
+            if (invited.getUser().getId().equals(currentUserId)) {
+                return invited;
+            }
+        }
+        return null;
     }
 
     public EventDto get(String id) {
@@ -92,7 +111,7 @@ public class EventService {
         }
     }
 
-    public void changeRsvpStatus(HttpServletRequest request, String eventId, RsvpStatus rsvpStatus) {
+    public void changeResponseStatus(HttpServletRequest request, String eventId, RsvpStatus rsvpStatus) {
         Event event = eventRepository.findOne(eventId);
         User user = userService.getUserByHttpServletRequest(request);
 

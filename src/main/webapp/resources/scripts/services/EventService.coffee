@@ -22,6 +22,9 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
         promise.resolve(events)
       promise.promise
 
+    changeResponseStatus: (eventId, response) ->
+      Events.one(eventId).one(response).put()
+
     save: (event) ->
       promise = $q.defer()
       Events.post(toBackend(event)).then (saved) ->
