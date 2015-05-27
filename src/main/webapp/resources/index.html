@@ -44,15 +44,15 @@
     </nav>
 </div>
 
-<div ng-controller="RootController">
-    <div id="breadcrumb" ng-if="title && AuthorizationService.user" class="breadcrumb"
+<div ng-controller="RootController" ng-if="AuthorizationService.user">
+    <div id="breadcrumb" ng-if="title" class="breadcrumb"
          style="margin-bottom: 0">
         <label>{{title}}</label>
         <span class="pull-right"><a href="" ng-click="togglePanel()">{{panel.show? "Hide events panel":
             "Show events panel"}}</a></span>
     </div>
     <div class="no-padding" ng-class="panel.show? 'col-md-9': 'col-md-12'" ng-view></div>
-    <div class="col-md-3 no-padding page-slide" ng-show="panel.show && AuthorizationService.user" full-height
+    <div class="col-md-3 no-padding page-slide" ng-show="panel.show" full-height
          ng-include="'resources/views/right-panel.html'"></div>
 </div>
 

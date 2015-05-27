@@ -1,6 +1,6 @@
 angular.module('calendar').controller 'RootController', ($rootScope, $scope, $modal, EventService, Event, UserService, ResponseStatus, WaitModalService) ->
-  $scope.authorized = $rootScope.AuthorizationService.user ?
-    $scope.panel = {}
+  $scope.authorized = $rootScope.AuthorizationService.user?
+  $scope.panel = {}
   $rootScope.ResponseStatus = ResponseStatus
   $rootScope.events = []
 
@@ -103,9 +103,10 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
   deleteEvent = (event) ->
     WaitModalService.show()
     EventService.remove(event).then ->
-      EventService.getAll().then (events) ->
+      EventService.getAll().then((events) ->
         $scope.collapseForm()
         reloadEvents(events)
+      , -> WaitModalService.close())
 
   inviteUser = ->
     $scope.form.event.invited.push
@@ -134,8 +135,9 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
 
   clearEventForm()
   WaitModalService.show()
-  EventService.getAll().then (events) ->
+  EventService.getAll().then((events) ->
     reloadEvents(events)
+  , -> WaitModalService.close())
 
   $rootScope.getPosition = getPosition
   $rootScope.isFormExpanded = -> $scope.expandEventForm
