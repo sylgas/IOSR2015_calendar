@@ -1,6 +1,6 @@
-angular.module('calendar').controller 'RootController', ($rootScope, $scope, $modal, EventService, Event, UserService, ResponseStatus) ->
-  $scope.authorized = $rootScope.AuthorizationService.user ?
-    $scope.panel = {}
+angular.module('calendar').controller 'RootController', ($rootScope, $scope, $modal, EventService, Event, UserService, ResponseStatus, WaitModalService) ->
+  $scope.authorized = $rootScope.AuthorizationService.user?
+  $scope.panel = {}
   $rootScope.ResponseStatus = ResponseStatus
   $rootScope.events = []
 
@@ -90,37 +90,50 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
       label = invite.firstName + ' ' + invite.lastName
     label
 
-  inviteUser = ->
-    $scope.form.event.invited.push
-      user: $scope.form.invited
-    delete $scope.form.invited
-
-  getAll = ->
-    EventService.getAll().then (events) ->
-      $rootScope.events = events
-      $rootScope.$emit(Event.EVENTS_LOAD)
-
-  getFacebookOnly = ->
-    EventService.getAllFacebook().then (events) ->
-      $rootScope.events = events
-      $rootScope.$emit(Event.EVENTS_LOAD)
-
-  getByStatus = (status) ->
-    EventService.getByStatus(status).then (events) ->
-      $rootScope.events = events
-      $rootScope.$emit(Event.EVENTS_LOAD)
-
-  changeResponseStatus = (event, invitedUser, responseStatus) ->
-    invitedUser.responseStatus = responseStatus
-    event.responseStatus = responseStatus
-
-  EventService.getAll().then (events) ->
+  reloadEvents = (events) ->
     $rootScope.events = events
     events.forEach((event) ->
       for invitedUser in event.invited
         if invitedUser.user.id is $rootScope.AuthorizationService.user.id
           event.responseStatus = invitedUser.responseStatus
     )
+    $rootScope.$emit(Event.EVENTS_LOAD)
+    WaitModalService.hide()
+
+  deleteEvent = (event) ->
+    WaitModalService.show()
+    EventService.remove(event).then ->
+      EventService.getAll().then((events) ->
+        $scope.collapseForm()
+        reloadEvents(events)
+      , -> WaitModalService.close())
+
+  inviteUser = ->
+    $scope.form.event.invited.push
+      user: $scope.form.invited
+    delete $scope.form.invited
+
+  getAll = ->
+    WaitModalService.show()
+    EventService.getAll().then((events) ->
+      reloadEvents(events)
+    , -> WaitModalService.close())
+
+  getFacebookOnly = ->
+    WaitModalService.show()
+    EventService.getAllFacebook().then((events) ->
+      reloadEvents(events)
+    , -> WaitModalService.close())
+
+  getByStatus = (status) ->
+    WaitModalService.show()
+    EventService.getByStatus(status).then((events) ->
+      reloadEvents(events)
+    , -> WaitModalService.close())
+
+  changeResponseStatus = (event, invitedUser, responseStatus) ->
+    invitedUser.responseStatus = responseStatus
+    event.responseStatus = responseStatus
 
   getAll()
   $scope.getAll = getAll
@@ -132,6 +145,7 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
   $scope.updatePosition = updatePosition
   $scope.updateDuration = updateDuration
   $scope.inviteUser = inviteUser
+  $scope.deleteEvent = deleteEvent
   $scope.changeResponseStatus = changeResponseStatus
   $scope.ResponseStatus = ResponseStatus
 

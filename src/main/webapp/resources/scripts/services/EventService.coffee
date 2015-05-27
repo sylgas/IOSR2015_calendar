@@ -46,3 +46,6 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
       Events.post(toBackend(event)).then (saved) ->
         promise.resolve(fromBackend(saved))
       promise.promise
+
+    remove: (event) ->
+      Events.one(event.id).remove()
