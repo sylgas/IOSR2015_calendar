@@ -27,3 +27,16 @@
 .badge-bordered {
     border: 1px black inset;
 }
+
+.dl-horizontal dt {
+    width: 100px;
+}
+
+.dl-horizontal dd {
+    height: 20px;
+    margin-left: 110px;
+}
+
+.panel-body {
+    padding: 5px;
+}

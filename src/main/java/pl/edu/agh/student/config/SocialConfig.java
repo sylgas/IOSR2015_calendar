@@ -30,7 +30,7 @@ public class SocialConfig implements SocialConfigurer {
     }
 
     @Configuration
-    @Profile("dev")
+    @Profile({"dev", "test"})
     @PropertySource({"classpath:facebook.dev.properties"})
     static class DevConfig {
     }

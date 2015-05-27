@@ -1,25 +1,28 @@
 package pl.edu.agh.student.dto;
 
-import pl.edu.agh.student.db.model.ResponseStatus;
+
+import org.springframework.social.facebook.api.RsvpStatus;
 
 public class InvitedDto {
     private UserDto user;
+    
+    private RsvpStatus responseStatus = RsvpStatus.NOT_REPLIED;
 
     public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public InvitedDto setUser(UserDto user) {
         this.user = user;
+        return this;
     }
 
-    private ResponseStatus responseStatus = ResponseStatus.NONE;
-
-    public ResponseStatus getResponseStatus() {
+    public RsvpStatus getResponseStatus() {
         return responseStatus;
     }
 
-    public void setResponseStatus(ResponseStatus responseStatus) {
+    public InvitedDto setResponseStatus(RsvpStatus responseStatus) {
         this.responseStatus = responseStatus;
+        return this;
     }
 }

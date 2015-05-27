@@ -1,0 +1,41 @@
+<div class="modal-content">
+    <div class="modal-header dialog-header">
+        <h4>
+            <a ng-click="$dismiss()">
+                <i class="fa fa-close pull-right"></i>
+            </a>
+            Invitations
+        </h4>
+    </div>
+    <div class="modal-body">
+        <accordion class="panel-group" role="tablist" close-others="false">
+            <accordion-group ng-repeat="event in events | userInvitationsWithResponse: ResponseStatus.NOT_REPLIED.label" style="padding: 5px">
+                <accordion-heading>
+                    <i class="pull-left fa {{ResponseStatus[event.responseStatus].icon}}"></i>
+                    {{event.name}}
+                    <div class="pull-right">
+                    <span class="badge">{{event.startDate | date:'dd/MM/yy HH:mm'}}
+                    {{event.endDate ? " - " + (event.endDate | date:'dd/MM/yy HH:mm') :""}}</span>
+                        <i class="fa" ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
+                    </div>
+                </accordion-heading>
+                <div class="col-md-10">
+                    {{event.description}}
+                    <div ng-show="event.location" style="margin-top: 5px">
+                        <i>({{event.location.longitude + ', ' + event.location.longitude}})</i>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding: 0">
+                    <div class="btn-group-vertical">
+                        <label class="btn btn-default"
+                               ng-repeat="(key, value) in ResponseStatus"
+                               ng-model="event.responseStatus" btn-radio="value.label" uncheckable style="height: 27px; padding: 1px" btn-radio="'{{value.description}}'"
+                               ng-click="changeResponseStatus(event, key)" ng-if="value.description">
+                            <span class="pull-left">{{value.description}}</span><i class="pull-right fa {{value.icon}}" style="margin-top: 3px"></i>
+                        </label>
+                    </div>
+                </div>
+            </accordion-group>
+        </accordion>
+    </div>
+</div>

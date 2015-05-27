@@ -1,6 +1,7 @@
-angular.module('calendar').controller 'RootController', ($rootScope, $scope, EventService, Event, UserService, ResponseStatus) ->
+angular.module('calendar').controller 'RootController', ($rootScope, $scope, $modal, EventService, Event, UserService, ResponseStatus) ->
   $scope.authorized = $rootScope.AuthorizationService.user ?
     $scope.panel = {}
+  $rootScope.ResponseStatus = ResponseStatus
   $rootScope.events = []
 
   getPosition = (event) ->
@@ -107,6 +108,18 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
     $rootScope.events = []
     $rootScope.$emit(Event.EVENTS_LOAD)
 
+  changeResponseStatus = (event, invitedUser, responseStatus) ->
+    invitedUser.responseStatus = responseStatus
+    event.responseStatus = responseStatus
+
+  EventService.getAll().then (events) ->
+    $rootScope.events = events
+    events.forEach((event) ->
+      for invitedUser in event.invited
+        if invitedUser.user.id is $rootScope.AuthorizationService.user.id
+          event.responseStatus = invitedUser.responseStatus
+    )
+
   getAll()
   $scope.getAll = getAll
   $scope.getFacebookOnly = getFacebookOnly
@@ -117,6 +130,7 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, Eve
   $scope.updatePosition = updatePosition
   $scope.updateDuration = updateDuration
   $scope.inviteUser = inviteUser
+  $scope.changeResponseStatus = changeResponseStatus
   $scope.ResponseStatus = ResponseStatus
 
   $scope.search = (phrase) ->

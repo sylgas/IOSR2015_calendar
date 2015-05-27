@@ -9,7 +9,8 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
     event
 
   toBackend = (event) ->
-    event.owner = $rootScope.AuthorizationService.user
+    owner = $rootScope.AuthorizationService.user
+    event.owner = "#{owner.firstName} #{owner.lastName}"
     event
 
   new class
@@ -21,9 +22,13 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
         promise.resolve(events)
       promise.promise
 
+    changeResponseStatus: (eventId, response) ->
+      Events.one(eventId).one(response).put()
+
     save: (event) ->
       promise = $q.defer()
       Events.post(toBackend(event)).then (saved) ->
         promise.resolve(fromBackend(saved))
       promise.promise
+
 

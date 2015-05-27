@@ -6,7 +6,13 @@ import pl.edu.agh.student.db.model.Event;
 import java.util.List;
 
 public interface EventRepository extends Repository<Event> {
-    @Query(value = "{ 'baseData.owner.$id' : ?0 }")
-    List<Event> findByBaseDataOwner(String userId);
 
+    @Query(value = "{ 'baseData.invited.user.$id' : ?0 }")
+    List<Event> findByInvited(String userId);
+
+    @Query(value = "{ 'facebookId' : ?0 }")
+    public List<Event> findByFacebookId(String facebookId);
+
+    @Query(value = "{ 'baseData.owner' : ?0 }")
+    List<Event> findByOwner(String userId);
 }
