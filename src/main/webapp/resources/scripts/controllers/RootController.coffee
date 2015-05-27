@@ -101,12 +101,14 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
       $rootScope.$emit(Event.EVENTS_LOAD)
 
   getFacebookOnly = ->
-    $rootScope.events = []
-    $rootScope.$emit(Event.EVENTS_LOAD)
+    EventService.getAllFacebook().then (events) ->
+      $rootScope.events = events
+      $rootScope.$emit(Event.EVENTS_LOAD)
 
   getByStatus = (status) ->
-    $rootScope.events = []
-    $rootScope.$emit(Event.EVENTS_LOAD)
+    EventService.getByStatus(status).then (events) ->
+      $rootScope.events = events
+      $rootScope.$emit(Event.EVENTS_LOAD)
 
   changeResponseStatus = (event, invitedUser, responseStatus) ->
     invitedUser.responseStatus = responseStatus

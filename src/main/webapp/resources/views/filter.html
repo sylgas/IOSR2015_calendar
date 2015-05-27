@@ -1,27 +1,27 @@
-<div ng-controller="RootController" class="btn-group btn-group-justified" role="group">
+<div ng-show="!expandEventForm" class="btn-group btn-group-justified" role="group">
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-default" ng-click="getAll()">
-            Wszystkie
+            All
         </button>
     </div>
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-default" ng-click="getFacebookOnly()">
-            Tylko z facebook
+            Facebook only
         </button>
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default" ng-click="getByStatus('')">
-            Zaaakceptowane
+        <button type="button" class="btn btn-default" ng-click="getByStatus('ATTENDING')">
+            Attending
         </button>
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default" ng-click="getByStatus('')">
-            Może
+        <button type="button" class="btn btn-default" ng-click="getByStatus('MAYBE')">
+            Maybe
         </button>
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-default" ng-click="getByStatus('')">
-            Odrzucone
+        <button type="button" class="btn btn-default" ng-click="getByStatus('DECLINED')">
+            Declined
         </button>
     </div>
 </div>

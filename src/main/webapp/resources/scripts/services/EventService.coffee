@@ -22,6 +22,22 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
         promise.resolve(events)
       promise.promise
 
+    getByStatus: (status) ->
+      promise = $q.defer()
+      Events.one(status).getList().then (events) ->
+        for event in events
+          fromBackend(event)
+        promise.resolve(events)
+      promise.promise
+
+    getAllFacebook: ->
+      promise = $q.defer()
+      Events.one('facebook').getList().then (events) ->
+        for event in events
+          fromBackend(event)
+        promise.resolve(events)
+      promise.promise
+
     changeResponseStatus: (eventId, response) ->
       Events.one(eventId).one(response).put()
 
@@ -30,5 +46,3 @@ angular.module('calendar').service 'EventService', (Restangular, $q, $rootScope)
       Events.post(toBackend(event)).then (saved) ->
         promise.resolve(fromBackend(saved))
       promise.promise
-
-

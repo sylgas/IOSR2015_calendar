@@ -57,4 +57,18 @@ public class EventController {
                                  @PathVariable("responseStatus") String responseStatus, HttpServletRequest request) {
         eventService.changeResponseStatus(request, id, RsvpStatus.valueOf(responseStatus.toUpperCase()));
     }
+
+    @RequestMapping(value = "/{responseStatus}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<EventDto> getByStatus(@PathVariable("responseStatus") String responseStatus, HttpServletRequest request) {
+        return eventService.getByRsvpStatus(request, RsvpStatus.valueOf(responseStatus.toUpperCase()));
+    }
+
+
+    @RequestMapping(value = "/facebook", method = RequestMethod.GET)
+    @ResponseBody
+    public List<EventDto> getFaceBookOnly(HttpServletRequest request) {
+        return eventService.getAllFacebookByCurrentUser(request);
+    }
+
 }
