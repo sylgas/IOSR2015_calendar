@@ -44,16 +44,17 @@ public class EventController {
     public void delete(@PathVariable("eventId") String eventId) {
         eventService.delete(eventId);
     }
+
     @RequestMapping(value = "/synchronize", method = RequestMethod.GET)
     @ResponseBody
     public void synchronizeFacebookEvents(HttpServletRequest request) {
         eventService.synchronizeFacebookEvents(request, userService.getUserByHttpServletRequest(request));
     }
 
-    @RequestMapping(value = "/{id}/{rsvpStatus}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/{responseStatus}", method = RequestMethod.PUT)
     @ResponseBody
     public void changeRsvpStatus(@PathVariable("id") String id,
-                                 @PathVariable("rsvpStatus") String rsvpStatus, HttpServletRequest request) {
-        eventService.changeRsvpStatus(request, id, RsvpStatus.valueOf(rsvpStatus.toUpperCase()));
+                                 @PathVariable("responseStatus") String responseStatus, HttpServletRequest request) {
+        eventService.changeResponseStatus(request, id, RsvpStatus.valueOf(responseStatus.toUpperCase()));
     }
 }
