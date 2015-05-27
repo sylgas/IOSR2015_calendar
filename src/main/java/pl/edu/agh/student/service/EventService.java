@@ -42,8 +42,7 @@ public class EventService {
                     .setUser(user)
                     .setResponseStatus(RsvpStatus.ATTENDING));
             eventDo.setBaseData(baseData.setInvited(invitedUsers));
-        }
-        else if (event.getFacebookId() != null) {
+        } else if (event.getFacebookId() != null) {
             Event previousEvent = eventRepository.findOne(event.getId());
             RsvpStatus previousResponseStatus = getCurrentUserFromInvited(previousEvent.getBaseData()
                     .getInvited(), user.getId()).getResponseStatus();
@@ -57,7 +56,7 @@ public class EventService {
     }
 
     public Invited getCurrentUserFromInvited(List<Invited> invitedUsers, String currentUserId) {
-        for (Invited invited: invitedUsers) {
+        for (Invited invited : invitedUsers) {
             if (invited.getUser().getId().equals(currentUserId)) {
                 return invited;
             }

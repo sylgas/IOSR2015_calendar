@@ -2,7 +2,10 @@ package pl.edu.agh.student.service;
 
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.social.connect.Connection;
-import org.springframework.social.facebook.api.*;
+import org.springframework.social.facebook.api.Event;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.Invitation;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.security.SocialAuthenticationToken;
 import org.springframework.stereotype.Service;
 

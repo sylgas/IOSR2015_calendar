@@ -4,11 +4,9 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -24,12 +22,14 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Configuration
     @Profile("default")
     @PropertySource("classpath:mongo.properties")
-    static class CloudConfig {}
+    static class CloudConfig {
+    }
 
     @Configuration
     @Profile({"dev", "test"})
     @PropertySource({"classpath:mongo.dev.properties"})
-    static class DevConfig {}
+    static class DevConfig {
+    }
 
     @Value("${mongodb.name}")
     private String databaseName;

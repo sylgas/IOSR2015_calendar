@@ -5,7 +5,7 @@ import org.springframework.social.facebook.api.RsvpStatus;
 
 public class InvitedDto {
     private UserDto user;
-    
+
     private RsvpStatus responseStatus = RsvpStatus.NOT_REPLIED;
 
     public UserDto getUser() {

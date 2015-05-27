@@ -9,7 +9,8 @@
     </div>
     <div class="modal-body">
         <accordion class="panel-group" role="tablist" close-others="false">
-            <accordion-group ng-repeat="event in events | userInvitationsWithResponse: ResponseStatus.NOT_REPLIED.label" style="padding: 5px">
+            <accordion-group ng-repeat="event in events | userInvitationsWithResponse: ResponseStatus.NOT_REPLIED.label"
+                             style="padding: 5px">
                 <accordion-heading>
                     <i class="pull-left fa {{ResponseStatus[event.responseStatus].icon}}"></i>
                     {{event.name}}
@@ -29,9 +30,11 @@
                     <div class="btn-group-vertical">
                         <label class="btn btn-default"
                                ng-repeat="(key, value) in ResponseStatus"
-                               ng-model="event.responseStatus" btn-radio="value.label" uncheckable style="height: 27px; padding: 1px" btn-radio="'{{value.description}}'"
+                               ng-model="event.responseStatus" btn-radio="value.label" uncheckable
+                               style="height: 27px; padding: 1px" btn-radio="'{{value.description}}'"
                                ng-click="changeResponseStatus(event, key)" ng-if="value.description">
-                            <span class="pull-left">{{value.description}}</span><i class="pull-right fa {{value.icon}}" style="margin-top: 3px"></i>
+                            <span class="pull-left">{{value.description}}</span><i class="pull-right fa {{value.icon}}"
+                                                                                   style="margin-top: 3px"></i>
                         </label>
                     </div>
                 </div>
