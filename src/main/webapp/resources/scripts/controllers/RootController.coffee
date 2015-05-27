@@ -1,4 +1,4 @@
-angular.module('calendar').controller 'RootController', ($rootScope, $scope, $modal, EventService, Event, UserService, ResponseStatus) ->
+angular.module('calendar').controller 'RootController', ($rootScope, $scope, $modal, EventService, Event, UserService, ResponseStatus, WaitModalService) ->
   $scope.authorized = $rootScope.AuthorizationService.user ?
     $scope.panel = {}
   $rootScope.ResponseStatus = ResponseStatus
@@ -90,6 +90,23 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
       label = invite.firstName + ' ' + invite.lastName
     label
 
+  reloadEvents = (events) ->
+    $rootScope.events = events
+    events.forEach((event) ->
+      for invitedUser in event.invited
+        if invitedUser.user.id is $rootScope.AuthorizationService.user.id
+          event.responseStatus = invitedUser.responseStatus
+    )
+    $rootScope.$emit(Event.EVENTS_LOAD)
+    WaitModalService.hide()
+
+  deleteEvent = (event) ->
+    WaitModalService.show()
+    EventService.remove(event).then ->
+      EventService.getAll().then (events) ->
+        $scope.collapseForm()
+        reloadEvents(events)
+
   inviteUser = ->
     $scope.form.event.invited.push
       user: $scope.form.invited
@@ -99,21 +116,13 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
     invitedUser.responseStatus = responseStatus
     event.responseStatus = responseStatus
 
-  EventService.getAll().then (events) ->
-    $rootScope.events = events
-    events.forEach((event) ->
-      for invitedUser in event.invited
-        if invitedUser.user.id is $rootScope.AuthorizationService.user.id
-          event.responseStatus = invitedUser.responseStatus
-    )
-    $rootScope.$emit(Event.EVENTS_LOAD)
-
   $scope.formatInputInvite = formatInputInvite
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom
   $scope.updatePosition = updatePosition
   $scope.updateDuration = updateDuration
   $scope.inviteUser = inviteUser
+  $scope.deleteEvent = deleteEvent
   $scope.changeResponseStatus = changeResponseStatus
   $scope.ResponseStatus = ResponseStatus
 
@@ -124,6 +133,9 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
     $rootScope.$emit(Event.COLOR_CHANGE)
 
   clearEventForm()
+  WaitModalService.show()
+  EventService.getAll().then (events) ->
+    reloadEvents(events)
 
   $rootScope.getPosition = getPosition
   $rootScope.isFormExpanded = -> $scope.expandEventForm
