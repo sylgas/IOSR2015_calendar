@@ -113,10 +113,38 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
       user: $scope.form.invited
     delete $scope.form.invited
 
+  getAll = ->
+    $scope.filter =
+      all: true
+    WaitModalService.show()
+    EventService.getAll().then((events) ->
+      reloadEvents(events)
+    , -> WaitModalService.close())
+
+  getFacebookOnly = ->
+    $scope.filter =
+      facebook: true
+    WaitModalService.show()
+    EventService.getAllFacebook().then((events) ->
+      reloadEvents(events)
+    , -> WaitModalService.close())
+
+  getByStatus = (status) ->
+    $scope.filter = []
+    $scope.filter[status] = true
+    WaitModalService.show()
+    EventService.getByStatus(status).then((events) ->
+      reloadEvents(events)
+    , -> WaitModalService.close())
+
   changeResponseStatus = (event, invitedUser, responseStatus) ->
     invitedUser.responseStatus = responseStatus
     event.responseStatus = responseStatus
 
+  getAll()
+  $scope.getAll = getAll
+  $scope.getFacebookOnly = getFacebookOnly
+  $scope.getByStatus = getByStatus
   $scope.formatInputInvite = formatInputInvite
   $scope.saveEvent = saveEvent
   $scope.openEditForm = openEditFrom
@@ -134,10 +162,6 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
     $rootScope.$emit(Event.COLOR_CHANGE)
 
   clearEventForm()
-  WaitModalService.show()
-  EventService.getAll().then((events) ->
-    reloadEvents(events)
-  , -> WaitModalService.close())
 
   $rootScope.getPosition = getPosition
   $rootScope.isFormExpanded = -> $scope.expandEventForm

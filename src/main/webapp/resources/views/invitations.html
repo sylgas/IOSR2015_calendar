@@ -28,7 +28,8 @@
                     <div class="btn-group-vertical">
                         <label class="btn btn-default"
                                ng-repeat="(key, value) in ResponseStatus"
-                               ng-model="event.responseStatus" btn-radio="value.label" uncheckable style="height: 27px; padding: 1px" btn-radio="'{{value.description}}'"
+                               ng-model="event.responseStatus" btn-radio="value.label" uncheckable
+                               style="height: 27px; padding: 1px" btn-radio="'{{value.description}}'"
                                ng-click="changeResponseStatus(event, key)" ng-if="value.description">
                             <span class="pull-left">{{value.description}}</span><i ng-style="{'color': value.color}"
                                                                                    class="pull-right fa {{value.icon}}"

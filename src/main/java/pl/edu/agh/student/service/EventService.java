@@ -42,8 +42,7 @@ public class EventService {
                     .setUser(user)
                     .setResponseStatus(RsvpStatus.ATTENDING));
             eventDo.setBaseData(baseData.setInvited(invitedUsers));
-        }
-        else if (event.getFacebookId() != null) {
+        } else if (event.getFacebookId() != null) {
             Event previousEvent = eventRepository.findOne(event.getId());
             RsvpStatus previousResponseStatus = getCurrentUserFromInvited(previousEvent.getBaseData()
                     .getInvited(), user.getId()).getResponseStatus();
@@ -57,7 +56,7 @@ public class EventService {
     }
 
     public Invited getCurrentUserFromInvited(List<Invited> invitedUsers, String currentUserId) {
-        for (Invited invited: invitedUsers) {
+        for (Invited invited : invitedUsers) {
             if (invited.getUser().getId().equals(currentUserId)) {
                 return invited;
             }
@@ -75,16 +74,34 @@ public class EventService {
         return new ArrayList<>(new HashSet<>(list));
     }
 
+    public List<EventDto> getAllFacebookByCurrentUser(HttpServletRequest request) {
+        List<EventDto> list = getAllFacebookOwnedByCurrentUser(request);
+        list.addAll(getAllFacebookThatInvitedCurrentUser(request));
+        return new ArrayList<>(new HashSet<>(list));
+    }
+
     public List<EventDto> getAllOwnedByCurrentUser(HttpServletRequest request) {
         User user = userService.getUserByHttpServletRequest(request);
         synchronizeFacebookEvents(request, user);
         return mapper.toDto(eventRepository.findByOwner(user.getId()));
     }
 
+    public List<EventDto> getAllFacebookOwnedByCurrentUser(HttpServletRequest request) {
+        User user = userService.getUserByHttpServletRequest(request);
+        synchronizeFacebookEvents(request, user);
+        return mapper.toDto(eventRepository.findFacebookByOwner(user.getId()));
+    }
+
     public List<EventDto> getAllThatInvitedCurrentUser(HttpServletRequest request) {
         User user = userService.getUserByHttpServletRequest(request);
         synchronizeFacebookEvents(request, user);
         return mapper.toDto(eventRepository.findByInvited(user.getId()));
+    }
+
+    public List<EventDto> getAllFacebookThatInvitedCurrentUser(HttpServletRequest request) {
+        User user = userService.getUserByHttpServletRequest(request);
+        synchronizeFacebookEvents(request, user);
+        return mapper.toDto(eventRepository.findFacebookByInvited(user.getId()));
     }
 
     public void delete(String eventId) {
@@ -148,5 +165,11 @@ public class EventService {
                 facebookService.maybeInvitation(facebookService.getFacebookApiFromRequestSession(request), facebookId);
                 break;
         }
+    }
+
+    public List<EventDto> getByRsvpStatus(HttpServletRequest request, RsvpStatus rsvpStatus) {
+        User user = userService.getUserByHttpServletRequest(request);
+        synchronizeFacebookEvents(request, user);
+        return mapper.toDto(eventRepository.findByInvitedAndRsvpStatus(user.getId(), rsvpStatus));
     }
 }

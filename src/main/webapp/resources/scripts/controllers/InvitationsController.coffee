@@ -1,5 +1,6 @@
 angular.module('calendar').controller 'InvitationsController', ($rootScope, $scope, $modal) ->
-  $rootScope.title = "Invitations"
+  if $rootScope.AuthorizationService.user?
+    $rootScope.title = "Invitations"
 
   $scope.openInvitationsDialog = ->
     $modal.open

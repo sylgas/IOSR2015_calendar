@@ -45,10 +45,11 @@
 </div>
 
 <div ng-controller="RootController" ng-if="AuthorizationService.user">
-    <div id="breadcrumb" ng-if="title" class="breadcrumb"
+    <div id="breadcrumb" ng-if="title" class="col-md-12 breadcrumb"
          style="margin-bottom: 0">
-        <label>{{title}}</label>
-        <span class="pull-right"><a href="" ng-click="togglePanel()">{{panel.show? "Hide events panel":
+        <label class="col-md-1">{{title}}</label>
+        <span class="col-md-8" ng-include="'resources/views/filter.html'"></span>
+        <span class="col-md-3"><a class="pull-right" href="" ng-click="togglePanel()">{{panel.show? "Hide events panel":
             "Show events panel"}}</a></span>
     </div>
     <div class="no-padding" ng-class="panel.show? 'col-md-9': 'col-md-12'" ng-view></div>

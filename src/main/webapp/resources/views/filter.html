@@ -1,0 +1,33 @@
+<div ng-show="!expandEventForm" class="btn-group btn-group-xs btn-group-justified" role="group">
+    <div class="btn-group btn-group-xs" role="group">
+        <button type="button" class="btn btn-info" ng-click="getAll();">
+            <div class="col-md-9">ALL</div>
+            <input class="col-md-3" style="margin: 3px 0 0" type="checkbox" ng-model="filter.all">
+        </button>
+    </div>
+    <div class="btn-group btn-group-xs" role="group">
+        <button type="button" class="btn btn-info" ng-click="getFacebookOnly()">
+            <div class="col-md-9">FACEBOOK ONLY</div>
+            <input class="col-md-3" style="margin: 3px 0 0" type="checkbox" ng-model="filter.facebook">
+        </button>
+    </div>
+    <div class="btn-group btn-group-xs" role="group">
+        <button type="button" class="btn btn-info" ng-click="getByStatus('ATTENDING')">
+            <div class="col-md-9">ATTENDING</div>
+            <input class="col-md-3" style="margin: 3px 0 0" type="checkbox" ng-model="filter['ATTENDING']">
+        </button>
+    </div>
+    <div class="btn-group btn-group-xs" role="group">
+        <button type="button" class="btn btn-info" ng-click="getByStatus('MAYBE')">
+            <div class="col-md-9">MAYBE</div>
+            <input class="col-md-3" style="margin: 3px 0 0" type="checkbox" ng-model="filter['MAYBE']">
+        </button>
+    </div>
+    <div class="btn-group btn-group-xs" role="group">
+        <button type="button" class="btn btn-info" ng-click="getByStatus('DECLINED')">
+            <div class="col-md-9">DECLINED</div>
+            <input class="col-md-3" style="margin: 3px 0 0" type="checkbox" ng-model="filter['DECLINED']">
+        </button>
+    </div>
+</div>
+

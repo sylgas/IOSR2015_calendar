@@ -80,8 +80,7 @@ public class EventMapper extends AbstractMapper<Event, EventDto> {
             event.setId(databaseEvent.getId());
             event.setAdditionalData(databaseEvent.getAdditionalData());
             invitedUsers = databaseEvent.getBaseData().getInvited();
-        }
-        else {
+        } else {
             Invited invited = new Invited()
                     .setUser(user)
                     .setResponseStatus(rsvpStatus);
