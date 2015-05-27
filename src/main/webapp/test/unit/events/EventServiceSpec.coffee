@@ -1,4 +1,7 @@
 describe "EventService", ->
+  user =
+    firstName: "Jan"
+    lastName: "Kowalski"
 
   event1 =
     id: 1,
@@ -11,7 +14,8 @@ describe "EventService", ->
 
   beforeEach ->
     module 'calendar'
-    inject (@$httpBackend, @EventService) ->
+    inject (@$httpBackend, @EventService, $rootScope) ->
+      $rootScope.AuthorizationService.user = user
       @$httpBackend.whenGET("/event").respond([event1, event2])
       @$httpBackend.whenPOST("/event", event1).respond(event1)
       @$httpBackend.whenPOST("/event", event2).respond(event2)
@@ -29,6 +33,13 @@ describe "EventService", ->
     @$httpBackend.expectPOST("/event", event1)
     @EventService.save(event1).then (savedEvent) ->
       expect(savedEvent).toBeDefined()
+    @$httpBackend.flush()
+
+  it 'should assign user owner properly', ->
+    @$httpBackend.expectPOST("/event", event1)
+    @EventService.save(event1).then (savedEvent) ->
+      expect(savedEvent).toBeDefined()
+      expect(savedEvent.owner).toBe("#{user.firstName} #{user.lastName}")
     @$httpBackend.flush()
 
   it 'should convert event date properly', ->
