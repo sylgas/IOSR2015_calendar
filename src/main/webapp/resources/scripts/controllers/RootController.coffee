@@ -114,18 +114,24 @@ angular.module('calendar').controller 'RootController', ($rootScope, $scope, $mo
     delete $scope.form.invited
 
   getAll = ->
+    $scope.filter =
+      all: true
     WaitModalService.show()
     EventService.getAll().then((events) ->
       reloadEvents(events)
     , -> WaitModalService.close())
 
   getFacebookOnly = ->
+    $scope.filter =
+      facebook: true
     WaitModalService.show()
     EventService.getAllFacebook().then((events) ->
       reloadEvents(events)
     , -> WaitModalService.close())
 
   getByStatus = (status) ->
+    $scope.filter = []
+    $scope.filter[status] = true
     WaitModalService.show()
     EventService.getByStatus(status).then((events) ->
       reloadEvents(events)
