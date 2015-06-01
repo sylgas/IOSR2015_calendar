@@ -1,11 +1,12 @@
-angular.module('calendar').directive 'fullHeight', ->
+angular.module('calendar').directive 'fullHeight', ($timeout) ->
   scope: no
   link: ($scope, element) ->
     setHeight = ->
       height = $(window).height() - $('#breadcrumb').height() - $('#navigation').height() - 50
       element.css('min-height', height + 'px')
       if $scope.map
-        google.maps.event.trigger($scope.map, 'resize')
+        $timeout ->
+          google.maps.event.trigger($scope.map, 'resize')
 
     $window = angular.element(window)
     $window.on('resize', setHeight)
